@@ -13,6 +13,10 @@ class BIDimension(BaseModel):
         description="Column name to group by. Example: 'country'"
     )
 
+    @property
+    def ref(self):
+        return f"{self.table}.{self.column}"
+
 
 class BIMeasure(BaseModel):
     name: str = Field(
@@ -39,14 +43,19 @@ class BIMeasure(BaseModel):
         )
     )
 
+    @property
+    def ref(self):
+        return f"{self.table}.{self.column}"
+
 
 class BIFilter(BaseModel):
     field: str = Field(
         ...,
         description=(
-            "Field to filter on. "
-            "Must reference either a dimension column, "
-            "a measure name, or a KPI reference."
+            "Field to filter on. Must be one of:\n"
+            "1) Dimension in 'table.column' format, e.g. 'orders.country'\n"
+            "2) Measure name, e.g. 'total_revenue'\n"
+            "3) KPI name e.g. 'kpi_gross_margin'"
         )
     )
     comparator: Comparator = Field(
@@ -115,7 +124,7 @@ class BIQuery(BaseModel):
                 "input": None,
             })
 
-        dimension_names = {d.column for d in self.dimensions}
+        dimension_names = {d.dimref for d in self.dimensions}
         measure_names = {m.name for m in self.measures}
         valid_fields = dimension_names | measure_names | set(self.kpi_refs)
 
