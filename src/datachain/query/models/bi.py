@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, model_validator, ValidationError
 from pydantic_core import ErrorDetails
-from enums import Comparator, Aggregation
+from .enums import Comparator, Aggregation
 
 
 class BIDimension(BaseModel):
@@ -124,9 +124,11 @@ class BIQuery(BaseModel):
                 "loc": ("query",),
                 "msg": "Query must select at least one dimension, measure, or KPI",
                 "input": None,
+                "ctx": {"error": "empty_query"},
             })
 
-        dimension_names = {d.dimref for d in self.dimensions}
+
+        dimension_names = {d.ref for d in self.dimensions}
         measure_names = {m.name for m in self.measures}
         valid_fields = dimension_names | measure_names | set(self.kpi_refs)
 
@@ -141,6 +143,7 @@ class BIQuery(BaseModel):
                         "measure, or KPI defined in the query"
                     ),
                     "input": f.field,
+                    "ctx": {"error": "invalid_field_reference"},
                 })
 
             if f.value is None:
@@ -149,7 +152,9 @@ class BIQuery(BaseModel):
                     "loc": ("inline_filters", idx, "value"),
                     "msg": "Filter must include a value",
                     "input": f.value,
+                    "ctx": {"error": "missing_value"},
                 })
+
 
         if errors:
             raise ValidationError.from_exception_data(

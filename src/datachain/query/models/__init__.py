@@ -1,3 +1,3 @@
-from sql import *
-from semantic import *
-from bi import *
+from .sql import *
+from .semantic import *
+from .bi import *

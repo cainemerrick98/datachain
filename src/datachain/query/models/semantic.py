@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from enum import Enum
 from typing import Optional, Union, Literal
-from sql import MetricExpr, Predicates
+from .sql import MetricExpr, Predicates
 
 # Errors
 class DuplicateSemanticModelEntityError(Exception):

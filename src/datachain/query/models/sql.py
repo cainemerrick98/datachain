@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from enum import Enum
 from typing import Optional, Union, List, Literal
-from enums import Aggregation, Comparator
+from .enums import Aggregation, Comparator
 
 class Sorting(Enum):
     """Sort direction for ORDER BY clauses"""
