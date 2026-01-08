@@ -1,38 +1,12 @@
 from pydantic import BaseModel, Field
 from enum import Enum
 from typing import Optional, Union, List, Literal
-
-class Comparator(Enum):
-    """Comparison operators for filtering data"""
-    LESS_THAN = "<"
-    GREATER_THAN = ">"
-    EQUAL = "="
-    NOT_EQUAL = "!="
-    LESS_THAN_OR_EQUAL = "<="
-    GREATER_THAN_OR_EQUAL = ">="
-    IN = "IN"
-    NOT_IN = "NOT IN"
-    IS_NULL = "IS NULL"
-    IS_NOT_NULL = "IS NOT NULL"
-    LIKE = "LIKE"
-    NOT_LIKE = "NOT LIKE"
-
+from enums import Aggregation, Comparator
 
 class Sorting(Enum):
     """Sort direction for ORDER BY clauses"""
     ASC = "ASC"
     DESC = "DESC"
-
-
-class Aggregation(Enum):
-    """Aggregation functions for metric calculations"""
-    SUM = "SUM"
-    AVG = "AVG"
-    COUNT = "COUNT"
-    COUNT_DISTINCT = "COUNT_DISTINCT"
-    MIN = "MIN"
-    MAX = "MAX"
-    MEDIAN = "MEDIAN"
 
 
 class Arithmetic(Enum):
@@ -56,7 +30,7 @@ class JoinType(Enum):
 # Filtering
 
 ComparisonValue = Union[int, float, str, List[int], List[str], None]
-Predicates = Union["And", "Comparison", "Or", "Not", "FilterRef", "ColumnComparison"]
+Predicates = Union["And", "Comparison", "Or", "Not", "ColumnComparison"]
 
 class Comparison(BaseModel):
     """A single comparison condition for filtering data (e.g., price > 100, region = 'West')"""
@@ -105,7 +79,7 @@ class Not(BaseModel):
 
 # Metrics
 
-MetricExpr = Union["QueryColumn", "Measure", "BinaryMetric"]
+MetricExpr = Union["QueryColumn", "SQLMeasure", "BinaryMetric"]
 
 class QueryColumn(BaseModel):
     """A reference to a raw column from the table without any aggregation"""
@@ -118,7 +92,7 @@ class QueryColumn(BaseModel):
     )
 
 
-class Measure(BaseModel):
+class SQLMeasure(BaseModel):
     """An aggregated metric using functions like SUM, COUNT, AVG, etc."""
     kind: Literal["measure"] = Field(
         default="measure",
@@ -199,7 +173,7 @@ class OrderBy(BaseModel):
     )
 
 
-class Query(BaseModel):
+class SQLQuery(BaseModel):
     """
     A structured SQL query that prevents SQL injection and ensures valid queries.
     

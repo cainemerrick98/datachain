@@ -13,16 +13,23 @@ class MissingSemanticModelEntityError(Exception):
 
 # Enums
 
-class DataTypes(Enum):
+class DataType(Enum):
     DATE = "DATE"
     STRING = "STRING"
     NUMERIC = "NUMERIC"
     BOOLEAN = "BOOLEAN"
 
 
+class RelationshipType(Enum):
+    ONE_TO_MANY = "ONE_TO_MANY"
+    MANY_TO_MANY = "MANY_TO_MANY"
+
+
+# Models
+
 class SemanticColumn(BaseModel):
     name: str
-    data_type: DataTypes
+    type: DataType
     description: str
 
 
@@ -32,11 +39,17 @@ class Table(BaseModel):
     description: str
 
 
+class Relationship(BaseModel):
+    incomming: str
+    type: RelationshipType
+    outgoing: str
+
+
 class KPI(BaseModel):
     name: str
     expression: MetricExpr
     description: str
-    return_type: DataTypes
+    return_type: DataType
 
 
 class Filter(BaseModel):
@@ -49,6 +62,7 @@ class SemanticModel(BaseModel):
     tables: list[Table]
     kpis: Optional[list[KPI]] = None
     filters: Optional[list[Filter]] = None
+    relationship: Optional[list[Relationship]] = None
 
     def _get_entity(self, entity_type: Literal["kpis", "filters"], name: str) -> Union[KPI, Filter]:
         entities = getattr(self, entity_type)
