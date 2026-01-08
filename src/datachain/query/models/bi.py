@@ -13,6 +13,8 @@ class BIDimension(BaseModel):
         description="Column name to group by. Example: 'country'"
     )
 
+    #TODO: potentially add a date grain here for date columns
+
     @property
     def ref(self):
         return f"{self.table}.{self.column}"
