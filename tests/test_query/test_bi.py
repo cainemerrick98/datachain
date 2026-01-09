@@ -3,7 +3,7 @@ To test the validation logic on the BIQuery class
 """
 
 import pytest
-from datachain.query.models import (
+from src.datachain.query.models import (
     BIQuery,
     BIDimension,
     BIFilter,
@@ -12,7 +12,6 @@ from datachain.query.models import (
     Comparator
 )
 from pydantic import ValidationError
-
 
 
 def test_valid_query_simple():
@@ -68,7 +67,6 @@ def test_valid_query_filter_references_measure():
 def test_invalid_empty_query():
     with pytest.raises(ValidationError):
         BIQuery()
-
 
 def test_invalid_query_filter_has_no_value():
     with pytest.raises(ValidationError):

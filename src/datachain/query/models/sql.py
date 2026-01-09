@@ -34,7 +34,6 @@ Predicates = Union["And", "Comparison", "Or", "Not", "ColumnComparison"]
 
 class Comparison(BaseModel):
     """A single comparison condition for filtering data (e.g., price > 100, region = 'West')"""
-    kind: Literal['comparison'] = 'comparison'
     column: str = Field(description="Column name to compare")
     comparator: Comparator = Field(description="Comparison operator (=, >, <, >=, <=, IN, LIKE, IS NULL, etc.)")
     value: Optional[ComparisonValue] = Field(
@@ -45,7 +44,6 @@ class Comparison(BaseModel):
 
 class ColumnComparison(BaseModel):
     """A single comparison condition between two columns (e.g. qty > price, first_name = name)"""
-    kind: Literal['column_comparison'] = "column_comparison"
     left: str = Field(description="Column name to the left of the operator")
     comparator: Comparator = Field(description="Comparison operator (=, >, <, >=, <=, IN, LIKE, IS NULL, etc.)")
     right: str = Field(description="Column name to the right of the operator")
@@ -53,7 +51,6 @@ class ColumnComparison(BaseModel):
 
 class And(BaseModel):
     """Combine multiple conditions with AND logic - all conditions must be true"""
-    kind: Literal['and'] = 'and'
     predicates: List[Predicates] = Field(
         min_length=1,
         description="List of conditions that must all be true. Can include Comparison, Or, Not, or FilterRef objects."
@@ -62,7 +59,6 @@ class And(BaseModel):
 
 class Or(BaseModel):
     """Combine multiple conditions with OR logic - any condition can be true"""
-    kind: Literal['or'] = 'or'
     predicates: List[Predicates] = Field(
         min_length=1,
         description="List of conditions where at least one must be true. Can include Comparison, And, Not, or FilterRef objects."
@@ -71,7 +67,6 @@ class Or(BaseModel):
 
 class Not(BaseModel):
     """Negate a condition - makes true conditions false and vice versa"""
-    kind: Literal['not'] = 'not'
     predicate: Predicates = Field(
         description="The condition to negate. Can be a Comparison, And, Or, or FilterRef object."
     )
@@ -83,10 +78,6 @@ MetricExpr = Union["QueryColumn", "SQLMeasure", "BinaryMetric"]
 
 class QueryColumn(BaseModel):
     """A reference to a raw column from the table without any aggregation"""
-    kind: Literal["column"] = Field(
-        default="column",
-        description="Discriminator indicating this is a column reference"
-    )
     name: str = Field(
         description="Name of the column from the table (e.g., 'product_name', 'region', 'date')"
     )
@@ -94,10 +85,6 @@ class QueryColumn(BaseModel):
 
 class SQLMeasure(BaseModel):
     """An aggregated metric using functions like SUM, COUNT, AVG, etc."""
-    kind: Literal["measure"] = Field(
-        default="measure",
-        description="Discriminator indicating this is an aggregated measure"
-    )
     column: str = Field(
         description="Name of the column to aggregate (e.g., 'revenue', 'order_id', 'quantity')"
     )
@@ -108,10 +95,6 @@ class SQLMeasure(BaseModel):
 
 class BinaryMetric(BaseModel):
     """A calculated metric combining two metrics with arithmetic operations (e.g., revenue / orders = avg_order_value)"""
-    kind: Literal["binary"] = Field(
-        default="binary",
-        description="Discriminator indicating this is a calculated metric"
-    )
     left: MetricExpr = Field(
         description="Left side of the calculation. Can be a QueryColumn, Measure, or another BinaryMetric."
     )

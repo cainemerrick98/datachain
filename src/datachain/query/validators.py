@@ -1,4 +1,4 @@
-from models import SemanticModel, BIQuery
+from .models import SemanticModel, BIQuery
 
 class BIValidationError(Exception):
     pass
@@ -19,6 +19,7 @@ def validate_biquery_agaisnt_semantic_model(biquery: BIQuery, semantic_model: Se
     for field in referenced_fields:
         if field not in valid_fields:
             is_valid = False
+            # TODO: add more informative error e.g. where is the invalid field in the biquery
             errors.append({
                 "type": "invalid_field",
                 "msg": f"field: {field} is not in the semantic model"
