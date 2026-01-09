@@ -1,6 +1,10 @@
+"""
+Defines the structure of a BIQuery - this is the format the LLM must match to and is compiled into SQL
+"""
+
 from pydantic import BaseModel, Field, model_validator, ValidationError
 from pydantic_core import ErrorDetails
-from .enums import Comparator, Aggregation
+from .enums import Comparator, Aggregation, Sorting
 
 
 class BIDimension(BaseModel):
@@ -76,6 +80,17 @@ class BIFilter(BaseModel):
     )
 
 
+class BIOrderBy(BaseModel):
+    """Specifies sorting for query results"""
+    column: str = Field(
+        description="Column or metric to sort by. Can be a dimension, a measure, or a kpi."
+    )
+    sorting: Sorting = Field(
+        default=Sorting.ASC,
+        description="Sort direction: ASC for ascending (lowest to highest), DESC for descending (highest to lowest). Defaults to ASC."
+    )
+
+
 class BIQuery(BaseModel):
     dimensions: list[BIDimension] = Field(
         default_factory=list,
@@ -111,6 +126,13 @@ class BIQuery(BaseModel):
             "References to pre-defined filters in the semantic model."
         )
     )
+    order_by: list[BIOrderBy] = Field(
+        default_factory=list,
+        description=(
+            "List of order by clauses applied to the query",
+            "Each clause requires a reference to a dimension, measure or KPI and a sorting direction"
+        )
+    )
 
     @model_validator(mode="after")
     def validate_query(self):
@@ -133,7 +155,7 @@ class BIQuery(BaseModel):
         valid_fields = dimension_names | measure_names | set(self.kpi_refs)
 
         for idx, f in enumerate(self.inline_filters):
-
+            #TODO - this should not be a requirement what about when we have total revenue for a given customer over a date???
             if f.field not in valid_fields:
                 errors.append({
                     "type": "value_error",

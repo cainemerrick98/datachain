@@ -1,6 +1,12 @@
 from enum import Enum
 
 
+class Sorting(Enum):
+    """Sort direction for ORDER BY clauses"""
+    ASC = "ASC"
+    DESC = "DESC"
+
+
 class Comparator(str, Enum):
     """Comparison operators for filtering data"""
     LESS_THAN = "<"
