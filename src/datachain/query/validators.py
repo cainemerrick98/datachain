@@ -13,9 +13,8 @@ def validate_biquery_agaisnt_semantic_model(biquery: BIQuery, semantic_model: Se
     valid_fields |= {_filter.name for _filter in semantic_model.filters}
     
     # Validate that all referenced fields are in the semantic model
-    # We dont check the inline_filters in the biquery as they have already been validated to reference one of the below
     errors = []
-    referenced_fields = {d.ref for d in biquery.dimensions} | {k for k in biquery.kpi_refs} | {m.ref for m in biquery.measures} | {f for f in biquery.filter_refs}
+    referenced_fields = {d.ref for d in biquery.dimensions} | {k for k in biquery.kpi_refs} | {m.ref for m in biquery.measures} | {f for f in biquery.filter_refs} | {f.field for f in biquery.inline_filters}
     for field in referenced_fields:
         if field not in valid_fields:
             is_valid = False

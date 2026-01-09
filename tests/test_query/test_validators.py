@@ -126,11 +126,38 @@ def test_valid_with_filter_ref():
 
     assert is_valid
 
+def test_valid_with_inline_filter():
+    query = BIQuery(
+        dimensions=[BIDimension(table="sales", column="customer")],
+        kpi_refs=["kpi_total_revenue"],
+        inline_filters=[BIFilter(field="sales.quantity", comparator=Comparator.GREATER_THAN, value=1000)]
+    )
+
+    is_valid, errors = validate_biquery_agaisnt_semantic_model(query, semantic_model)
+
+    print(errors)
+
+    assert is_valid
+
+
 def test_invalid_filter_ref_doesnt_exits():
     query = BIQuery(
         dimensions=[BIDimension(table="sales", column="customer")],
         kpi_refs=["kpi_total_revenue"],
         filter_refs=["filter_high_tick_items"]
+    )
+
+    is_valid, errors = validate_biquery_agaisnt_semantic_model(query, semantic_model)
+
+    print(errors)
+
+    assert not is_valid
+
+def test_invalid_with_inline_filter_field_doesnt_exist():
+    query = BIQuery(
+        dimensions=[BIDimension(table="sales", column="customer")],
+        kpi_refs=["kpi_total_revenue"],
+        inline_filters=[BIFilter(field="sales.tax_rate", comparator=Comparator.GREATER_THAN, value=0.5)]
     )
 
     is_valid, errors = validate_biquery_agaisnt_semantic_model(query, semantic_model)
