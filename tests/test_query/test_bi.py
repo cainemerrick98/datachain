@@ -8,8 +8,10 @@ from src.datachain.query.models import (
     BIDimension,
     BIFilter,
     BIMeasure,
+    BIOrderBy,
     Aggregation,
-    Comparator
+    Comparator,
+    Sorting
 )
 from pydantic import ValidationError
 
@@ -93,7 +95,7 @@ def test_invalid_query_filter_has_no_value():
             ]
         )
 
-def test_invalid_query_incorrect_filter_field():
+def test_invalid_query_incorrect_orderby_field():
     with pytest.raises(ValidationError):
         BIQuery(
             dimensions=[
@@ -110,11 +112,10 @@ def test_invalid_query_incorrect_filter_field():
                     aggregation=Aggregation.SUM
                 )
             ],
-            inline_filters=[
-                BIFilter(
+            order_by=[
+                BIOrderBy(
                     field="sales.quantity",
-                    comparator=Comparator.GREATER_THAN,
-                    value=500
+                    sorting=Sorting.ASC
                 )
             ]
         )
