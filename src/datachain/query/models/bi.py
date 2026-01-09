@@ -82,8 +82,11 @@ class BIFilter(BaseModel):
 
 class BIOrderBy(BaseModel):
     """Specifies sorting for query results"""
-    column: str = Field(
-        description="Column or metric to sort by. Can be a dimension, a measure, or a kpi."
+    field: str = Field(
+        description=(
+            "Field to sort by. Can be a dimension, a measure, or a kpi.",
+            "The referenced column must be in the query"
+        )
     )
     sorting: Sorting = Field(
         default=Sorting.ASC,
@@ -117,7 +120,8 @@ class BIQuery(BaseModel):
         default_factory=list,
         description=(
             "List of filters applied to the query. "
-            "Filters can reference dimensions, measures, or KPIs."
+            "Filters can reference columns in the semantic model, measures, or KPIs.",
+            "If referencing a column it must contain the table and column name in the foramt table.column",
         )
     )
     filter_refs: list[str] = Field(
@@ -154,29 +158,18 @@ class BIQuery(BaseModel):
         measure_names = {m.name for m in self.measures}
         valid_fields = dimension_names | measure_names | set(self.kpi_refs)
 
-        for idx, f in enumerate(self.inline_filters):
-            #TODO - this should not be a requirement what about when we have total revenue for a given customer over a date???
-            if f.field not in valid_fields:
+        for idx, order_by in enumerate(self.order_by):
+            if order_by.field not in valid_fields:
                 errors.append({
                     "type": "value_error",
-                    "loc": ("inline_filters", idx, "field"),
+                    "loc": ("order_by", idx, "field"),
                     "msg": (
-                        "Filter field must reference a dimension, "
+                        "Order by field must reference a dimension, "
                         "measure, or KPI defined in the query"
                     ),
-                    "input": f.field,
+                    "input": order_by.field,
                     "ctx": {"error": "invalid_field_reference"},
                 })
-
-            if f.value is None:
-                errors.append({
-                    "type": "value_error",
-                    "loc": ("inline_filters", idx, "value"),
-                    "msg": "Filter must include a value",
-                    "input": f.value,
-                    "ctx": {"error": "missing_value"},
-                })
-
 
         if errors:
             raise ValidationError.from_exception_data(
