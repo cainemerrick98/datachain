@@ -5,6 +5,7 @@ Defines the structure of a BIQuery - this is the format the LLM must match to an
 from pydantic import BaseModel, Field, model_validator, ValidationError
 from pydantic_core import ErrorDetails
 from .enums import Comparator, Aggregation, Sorting
+from typing import Optional
 
 
 class BIDimension(BaseModel):
@@ -136,6 +137,10 @@ class BIQuery(BaseModel):
             "List of order by clauses applied to the query",
             "Each clause requires a reference to a dimension, measure or KPI and a sorting direction"
         )
+    )
+    limit: Optional[int] = Field(
+        None,
+        description="The number of rows to restrict the query result to"
     )
 
     @model_validator(mode="after")
