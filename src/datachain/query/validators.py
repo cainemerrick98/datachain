@@ -1,4 +1,5 @@
 from .models import SemanticModel, BIQuery
+from .models import DataType
 
 class BIValidationError(Exception):
     pass
@@ -24,5 +25,15 @@ def validate_biquery_agaisnt_semantic_model(biquery: BIQuery, semantic_model: Se
                 "msg": f"field: {field} is not in the semantic model"
             })
 
+    # Validate that if time grain is applied, the dimension is a date type
+    date_columns = {f"{table.name}.{column.name}" for table in semantic_model.tables for column in table.columns if column.type == DataType.DATE}
+    for dimension in biquery.dimensions:
+        if dimension.time_grain is not None:
+            if dimension.ref not in date_columns:
+                is_valid = False
+                errors.append({
+                    "type": "invalid_time_grain",
+                    "msg": f"dimension: {dimension.ref} has time grain applied but is not a date type"
+                })
 
     return is_valid, errors

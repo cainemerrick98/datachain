@@ -5,8 +5,18 @@ Defines the structure of a BIQuery - this is the format the LLM must match to an
 from pydantic import BaseModel, Field, model_validator, ValidationError
 from pydantic_core import ErrorDetails
 from .enums import Comparator, Aggregation, Sorting
+from enum import Enum
 from typing import Optional
 
+
+class TimeGrain(str, Enum):
+    MINUTE = "MINUTE"
+    HOUR = "HOUR"
+    DAY = "DAY"
+    WEEK = "WEEK"
+    MONTH = "MONTH"
+    QUARTER = "QUARTER"
+    YEAR = "YEAR"
 
 class BIDimension(BaseModel):
     table: str = Field(
@@ -17,8 +27,13 @@ class BIDimension(BaseModel):
         ...,
         description="Column name to group by. Example: 'country'"
     )
-
-    #TODO: potentially add a date grain here for date columns
+    time_grain: Optional[TimeGrain] = Field(
+        None,
+        description=(
+            "Optional time grain for date dimensions. "
+            "Example: DAY, MONTH, YEAR"
+        )
+    )
 
     @property
     def ref(self):

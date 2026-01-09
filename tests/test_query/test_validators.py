@@ -139,6 +139,30 @@ def test_valid_with_inline_filter():
 
     assert is_valid
 
+def test_valid_with_time_grain():
+    query = BIQuery(
+        dimensions=[BIDimension(table="sales", column="order_date", time_grain="MONTH")],
+        kpi_refs=["kpi_total_revenue"]
+    )
+
+    is_valid, errors = validate_biquery_agaisnt_semantic_model(query, semantic_model)
+
+    print(errors)
+
+    assert is_valid
+
+
+def test_invalid_dimension_with_time_grain_not_date_type():
+    query = BIQuery(
+        dimensions=[BIDimension(table="sales", column="customer", time_grain="MONTH")],
+        kpi_refs=["kpi_total_revenue"]
+    )
+
+    is_valid, errors = validate_biquery_agaisnt_semantic_model(query, semantic_model)
+
+    print(errors)
+
+    assert not is_valid
 
 def test_invalid_filter_ref_doesnt_exits():
     query = BIQuery(
