@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field, model_validator, ValidationError
 from pydantic_core import ErrorDetails
 from .enums import Comparator, Aggregation, Sorting
 from enum import Enum
-from typing import Optional
+from typing import Optional, Union, Literal
 
 
 class TimeGrain(str, Enum):
@@ -17,6 +17,7 @@ class TimeGrain(str, Enum):
     MONTH = "MONTH"
     QUARTER = "QUARTER"
     YEAR = "YEAR"
+
 
 class BIDimension(BaseModel):
     table: str = Field(
@@ -38,6 +39,31 @@ class BIDimension(BaseModel):
     @property
     def ref(self):
         return f"{self.table}.{self.column}"
+
+
+class ChangeWindow(BaseModel):
+    period: int = Field(
+        ...,    
+        description="The number of units for the change window. Example: 7"
+    )
+    mode: Literal["ABSOLUTE", "PERCENTAGE"] = Field(
+        ...,
+        description="The mode of change calculation. Either ABSOLUTE or PERCENTAGE"
+    )
+
+
+class MovingAverageWindow(BaseModel):
+    period: int = Field(
+        ...,
+        description="The number of units for the moving average window. Example: 7"
+    )
+    mode: Literal["AHEAD", "BEHIND", "CENTERED"] = Field(
+        ...,
+        description=(
+            "The mode of moving average calculation. Either AHEAD, BEHIND, or CENTERED",
+            "AHEAD looks forward, BEHIND looks backward, CENTERED looks both ways"
+            )
+    )
 
 
 class BIMeasure(BaseModel):
@@ -62,6 +88,12 @@ class BIMeasure(BaseModel):
         description=(
             "Aggregation function to apply to the column. "
             "Example: SUM, AVG, COUNT"
+        )
+    )
+    window: Union[ChangeWindow, MovingAverageWindow] = Field(
+        None,
+        description=(
+            "Optional window function to apply to the measure. "
         )
     )
 
@@ -178,6 +210,7 @@ class BIQuery(BaseModel):
         measure_names = {m.name for m in self.measures}
         valid_fields = dimension_names | measure_names | set(self.kpi_refs)
 
+        # Order by must reference a valid field
         for idx, order_by in enumerate(self.order_by):
             if order_by.field not in valid_fields:
                 errors.append({
@@ -189,6 +222,31 @@ class BIQuery(BaseModel):
                     ),
                     "input": order_by.field,
                     "ctx": {"error": "invalid_field_reference"},
+                })
+
+        # Only one time grain dimension allowed
+        time_grain_dimensions = [d for d in self.dimensions if d.time_grain is not None]
+        if len(time_grain_dimensions) > 1:  
+            errors.append({
+                "type": "value_error",
+                "loc": ("dimensions",),
+                "msg": "Only one dimension with time grain is allowed per query",
+                "input": [d.ref for d in time_grain_dimensions],
+                "ctx": {"error": "multiple_time_grain_dimensions"},
+            })
+
+        # If a window function is applied there must be a time grain measure
+        if any(m.window is not None for m in self.measures):
+            has_time_grain_measure = any(
+                d.time_grain is not None for d in self.dimensions
+            )
+            if not has_time_grain_measure:
+                errors.append({
+                    "type": "value_error",
+                    "loc": ("measures",),
+                    "msg": "If a window function is applied, there must be a time grain measure",
+                    "input": [m.name for m in self.measures],
+                    "ctx": {"error": "missing_time_grain_measure"},
                 })
 
         if errors:

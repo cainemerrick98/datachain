@@ -9,6 +9,7 @@ from src.datachain.query.models import (
     BIFilter,
     BIMeasure,
     BIOrderBy,
+    ChangeWindow,
     Aggregation,
     Comparator,
     Sorting
@@ -119,3 +120,87 @@ def test_invalid_query_incorrect_orderby_field():
                 )
             ]
         )
+
+def test_invalid_query_multiple_time_grain_dimensions():
+    with pytest.raises(ValidationError):
+        BIQuery(
+            dimensions=[
+                BIDimension(
+                    table="sales",
+                    column="order_date",
+                    time_grain="MONTH"
+                ),
+                BIDimension(
+                    table="sales",
+                    column="ship_date",
+                    time_grain="DAY"
+                )
+            ],
+            measures=[
+                BIMeasure(
+                    name="total_sales",
+                    table="sales",
+                    column="amount",
+                    aggregation=Aggregation.SUM
+                )
+            ]
+        )
+
+def test_valid_query_single_time_grain_dimension():
+    BIQuery(
+        dimensions=[
+            BIDimension(
+                table="sales",
+                column="order_date",
+                time_grain="MONTH"
+            )
+        ],
+        measures=[
+            BIMeasure(
+                name="total_sales",
+                table="sales",
+                column="amount",
+                aggregation=Aggregation.SUM
+            )
+        ]
+    )
+
+def test_invalid_query_window_function_without_time_grain_measure():
+    with pytest.raises(ValidationError):
+        BIQuery(
+            dimensions=[
+                BIDimension(
+                    table="sales",
+                    column="customer"
+                )
+            ],
+            measures=[
+                BIMeasure(
+                    name="running_total_sales",
+                    table="sales",
+                    column="amount",
+                    aggregation=Aggregation.SUM,
+                    window=ChangeWindow(period=7, mode="ABSOLUTE")
+                )
+            ]
+        )
+
+def test_valid_query_window_function_with_time_grain_measure():
+    BIQuery(
+        dimensions=[
+            BIDimension(
+                table="sales",
+                column="order_date",
+                time_grain="DAY"
+            )
+        ],
+        measures=[
+            BIMeasure(
+                name="running_total_sales",
+                table="sales",
+                column="amount",
+                aggregation=Aggregation.SUM,
+                window=ChangeWindow(period=7, mode="ABSOLUTE")
+            )
+        ]
+    )
