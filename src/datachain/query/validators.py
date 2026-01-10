@@ -4,7 +4,12 @@ from .models import DataType
 class BIValidationError(Exception):
     pass
 
+
 def validate_biquery_agaisnt_semantic_model(biquery: BIQuery, semantic_model: SemanticModel) -> tuple[bool, list[dict]]:
+    """
+    Responsible for checking if a biquery is valid given a semantic model 
+    and if not collecting the errors to pass to pass to the LLM
+    """
 
     is_valid = True
 
@@ -15,6 +20,7 @@ def validate_biquery_agaisnt_semantic_model(biquery: BIQuery, semantic_model: Se
     
     # Validate that all referenced fields are in the semantic model
     errors = []
+    #TODO update filters in referenced fields set
     referenced_fields = {d.ref for d in biquery.dimensions} | {k for k in biquery.kpi_refs} | {m.ref for m in biquery.measures} | {f for f in biquery.filter_refs} | {f.field for f in biquery.inline_filters}
     for field in referenced_fields:
         if field not in valid_fields:
@@ -35,5 +41,10 @@ def validate_biquery_agaisnt_semantic_model(biquery: BIQuery, semantic_model: Se
                     "type": "invalid_time_grain",
                     "msg": f"dimension: {dimension.ref} has time grain applied but is not a date type"
                 })
+
+    # Validate join path is valid
+    graph = semantic_model.get_relationship_graph()
+    if graph is not None:
+        ...
 
     return is_valid, errors

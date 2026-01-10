@@ -164,12 +164,23 @@ class BIQuery(BaseModel):
             "Example: ['gross_margin']"
         )
     )
-    inline_filters: list[BIFilter] = Field(
+    measure_filters: list[BIFilter] = Field(
         default_factory=list,
         description=(
-            "List of filters applied to the query. "
-            "Filters can reference columns in the semantic model, measures, or KPIs.",
-            "If referencing a column it must contain the table and column name in the foramt table.column",
+            "List of the filters that take a measure name as the field"
+        )
+    )
+    kpi_filters: list[BIFilter] = Field(
+        default_factory=list,
+        description=(
+            "List of the filters that take a kpi name as the field"
+        )
+    )
+    dimension_filter: list[BIFilter] = Field(
+        default_factory=list,
+        description=(
+            "List of the filters that take a dimension as the field",
+            "The field name must fomratted as table.column when using a dimension filter"
         )
     )
     filter_refs: list[str] = Field(

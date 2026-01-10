@@ -11,16 +11,6 @@ class Arithmetic(Enum):
     DIV = "/"
     MOD = "%"
 
-
-class JoinType(Enum):
-    """SQL join types for combining tables"""
-    INNER = "INNER"
-    LEFT = "LEFT"
-    RIGHT = "RIGHT"
-    FULL = "FULL"
-    CROSS = "CROSS"
-
-
 # Filtering
 
 ComparisonValue = Union[int, float, str, List[int], List[str], None]
@@ -72,6 +62,9 @@ MetricExpr = Union["QueryColumn", "SQLMeasure", "BinaryMetric"]
 
 class QueryColumn(BaseModel):
     """A reference to a raw column from the table without any aggregation"""
+    table: str = Field(
+        description="Name of the table in the db that contains this column"
+    )
     name: str = Field(
         description="Name of the column from the table (e.g., 'product_name', 'region', 'date')"
     )
@@ -79,6 +72,9 @@ class QueryColumn(BaseModel):
 
 class SQLMeasure(BaseModel):
     """An aggregated metric using functions like SUM, COUNT, AVG, etc."""
+    table: str = Field(
+        description="Name of the table in the db that contains this column"
+    )
     column: str = Field(
         description="Name of the column to aggregate (e.g., 'revenue', 'order_id', 'quantity')"
     )
@@ -122,13 +118,11 @@ class Join(BaseModel):
     table: str = Field(
         description="Name of the table to join with the primary table (e.g., 'customers', 'products'). This table will be combined with the main query table."
     )
-    condition: Predicates = Field(
-        description="Join condition that defines how rows from the two tables should be matched. Typically uses ColumnComparison to match columns between tables (e.g., orders.customer_id = customers.id). Use And for multiple join conditions."
-    )
-    type: JoinType = Field(
-        default=JoinType.INNER,
-        description="Type of join: INNER (only matching rows from both tables), LEFT (all rows from primary table, matching rows from joined table), RIGHT (matching rows from primary table, all rows from joined table), FULL (all rows from both tables), CROSS (cartesian product of both tables)"
-    )
+    key_this_table: List[str]
+    key_from_table: List[str]
+    type: Literal['LEFT'] = Field(
+        default="LEFT",
+        description="Type of join: only left joins supported")
 
 # Query
 
