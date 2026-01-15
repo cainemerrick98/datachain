@@ -1,0 +1,1356 @@
+versions pytest-9.0.2, python-3.11.4.final.0
+invocation_dir=C:\Users\caine\OneDrive\Documents\datachain
+cwd=C:\Users\caine\OneDrive\Documents\datachain
+args=('.\\tests\\test_query\\test_semantic.py', '--debug')
+
+  pytest_cmdline_main [hook]
+      config: <_pytest.config.Config object at 0x0000025749D50AD0>
+    pytest_plugin_registered [hook]
+        plugin: <Session  exitstatus='<UNSET>' testsfailed=0 testscollected=0>
+        plugin_name: session
+        manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+    finish pytest_plugin_registered --> [] [hook]
+    pytest_configure [hook]
+        config: <_pytest.config.Config object at 0x0000025749D50AD0>
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.LFPlugin object at 0x000002574B9802D0>
+          plugin_name: lfplugin
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.NFPlugin object at 0x000002574B9807D0>
+          plugin_name: nfplugin
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+    early skip of rewriting module: faulthandler [assertion]
+      pytest_plugin_registered [hook]
+          plugin: <class '_pytest.legacypath.LegacyTmpdirPlugin'>
+          plugin_name: legacypath-tmpdir
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+    early skip of rewriting module: pdb [assertion]
+    early skip of rewriting module: cmd [assertion]
+    early skip of rewriting module: code [assertion]
+    early skip of rewriting module: codeop [assertion]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+          plugin_name: 2573913647056
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.config.Config object at 0x0000025749D50AD0>
+          plugin_name: pytestconfig
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.mark' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\mark\\__init__.py'>
+          plugin_name: mark
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.main' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\main.py'>
+          plugin_name: main
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.runner' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\runner.py'>
+          plugin_name: runner
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.fixtures' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\fixtures.py'>
+          plugin_name: fixtures
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.helpconfig' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\helpconfig.py'>
+          plugin_name: helpconfig
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.python' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\python.py'>
+          plugin_name: python
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.terminal' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\terminal.py'>
+          plugin_name: terminal
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.debugging' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\debugging.py'>
+          plugin_name: debugging
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.unittest' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\unittest.py'>
+          plugin_name: unittest
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.capture' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\capture.py'>
+          plugin_name: capture
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.skipping' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\skipping.py'>
+          plugin_name: skipping
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.legacypath' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\legacypath.py'>
+          plugin_name: legacypath
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.tmpdir' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\tmpdir.py'>
+          plugin_name: tmpdir
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.monkeypatch' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\monkeypatch.py'>
+          plugin_name: monkeypatch
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.recwarn' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\recwarn.py'>
+          plugin_name: recwarn
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.pastebin' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\pastebin.py'>
+          plugin_name: pastebin
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.assertion' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\assertion\\__init__.py'>
+          plugin_name: assertion
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.junitxml' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\junitxml.py'>
+          plugin_name: junitxml
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.doctest' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\doctest.py'>
+          plugin_name: doctest
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.cacheprovider' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\cacheprovider.py'>
+          plugin_name: cacheprovider
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.setuponly' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\setuponly.py'>
+          plugin_name: setuponly
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.setupplan' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\setupplan.py'>
+          plugin_name: setupplan
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.stepwise' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\stepwise.py'>
+          plugin_name: stepwise
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.unraisableexception' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\unraisableexception.py'>
+          plugin_name: unraisableexception
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.threadexception' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\threadexception.py'>
+          plugin_name: threadexception
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.warnings' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\warnings.py'>
+          plugin_name: warnings
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.logging' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\logging.py'>
+          plugin_name: logging
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.reports' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\reports.py'>
+          plugin_name: reports
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.faulthandler' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\faulthandler.py'>
+          plugin_name: faulthandler
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.subtests' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\subtests.py'>
+          plugin_name: subtests
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'anyio.pytest_plugin' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\anyio\\pytest_plugin.py'>
+          plugin_name: anyio
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <CaptureManager _method='fd' _global_capturing=<MultiCapture out=<FDCapture 1 oldfd=9 _state='suspended' tmpfile=<_io.TextIOWrapper name='<tempfile._TemporaryFileWrapper object at 0x0000025749C4D810>' mode='r+' encoding='utf-8'>> err=<FDCapture 2 oldfd=11 _state='suspended' tmpfile=<_io.TextIOWrapper name='<tempfile._TemporaryFileWrapper object at 0x000002574B97E390>' mode='r+' encoding='utf-8'>> in_=<FDCapture 0 oldfd=7 _state='started' tmpfile=<_io.TextIOWrapper name='nul' mode='r' encoding='utf-8'>> _state='suspended' _in_suspended=False> _capture_fixture=None>
+          plugin_name: capturemanager
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+          plugin_name: session
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.LFPlugin object at 0x000002574B9802D0>
+          plugin_name: lfplugin
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.NFPlugin object at 0x000002574B9807D0>
+          plugin_name: nfplugin
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <class '_pytest.legacypath.LegacyTmpdirPlugin'>
+          plugin_name: legacypath-tmpdir
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.terminal.TerminalReporter object at 0x000002574B981350>
+          plugin_name: terminalreporter
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+    matched marked file '_pytest.terminalprogress' (from '_pytest.terminalprogress') [assertion]
+    find_module called for: _pytest.terminalprogress [assertion]
+    found cached rewritten pyc for C:\Users\caine\OneDrive\Documents\datachain\venv\Lib\site-packages\_pytest\terminalprogress.py [assertion]
+      pytest_configure [hook]
+          config: <_pytest.config.Config object at 0x0000025749D50AD0>
+        pytest_plugin_registered [hook]
+            plugin: <_pytest.terminal.TerminalProgressPlugin object at 0x000002574B9A3E50>
+            plugin_name: terminalprogress-plugin
+            manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+        finish pytest_plugin_registered --> [] [hook]
+      finish pytest_configure --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.terminalprogress' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\terminalprogress.py'>
+          plugin_name: terminalprogress
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.logging.LoggingPlugin object at 0x000002574B9812D0>
+          plugin_name: logging-plugin
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+    finish pytest_configure --> [] [hook]
+    pytest_sessionstart [hook]
+        session: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+          plugin_name: 2573913647056
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.config.Config object at 0x0000025749D50AD0>
+          plugin_name: pytestconfig
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.mark' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\mark\\__init__.py'>
+          plugin_name: mark
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.main' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\main.py'>
+          plugin_name: main
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.runner' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\runner.py'>
+          plugin_name: runner
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.fixtures' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\fixtures.py'>
+          plugin_name: fixtures
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.helpconfig' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\helpconfig.py'>
+          plugin_name: helpconfig
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.python' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\python.py'>
+          plugin_name: python
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.terminal' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\terminal.py'>
+          plugin_name: terminal
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.debugging' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\debugging.py'>
+          plugin_name: debugging
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.unittest' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\unittest.py'>
+          plugin_name: unittest
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.capture' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\capture.py'>
+          plugin_name: capture
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.skipping' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\skipping.py'>
+          plugin_name: skipping
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.legacypath' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\legacypath.py'>
+          plugin_name: legacypath
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.tmpdir' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\tmpdir.py'>
+          plugin_name: tmpdir
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.monkeypatch' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\monkeypatch.py'>
+          plugin_name: monkeypatch
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.recwarn' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\recwarn.py'>
+          plugin_name: recwarn
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.pastebin' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\pastebin.py'>
+          plugin_name: pastebin
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.assertion' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\assertion\\__init__.py'>
+          plugin_name: assertion
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.junitxml' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\junitxml.py'>
+          plugin_name: junitxml
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.doctest' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\doctest.py'>
+          plugin_name: doctest
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.cacheprovider' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\cacheprovider.py'>
+          plugin_name: cacheprovider
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.setuponly' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\setuponly.py'>
+          plugin_name: setuponly
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.setupplan' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\setupplan.py'>
+          plugin_name: setupplan
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.stepwise' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\stepwise.py'>
+          plugin_name: stepwise
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.unraisableexception' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\unraisableexception.py'>
+          plugin_name: unraisableexception
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.threadexception' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\threadexception.py'>
+          plugin_name: threadexception
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.warnings' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\warnings.py'>
+          plugin_name: warnings
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.logging' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\logging.py'>
+          plugin_name: logging
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.reports' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\reports.py'>
+          plugin_name: reports
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.faulthandler' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\faulthandler.py'>
+          plugin_name: faulthandler
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.subtests' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\subtests.py'>
+          plugin_name: subtests
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'anyio.pytest_plugin' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\anyio\\pytest_plugin.py'>
+          plugin_name: anyio
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <CaptureManager _method='fd' _global_capturing=<MultiCapture out=<FDCapture 1 oldfd=9 _state='suspended' tmpfile=<_io.TextIOWrapper name='<tempfile._TemporaryFileWrapper object at 0x0000025749C4D810>' mode='r+' encoding='utf-8'>> err=<FDCapture 2 oldfd=11 _state='suspended' tmpfile=<_io.TextIOWrapper name='<tempfile._TemporaryFileWrapper object at 0x000002574B97E390>' mode='r+' encoding='utf-8'>> in_=<FDCapture 0 oldfd=7 _state='started' tmpfile=<_io.TextIOWrapper name='nul' mode='r' encoding='utf-8'>> _state='suspended' _in_suspended=False> _capture_fixture=None>
+          plugin_name: capturemanager
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+          plugin_name: session
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.LFPlugin object at 0x000002574B9802D0>
+          plugin_name: lfplugin
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.NFPlugin object at 0x000002574B9807D0>
+          plugin_name: nfplugin
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <class '_pytest.legacypath.LegacyTmpdirPlugin'>
+          plugin_name: legacypath-tmpdir
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.terminal.TerminalReporter object at 0x000002574B981350>
+          plugin_name: terminalreporter
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.terminal.TerminalProgressPlugin object at 0x000002574B9A3E50>
+          plugin_name: terminalprogress-plugin
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.terminalprogress' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\terminalprogress.py'>
+          plugin_name: terminalprogress
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.logging.LoggingPlugin object at 0x000002574B9812D0>
+          plugin_name: logging-plugin
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.fixtures.FixtureManager object at 0x000002574B9C5850>
+          plugin_name: funcmanage
+          manager: <_pytest.config.PytestPluginManager object at 0x00000257493567D0>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_report_header [hook]
+          config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          start_path: C:\Users\caine\OneDrive\Documents\datachain
+          startdir: C:\Users\caine\OneDrive\Documents\datachain
+      early skip of rewriting module: email.parser [assertion]
+      early skip of rewriting module: email.feedparser [assertion]
+      finish pytest_report_header --> [['rootdir: C:\\Users\\caine\\OneDrive\\Documents\\datachain', 'plugins: anyio-4.12.0'], ['using: pytest-9.0.2', 'registered third-party plugins:', '  anyio-4.12.0 at C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\anyio\\pytest_plugin.py']] [hook]
+    finish pytest_sessionstart --> [] [hook]
+    pytest_collection [hook]
+        session: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+    perform_collect <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0> ['.\\tests\\test_query\\test_semantic.py'] [collection]
+        pytest_collectstart [hook]
+            collector: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+        finish pytest_collectstart --> [] [hook]
+        pytest_make_collect_report [hook]
+            collector: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+        processing argument CollectionArgument(path=WindowsPath('C:/Users/caine/OneDrive/Documents/datachain/tests/test_query/test_semantic.py'), parts=[], parametrization=None, module_name=None, original_index=0) [collection]
+            pytest_collect_directory [hook]
+                path: C:\Users\caine\OneDrive\Documents\datachain
+                parent: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+            finish pytest_collect_directory --> <Dir datachain> [hook]
+            pytest_collectstart [hook]
+                collector: <Dir datachain>
+            finish pytest_collectstart --> [] [hook]
+            pytest_make_collect_report [hook]
+                collector: <Dir datachain>
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\.env
+                  path: C:\Users\caine\OneDrive\Documents\datachain\.env
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Dir datachain>
+                  file_path: C:\Users\caine\OneDrive\Documents\datachain\.env
+                  path: C:\Users\caine\OneDrive\Documents\datachain\.env
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\.git
+                  path: C:\Users\caine\OneDrive\Documents\datachain\.git
+              finish pytest_ignore_collect --> True [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\.gitignore
+                  path: C:\Users\caine\OneDrive\Documents\datachain\.gitignore
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Dir datachain>
+                  file_path: C:\Users\caine\OneDrive\Documents\datachain\.gitignore
+                  path: C:\Users\caine\OneDrive\Documents\datachain\.gitignore
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\.pytest_cache
+                  path: C:\Users\caine\OneDrive\Documents\datachain\.pytest_cache
+              finish pytest_ignore_collect --> True [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\.vscode
+                  path: C:\Users\caine\OneDrive\Documents\datachain\.vscode
+              finish pytest_ignore_collect --> True [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\README.md
+                  path: C:\Users\caine\OneDrive\Documents\datachain\README.md
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Dir datachain>
+                  file_path: C:\Users\caine\OneDrive\Documents\datachain\README.md
+                  path: C:\Users\caine\OneDrive\Documents\datachain\README.md
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\pytestdebug.log
+                  path: C:\Users\caine\OneDrive\Documents\datachain\pytestdebug.log
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Dir datachain>
+                  file_path: C:\Users\caine\OneDrive\Documents\datachain\pytestdebug.log
+                  path: C:\Users\caine\OneDrive\Documents\datachain\pytestdebug.log
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\src
+                  path: C:\Users\caine\OneDrive\Documents\datachain\src
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_directory [hook]
+                  path: C:\Users\caine\OneDrive\Documents\datachain\src
+                  parent: <Dir datachain>
+              finish pytest_collect_directory --> <Dir src> [hook]
+              pytest_collect_directory [hook]
+                  path: C:\Users\caine\OneDrive\Documents\datachain\tests
+                  parent: <Dir datachain>
+              finish pytest_collect_directory --> <Package tests> [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\todos.md
+                  path: C:\Users\caine\OneDrive\Documents\datachain\todos.md
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Dir datachain>
+                  file_path: C:\Users\caine\OneDrive\Documents\datachain\todos.md
+                  path: C:\Users\caine\OneDrive\Documents\datachain\todos.md
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\venv
+                  path: C:\Users\caine\OneDrive\Documents\datachain\venv
+              finish pytest_ignore_collect --> True [hook]
+            finish pytest_make_collect_report --> <CollectReport '.' lenresult=2 outcome='passed'> [hook]
+            pytest_collectstart [hook]
+                collector: <Package tests>
+            finish pytest_collectstart --> [] [hook]
+            pytest_make_collect_report [hook]
+                collector: <Package tests>
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\tests\__init__.py
+                  path: C:\Users\caine\OneDrive\Documents\datachain\tests\__init__.py
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Package tests>
+                  file_path: C:\Users\caine\OneDrive\Documents\datachain\tests\__init__.py
+                  path: C:\Users\caine\OneDrive\Documents\datachain\tests\__init__.py
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\tests\__pycache__
+                  path: C:\Users\caine\OneDrive\Documents\datachain\tests\__pycache__
+              finish pytest_ignore_collect --> True [hook]
+              pytest_collect_directory [hook]
+                  path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query
+                  parent: <Package tests>
+              finish pytest_collect_directory --> <Package test_query> [hook]
+            finish pytest_make_collect_report --> <CollectReport 'tests' lenresult=1 outcome='passed'> [hook]
+            pytest_collectstart [hook]
+                collector: <Package test_query>
+            finish pytest_collectstart --> [] [hook]
+            pytest_make_collect_report [hook]
+                collector: <Package test_query>
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\__init__.py
+                  path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\__init__.py
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Package test_query>
+                  file_path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\__init__.py
+                  path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\__init__.py
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\__pycache__
+                  path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\__pycache__
+              finish pytest_ignore_collect --> True [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_bi.py
+                  path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_bi.py
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Package test_query>
+                  file_path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_bi.py
+                  path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_bi.py
+                pytest_pycollect_makemodule [hook]
+                    parent: <Package test_query>
+                    module_path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_bi.py
+                    path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_bi.py
+                finish pytest_pycollect_makemodule --> <Module test_bi.py> [hook]
+              finish pytest_collect_file --> [<Module test_bi.py>] [hook]
+              pytest_collect_file [hook]
+                  parent: <Package test_query>
+                  file_path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_semantic.py
+                  path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_semantic.py
+                pytest_pycollect_makemodule [hook]
+                    parent: <Package test_query>
+                    module_path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_semantic.py
+                    path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_semantic.py
+                finish pytest_pycollect_makemodule --> <Module test_semantic.py> [hook]
+              finish pytest_collect_file --> [<Module test_semantic.py>] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x0000025749D50AD0>
+                  collection_path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_validators.py
+                  path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_validators.py
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Package test_query>
+                  file_path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_validators.py
+                  path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_validators.py
+                pytest_pycollect_makemodule [hook]
+                    parent: <Package test_query>
+                    module_path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_validators.py
+                    path: C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_validators.py
+                finish pytest_pycollect_makemodule --> <Module test_validators.py> [hook]
+              finish pytest_collect_file --> [<Module test_validators.py>] [hook]
+            finish pytest_make_collect_report --> <CollectReport 'tests/test_query' lenresult=3 outcome='passed'> [hook]
+        finish pytest_make_collect_report --> <CollectReport '' lenresult=1 outcome='passed'> [hook]
+        pytest_collectreport [hook]
+            report: <CollectReport '' lenresult=1 outcome='passed'>
+        finish pytest_collectreport --> [] [hook]
+    genitems <Module test_semantic.py> [collection]
+      pytest_collectstart [hook]
+          collector: <Module test_semantic.py>
+      finish pytest_collectstart --> [] [hook]
+      pytest_make_collect_report [hook]
+          collector: <Module test_semantic.py>
+      early skip of rewriting module: tests [assertion]
+      find_module called for: tests.test_query [assertion]
+      find_module called for: tests.test_query.test_semantic [assertion]
+      matched test file (was specified on cmdline): 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\tests\\test_query\\test_semantic.py' [assertion]
+      found cached rewritten pyc for C:\Users\caine\OneDrive\Documents\datachain\tests\test_query\test_semantic.py [assertion]
+      early skip of rewriting module: pydantic [assertion]
+      early skip of rewriting module: pydantic._migration [assertion]
+      early skip of rewriting module: pydantic.warnings [assertion]
+      early skip of rewriting module: pydantic.version [assertion]
+      early skip of rewriting module: pydantic_core [assertion]
+      early skip of rewriting module: pydantic_core._pydantic_core [assertion]
+      early skip of rewriting module: pydantic_core.core_schema [assertion]
+      early skip of rewriting module: pydantic.errors [assertion]
+      early skip of rewriting module: typing_inspection [assertion]
+      early skip of rewriting module: typing_inspection.introspection [assertion]
+      early skip of rewriting module: typing_inspection.typing_objects [assertion]
+      early skip of rewriting module: pydantic._internal [assertion]
+      early skip of rewriting module: pydantic._internal._repr [assertion]
+      early skip of rewriting module: pydantic._internal._typing_extra [assertion]
+      early skip of rewriting module: pydantic._internal._namespace_utils [assertion]
+      early skip of rewriting module: src [assertion]
+      early skip of rewriting module: src.datachain [assertion]
+      early skip of rewriting module: src.datachain.query [assertion]
+      early skip of rewriting module: src.datachain.query.models [assertion]
+      early skip of rewriting module: src.datachain.query.models.sql [assertion]
+      early skip of rewriting module: pydantic.main [assertion]
+      early skip of rewriting module: pydantic._internal._config [assertion]
+      early skip of rewriting module: pydantic.aliases [assertion]
+      early skip of rewriting module: pydantic._internal._internal_dataclass [assertion]
+      early skip of rewriting module: pydantic.config [assertion]
+      early skip of rewriting module: pydantic._internal._decorators [assertion]
+      early skip of rewriting module: pydantic._internal._core_utils [assertion]
+      early skip of rewriting module: pydantic._internal._utils [assertion]
+      early skip of rewriting module: pydantic._internal._import_utils [assertion]
+      early skip of rewriting module: pydantic._internal._fields [assertion]
+      early skip of rewriting module: pydantic._internal._generics [assertion]
+      early skip of rewriting module: pydantic._internal._forward_ref [assertion]
+      early skip of rewriting module: pydantic._internal._docs_extraction [assertion]
+      early skip of rewriting module: pydantic._internal._mock_val_ser [assertion]
+      early skip of rewriting module: pydantic.plugin [assertion]
+      early skip of rewriting module: pydantic.plugin._schema_validator [assertion]
+      early skip of rewriting module: pydantic._internal._model_construction [assertion]
+      early skip of rewriting module: pydantic._internal._generate_schema [assertion]
+      early skip of rewriting module: fractions [assertion]
+      early skip of rewriting module: zoneinfo [assertion]
+      early skip of rewriting module: zoneinfo._tzpath [assertion]
+      early skip of rewriting module: sysconfig [assertion]
+      early skip of rewriting module: zoneinfo._common [assertion]
+      early skip of rewriting module: _zoneinfo [assertion]
+      early skip of rewriting module: pydantic.annotated_handlers [assertion]
+      early skip of rewriting module: pydantic.functional_validators [assertion]
+      early skip of rewriting module: pydantic.json_schema [assertion]
+      early skip of rewriting module: pydantic._internal._core_metadata [assertion]
+      early skip of rewriting module: pydantic._internal._schema_generation_shared [assertion]
+      early skip of rewriting module: pydantic._internal._discriminated_union [assertion]
+      early skip of rewriting module: pydantic._internal._known_annotated_metadata [assertion]
+      early skip of rewriting module: pydantic._internal._schema_gather [assertion]
+      early skip of rewriting module: pydantic._internal._signature [assertion]
+      early skip of rewriting module: pydantic.fields [assertion]
+      early skip of rewriting module: annotated_types [assertion]
+      early skip of rewriting module: pydantic._internal._validators [assertion]
+      early skip of rewriting module: pydantic.types [assertion]
+      early skip of rewriting module: src.datachain.query.models.enums [assertion]
+      early skip of rewriting module: pydantic.plugin._loader [assertion]
+      early skip of rewriting module: src.datachain.query.models.semantic [assertion]
+      early skip of rewriting module: src.datachain.query.models.bi [assertion]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: @py_builtins
+            obj: <module 'builtins' (built-in)>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: @pytest_ar
+            obj: <module '_pytest.assertion.rewrite' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\_pytest\\assertion\\rewrite.py'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: pytest
+            obj: <module 'pytest' from 'C:\\Users\\caine\\OneDrive\\Documents\\datachain\\venv\\Lib\\site-packages\\pytest\\__init__.py'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: ValidationError
+            obj: <class 'pydantic_core._pydantic_core.ValidationError'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: SemanticModel
+            obj: <class 'src.datachain.query.models.semantic.SemanticModel'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: Table
+            obj: <class 'src.datachain.query.models.semantic.Table'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: SemanticColumn
+            obj: <class 'src.datachain.query.models.semantic.SemanticColumn'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: Relationship
+            obj: <class 'src.datachain.query.models.semantic.Relationship'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: RelationshipType
+            obj: <enum 'RelationshipType'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: DataType
+            obj: <enum 'DataType'>
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: order
+            obj: name='Order' columns=[SemanticColumn(name='ID', type=<DataType.STRING: 'STRING'>, description='None'), SemanticColumn(name='customer_id', type=<DataType.STRING: 'STRING'>, description='None'), SemanticColumn(name='plant_id', type=<DataType.STRING: 'STRING'>, description='None')] description='None'
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: customer
+            obj: name='Customer' columns=[SemanticColumn(name='ID', type=<DataType.STRING: 'STRING'>, description='None'), SemanticColumn(name='some_column', type=<DataType.STRING: 'STRING'>, description='None')] description='None'
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: plant
+            obj: name='Plant' columns=[SemanticColumn(name='ID', type=<DataType.STRING: 'STRING'>, description='None'), SemanticColumn(name='plant_group_id', type=<DataType.STRING: 'STRING'>, description='None')] description='None'
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: plant_group
+            obj: name='PlantGroup' columns=[SemanticColumn(name='ID', type=<DataType.STRING: 'STRING'>, description='None')] description='None'
+        finish pytest_pycollect_makeitem --> None [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: test_order_customer_valid
+            obj: <function test_order_customer_valid at 0x000002574B9B7920>
+          pytest_generate_tests [hook]
+              metafunc: <_pytest.python.Metafunc object at 0x000002574B9A2F90>
+          finish pytest_generate_tests --> [] [hook]
+        finish pytest_pycollect_makeitem --> [<Function test_order_customer_valid>] [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: test_valid_full_model
+            obj: <function test_valid_full_model at 0x000002574B9B7B00>
+          pytest_generate_tests [hook]
+              metafunc: <_pytest.python.Metafunc object at 0x000002574C398A50>
+          finish pytest_generate_tests --> [] [hook]
+        finish pytest_pycollect_makeitem --> [<Function test_valid_full_model>] [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: test_invalid_table_reference
+            obj: <function test_invalid_table_reference at 0x000002574C2D8040>
+          pytest_generate_tests [hook]
+              metafunc: <_pytest.python.Metafunc object at 0x000002574C54AAD0>
+          finish pytest_generate_tests --> [] [hook]
+        finish pytest_pycollect_makeitem --> [<Function test_invalid_table_reference>] [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: test_invalid_column_reference
+            obj: <function test_invalid_column_reference at 0x000002574C4E4FE0>
+          pytest_generate_tests [hook]
+              metafunc: <_pytest.python.Metafunc object at 0x000002574C54BF10>
+          finish pytest_generate_tests --> [] [hook]
+        finish pytest_pycollect_makeitem --> [<Function test_invalid_column_reference>] [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: test_invalid_contains_loop
+            obj: <function test_invalid_contains_loop at 0x000002574C4E4F40>
+          pytest_generate_tests [hook]
+              metafunc: <_pytest.python.Metafunc object at 0x000002574C54C110>
+          finish pytest_generate_tests --> [] [hook]
+        finish pytest_pycollect_makeitem --> [<Function test_invalid_contains_loop>] [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: test_invalid_contains_cycle
+            obj: <function test_invalid_contains_cycle at 0x000002574C4E4EA0>
+          pytest_generate_tests [hook]
+              metafunc: <_pytest.python.Metafunc object at 0x000002574C54CB50>
+          finish pytest_generate_tests --> [] [hook]
+        finish pytest_pycollect_makeitem --> [<Function test_invalid_contains_cycle>] [hook]
+        pytest_pycollect_makeitem [hook]
+            collector: <Module test_semantic.py>
+            name: test_invalid_contains_cycle_complex
+            obj: <function test_invalid_contains_cycle_complex at 0x000002574C4E4E00>
+          pytest_generate_tests [hook]
+              metafunc: <_pytest.python.Metafunc object at 0x000002574C54D6D0>
+          finish pytest_generate_tests --> [] [hook]
+        finish pytest_pycollect_makeitem --> [<Function test_invalid_contains_cycle_complex>] [hook]
+      finish pytest_make_collect_report --> <CollectReport 'tests/test_query/test_semantic.py' lenresult=7 outcome='passed'> [hook]
+    genitems <Function test_order_customer_valid> [collection]
+      pytest_itemcollected [hook]
+          item: <Function test_order_customer_valid>
+      finish pytest_itemcollected --> [] [hook]
+    genitems <Function test_valid_full_model> [collection]
+      pytest_itemcollected [hook]
+          item: <Function test_valid_full_model>
+      finish pytest_itemcollected --> [] [hook]
+    genitems <Function test_invalid_table_reference> [collection]
+      pytest_itemcollected [hook]
+          item: <Function test_invalid_table_reference>
+      finish pytest_itemcollected --> [] [hook]
+    genitems <Function test_invalid_column_reference> [collection]
+      pytest_itemcollected [hook]
+          item: <Function test_invalid_column_reference>
+      finish pytest_itemcollected --> [] [hook]
+    genitems <Function test_invalid_contains_loop> [collection]
+      pytest_itemcollected [hook]
+          item: <Function test_invalid_contains_loop>
+      finish pytest_itemcollected --> [] [hook]
+    genitems <Function test_invalid_contains_cycle> [collection]
+      pytest_itemcollected [hook]
+          item: <Function test_invalid_contains_cycle>
+      finish pytest_itemcollected --> [] [hook]
+    genitems <Function test_invalid_contains_cycle_complex> [collection]
+      pytest_itemcollected [hook]
+          item: <Function test_invalid_contains_cycle_complex>
+      finish pytest_itemcollected --> [] [hook]
+      pytest_collectreport [hook]
+          report: <CollectReport 'tests/test_query/test_semantic.py' lenresult=7 outcome='passed'>
+      finish pytest_collectreport --> [] [hook]
+      pytest_collection_modifyitems [hook]
+          session: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+          config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          items: [<Function test_order_customer_valid>, <Function test_valid_full_model>, <Function test_invalid_table_reference>, <Function test_invalid_column_reference>, <Function test_invalid_contains_loop>, <Function test_invalid_contains_cycle>, <Function test_invalid_contains_cycle_complex>]
+      finish pytest_collection_modifyitems --> [] [hook]
+      pytest_collection_finish [hook]
+          session: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+        pytest_report_collectionfinish [hook]
+            config: <_pytest.config.Config object at 0x0000025749D50AD0>
+            items: [<Function test_order_customer_valid>, <Function test_valid_full_model>, <Function test_invalid_table_reference>, <Function test_invalid_column_reference>, <Function test_invalid_contains_loop>, <Function test_invalid_contains_cycle>, <Function test_invalid_contains_cycle_complex>]
+            start_path: C:\Users\caine\OneDrive\Documents\datachain
+            startdir: C:\Users\caine\OneDrive\Documents\datachain
+        finish pytest_report_collectionfinish --> [] [hook]
+      finish pytest_collection_finish --> [] [hook]
+    finish pytest_collection --> None [hook]
+    pytest_runtestloop [hook]
+        session: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=7>
+      pytest_runtest_protocol [hook]
+          item: <Function test_order_customer_valid>
+          nextitem: <Function test_valid_full_model>
+        pytest_runtest_logstart [hook]
+            nodeid: tests/test_query/test_semantic.py::test_order_customer_valid
+            location: ('tests\\test_query\\test_semantic.py', 85, 'test_order_customer_valid')
+        finish pytest_runtest_logstart --> [] [hook]
+        pytest_runtest_setup [hook]
+            item: <Function test_order_customer_valid>
+        finish pytest_runtest_setup --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_order_customer_valid>
+            call: <CallInfo when='setup' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_order_customer_valid' when='setup' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_order_customer_valid' when='setup' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_order_customer_valid' when='setup' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_call [hook]
+            item: <Function test_order_customer_valid>
+          pytest_pyfunc_call [hook]
+              pyfuncitem: <Function test_order_customer_valid>
+        pytest_runtest_makereport [hook]
+            item: <Function test_order_customer_valid>
+            call: <CallInfo when='call' excinfo=<ExceptionInfo 1 validation error for SemanticModel
+  Value error, dictionary update sequence element #0 has length 5; 2 is required ...s_outgoing=['ID'])]}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error tblen=29>>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_order_customer_valid' when='call' outcome='failed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_order_customer_valid' when='call' outcome='failed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_order_customer_valid' when='call' outcome='failed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('failed', 'F', 'FAILED') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_exception_interact [hook]
+            node: <Function test_order_customer_valid>
+            call: <CallInfo when='call' excinfo=<ExceptionInfo 1 validation error for SemanticModel
+  Value error, dictionary update sequence element #0 has length 5; 2 is required ...s_outgoing=['ID'])]}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error tblen=29>>
+            report: <TestReport 'tests/test_query/test_semantic.py::test_order_customer_valid' when='call' outcome='failed'>
+        finish pytest_exception_interact --> [] [hook]
+        pytest_runtest_teardown [hook]
+            item: <Function test_order_customer_valid>
+            nextitem: <Function test_valid_full_model>
+        finish pytest_runtest_teardown --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_order_customer_valid>
+            call: <CallInfo when='teardown' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_order_customer_valid' when='teardown' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_order_customer_valid' when='teardown' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_order_customer_valid' when='teardown' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_logfinish [hook]
+            nodeid: tests/test_query/test_semantic.py::test_order_customer_valid
+            location: ('tests\\test_query\\test_semantic.py', 85, 'test_order_customer_valid')
+        finish pytest_runtest_logfinish --> [] [hook]
+      finish pytest_runtest_protocol --> True [hook]
+      pytest_runtest_protocol [hook]
+          item: <Function test_valid_full_model>
+          nextitem: <Function test_invalid_table_reference>
+        pytest_runtest_logstart [hook]
+            nodeid: tests/test_query/test_semantic.py::test_valid_full_model
+            location: ('tests\\test_query\\test_semantic.py', 100, 'test_valid_full_model')
+        finish pytest_runtest_logstart --> [] [hook]
+        pytest_runtest_setup [hook]
+            item: <Function test_valid_full_model>
+        finish pytest_runtest_setup --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_valid_full_model>
+            call: <CallInfo when='setup' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_valid_full_model' when='setup' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_valid_full_model' when='setup' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_valid_full_model' when='setup' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_call [hook]
+            item: <Function test_valid_full_model>
+          pytest_pyfunc_call [hook]
+              pyfuncitem: <Function test_valid_full_model>
+        pytest_runtest_makereport [hook]
+            item: <Function test_valid_full_model>
+            call: <CallInfo when='call' excinfo=<ExceptionInfo 1 validation error for SemanticModel
+  Value error, dictionary update sequence element #0 has length 5; 2 is required ...s_outgoing=['ID'])]}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error tblen=29>>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_valid_full_model' when='call' outcome='failed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_valid_full_model' when='call' outcome='failed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_valid_full_model' when='call' outcome='failed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('failed', 'F', 'FAILED') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_exception_interact [hook]
+            node: <Function test_valid_full_model>
+            call: <CallInfo when='call' excinfo=<ExceptionInfo 1 validation error for SemanticModel
+  Value error, dictionary update sequence element #0 has length 5; 2 is required ...s_outgoing=['ID'])]}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error tblen=29>>
+            report: <TestReport 'tests/test_query/test_semantic.py::test_valid_full_model' when='call' outcome='failed'>
+        finish pytest_exception_interact --> [] [hook]
+        pytest_runtest_teardown [hook]
+            item: <Function test_valid_full_model>
+            nextitem: <Function test_invalid_table_reference>
+        finish pytest_runtest_teardown --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_valid_full_model>
+            call: <CallInfo when='teardown' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_valid_full_model' when='teardown' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_valid_full_model' when='teardown' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_valid_full_model' when='teardown' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_logfinish [hook]
+            nodeid: tests/test_query/test_semantic.py::test_valid_full_model
+            location: ('tests\\test_query\\test_semantic.py', 100, 'test_valid_full_model')
+        finish pytest_runtest_logfinish --> [] [hook]
+      finish pytest_runtest_protocol --> True [hook]
+      pytest_runtest_protocol [hook]
+          item: <Function test_invalid_table_reference>
+          nextitem: <Function test_invalid_column_reference>
+        pytest_runtest_logstart [hook]
+            nodeid: tests/test_query/test_semantic.py::test_invalid_table_reference
+            location: ('tests\\test_query\\test_semantic.py', 121, 'test_invalid_table_reference')
+        finish pytest_runtest_logstart --> [] [hook]
+        pytest_runtest_setup [hook]
+            item: <Function test_invalid_table_reference>
+        finish pytest_runtest_setup --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_table_reference>
+            call: <CallInfo when='setup' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_table_reference' when='setup' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_table_reference' when='setup' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_table_reference' when='setup' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_call [hook]
+            item: <Function test_invalid_table_reference>
+          pytest_pyfunc_call [hook]
+              pyfuncitem: <Function test_invalid_table_reference>
+          finish pytest_pyfunc_call --> True [hook]
+        finish pytest_runtest_call --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_table_reference>
+            call: <CallInfo when='call' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_table_reference' when='call' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_table_reference' when='call' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_table_reference' when='call' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('passed', '.', 'PASSED') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_teardown [hook]
+            item: <Function test_invalid_table_reference>
+            nextitem: <Function test_invalid_column_reference>
+        finish pytest_runtest_teardown --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_table_reference>
+            call: <CallInfo when='teardown' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_table_reference' when='teardown' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_table_reference' when='teardown' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_table_reference' when='teardown' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_logfinish [hook]
+            nodeid: tests/test_query/test_semantic.py::test_invalid_table_reference
+            location: ('tests\\test_query\\test_semantic.py', 121, 'test_invalid_table_reference')
+        finish pytest_runtest_logfinish --> [] [hook]
+      finish pytest_runtest_protocol --> True [hook]
+      pytest_runtest_protocol [hook]
+          item: <Function test_invalid_column_reference>
+          nextitem: <Function test_invalid_contains_loop>
+        pytest_runtest_logstart [hook]
+            nodeid: tests/test_query/test_semantic.py::test_invalid_column_reference
+            location: ('tests\\test_query\\test_semantic.py', 136, 'test_invalid_column_reference')
+        finish pytest_runtest_logstart --> [] [hook]
+        pytest_runtest_setup [hook]
+            item: <Function test_invalid_column_reference>
+        finish pytest_runtest_setup --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_column_reference>
+            call: <CallInfo when='setup' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_column_reference' when='setup' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_column_reference' when='setup' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_column_reference' when='setup' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_call [hook]
+            item: <Function test_invalid_column_reference>
+          pytest_pyfunc_call [hook]
+              pyfuncitem: <Function test_invalid_column_reference>
+          finish pytest_pyfunc_call --> True [hook]
+        finish pytest_runtest_call --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_column_reference>
+            call: <CallInfo when='call' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_column_reference' when='call' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_column_reference' when='call' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_column_reference' when='call' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('passed', '.', 'PASSED') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_teardown [hook]
+            item: <Function test_invalid_column_reference>
+            nextitem: <Function test_invalid_contains_loop>
+        finish pytest_runtest_teardown --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_column_reference>
+            call: <CallInfo when='teardown' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_column_reference' when='teardown' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_column_reference' when='teardown' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_column_reference' when='teardown' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_logfinish [hook]
+            nodeid: tests/test_query/test_semantic.py::test_invalid_column_reference
+            location: ('tests\\test_query\\test_semantic.py', 136, 'test_invalid_column_reference')
+        finish pytest_runtest_logfinish --> [] [hook]
+      finish pytest_runtest_protocol --> True [hook]
+      pytest_runtest_protocol [hook]
+          item: <Function test_invalid_contains_loop>
+          nextitem: <Function test_invalid_contains_cycle>
+        pytest_runtest_logstart [hook]
+            nodeid: tests/test_query/test_semantic.py::test_invalid_contains_loop
+            location: ('tests\\test_query\\test_semantic.py', 151, 'test_invalid_contains_loop')
+        finish pytest_runtest_logstart --> [] [hook]
+        pytest_runtest_setup [hook]
+            item: <Function test_invalid_contains_loop>
+        finish pytest_runtest_setup --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_contains_loop>
+            call: <CallInfo when='setup' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_loop' when='setup' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_loop' when='setup' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_loop' when='setup' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_call [hook]
+            item: <Function test_invalid_contains_loop>
+          pytest_pyfunc_call [hook]
+              pyfuncitem: <Function test_invalid_contains_loop>
+          finish pytest_pyfunc_call --> True [hook]
+        finish pytest_runtest_call --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_contains_loop>
+            call: <CallInfo when='call' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_loop' when='call' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_loop' when='call' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_loop' when='call' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('passed', '.', 'PASSED') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_teardown [hook]
+            item: <Function test_invalid_contains_loop>
+            nextitem: <Function test_invalid_contains_cycle>
+        finish pytest_runtest_teardown --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_contains_loop>
+            call: <CallInfo when='teardown' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_loop' when='teardown' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_loop' when='teardown' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_loop' when='teardown' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_logfinish [hook]
+            nodeid: tests/test_query/test_semantic.py::test_invalid_contains_loop
+            location: ('tests\\test_query\\test_semantic.py', 151, 'test_invalid_contains_loop')
+        finish pytest_runtest_logfinish --> [] [hook]
+      finish pytest_runtest_protocol --> True [hook]
+      pytest_runtest_protocol [hook]
+          item: <Function test_invalid_contains_cycle>
+          nextitem: <Function test_invalid_contains_cycle_complex>
+        pytest_runtest_logstart [hook]
+            nodeid: tests/test_query/test_semantic.py::test_invalid_contains_cycle
+            location: ('tests\\test_query\\test_semantic.py', 173, 'test_invalid_contains_cycle')
+        finish pytest_runtest_logstart --> [] [hook]
+        pytest_runtest_setup [hook]
+            item: <Function test_invalid_contains_cycle>
+        finish pytest_runtest_setup --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_contains_cycle>
+            call: <CallInfo when='setup' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle' when='setup' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle' when='setup' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle' when='setup' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_call [hook]
+            item: <Function test_invalid_contains_cycle>
+          pytest_pyfunc_call [hook]
+              pyfuncitem: <Function test_invalid_contains_cycle>
+          finish pytest_pyfunc_call --> True [hook]
+        finish pytest_runtest_call --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_contains_cycle>
+            call: <CallInfo when='call' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle' when='call' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle' when='call' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle' when='call' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('passed', '.', 'PASSED') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_teardown [hook]
+            item: <Function test_invalid_contains_cycle>
+            nextitem: <Function test_invalid_contains_cycle_complex>
+        finish pytest_runtest_teardown --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_contains_cycle>
+            call: <CallInfo when='teardown' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle' when='teardown' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle' when='teardown' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle' when='teardown' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_logfinish [hook]
+            nodeid: tests/test_query/test_semantic.py::test_invalid_contains_cycle
+            location: ('tests\\test_query\\test_semantic.py', 173, 'test_invalid_contains_cycle')
+        finish pytest_runtest_logfinish --> [] [hook]
+      finish pytest_runtest_protocol --> True [hook]
+      pytest_runtest_protocol [hook]
+          item: <Function test_invalid_contains_cycle_complex>
+          nextitem: None
+        pytest_runtest_logstart [hook]
+            nodeid: tests/test_query/test_semantic.py::test_invalid_contains_cycle_complex
+            location: ('tests\\test_query\\test_semantic.py', 196, 'test_invalid_contains_cycle_complex')
+        finish pytest_runtest_logstart --> [] [hook]
+        pytest_runtest_setup [hook]
+            item: <Function test_invalid_contains_cycle_complex>
+        finish pytest_runtest_setup --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_contains_cycle_complex>
+            call: <CallInfo when='setup' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle_complex' when='setup' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle_complex' when='setup' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle_complex' when='setup' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_call [hook]
+            item: <Function test_invalid_contains_cycle_complex>
+          pytest_pyfunc_call [hook]
+              pyfuncitem: <Function test_invalid_contains_cycle_complex>
+          finish pytest_pyfunc_call --> True [hook]
+        finish pytest_runtest_call --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_contains_cycle_complex>
+            call: <CallInfo when='call' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle_complex' when='call' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle_complex' when='call' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle_complex' when='call' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('passed', '.', 'PASSED') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_teardown [hook]
+            item: <Function test_invalid_contains_cycle_complex>
+            nextitem: None
+        finish pytest_runtest_teardown --> None [hook]
+        pytest_runtest_makereport [hook]
+            item: <Function test_invalid_contains_cycle_complex>
+            call: <CallInfo when='teardown' result: None>
+        finish pytest_runtest_makereport --> <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle_complex' when='teardown' outcome='passed'> [hook]
+        pytest_runtest_logreport [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle_complex' when='teardown' outcome='passed'>
+          pytest_report_teststatus [hook]
+              report: <TestReport 'tests/test_query/test_semantic.py::test_invalid_contains_cycle_complex' when='teardown' outcome='passed'>
+              config: <_pytest.config.Config object at 0x0000025749D50AD0>
+          finish pytest_report_teststatus --> ('', '', '') [hook]
+        finish pytest_runtest_logreport --> [] [hook]
+        pytest_runtest_logfinish [hook]
+            nodeid: tests/test_query/test_semantic.py::test_invalid_contains_cycle_complex
+            location: ('tests\\test_query\\test_semantic.py', 196, 'test_invalid_contains_cycle_complex')
+        finish pytest_runtest_logfinish --> [] [hook]
+      finish pytest_runtest_protocol --> True [hook]
+    finish pytest_runtestloop --> True [hook]
+    pytest_sessionfinish [hook]
+        session: <Session  exitstatus=<ExitCode.TESTS_FAILED: 1> testsfailed=2 testscollected=7>
+        exitstatus: 1
+      pytest_terminal_summary [hook]
+          terminalreporter: <_pytest.terminal.TerminalReporter object at 0x000002574B981350>
+          exitstatus: 1
+          config: <_pytest.config.Config object at 0x0000025749D50AD0>
+        pytest_report_teststatus [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_order_customer_valid' when='call' outcome='failed'>
+            config: <_pytest.config.Config object at 0x0000025749D50AD0>
+        finish pytest_report_teststatus --> ('failed', 'F', 'FAILED') [hook]
+        pytest_report_teststatus [hook]
+            report: <TestReport 'tests/test_query/test_semantic.py::test_valid_full_model' when='call' outcome='failed'>
+            config: <_pytest.config.Config object at 0x0000025749D50AD0>
+        finish pytest_report_teststatus --> ('failed', 'F', 'FAILED') [hook]
+      finish pytest_terminal_summary --> [] [hook]
+    finish pytest_sessionfinish --> [] [hook]
+    pytest_unconfigure [hook]
+        config: <_pytest.config.Config object at 0x0000025749D50AD0>
+    finish pytest_unconfigure --> [] [hook]

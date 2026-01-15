@@ -149,6 +149,46 @@ def test_invalid_column_reference():
             ]
         )
 
+def test_invalid_graph_disconnected():
+    with pytest.raises(ValidationError):
+        model = SemanticModel(
+            tables=[order, customer, plant],
+            relationships=[
+                Relationship(
+                    incomming="Order",
+                    keys_incomming=["customer_id"],
+                    outgoing="Customer",
+                    keys_outgoing=["ID"],
+                    type=RelationshipType.ONE_TO_MANY
+                )
+                # Plant table is disconnected
+            ]
+        )
+
+def test_invalid_graph_disconnected_multiple():
+    with pytest.raises(ValidationError):
+        model = SemanticModel(
+            tables=[order, customer, plant, plant_group],
+            relationships=[
+                Relationship(
+                    incomming="Order",
+                    keys_incomming=["customer_id"],
+                    outgoing="Customer",
+                    keys_outgoing=["ID"],
+                    type=RelationshipType.ONE_TO_MANY
+                ),
+
+                #Plant and PlantGroup tables are disconnected from Order and Customer
+                Relationship(
+                    incomming="PlantGroup",
+                    keys_incomming=["ID"],
+                    outgoing="Plant",
+                    keys_outgoing=["plant_group_id"],
+                    type=RelationshipType.ONE_TO_MANY
+                )
+            ]
+        )
+
 def test_invalid_contains_loop():
     with pytest.raises(ValidationError):
         model = SemanticModel(

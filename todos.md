@@ -1,3 +1,8 @@
+# Finish
+2. validate bi query agaisnt semantic to ensure the join path is valid
+    - we need to join everything to the n most side of the join and then aggregate and grou according to measures and KPIs
+3. Then when planning SQL we have to define the from and joins
+
 # SQL Compiling
 1. Review the sql.py module do we have the finished model?
 2. Write the function to convert BIQuery -> SQLQuery

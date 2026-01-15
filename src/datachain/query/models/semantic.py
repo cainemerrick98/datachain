@@ -78,6 +78,7 @@ class SemanticModel(BaseModel):
     def validate_relationships(self):
 
         if self.relationships is None:
+            print('No relationships to validate')
             return self
 
         #Validate the relationships are all in the tables and columns list
@@ -130,41 +131,39 @@ class SemanticModel(BaseModel):
                     })
 
         # Validate the relationship graph have no seperation and there are no cycles
-        #TODO Improve this its bad
-        #Cycles
+        # Cycles are checked via BFS
         tables = [t.name for t in self.tables]
         graph = self.get_relationship_graph()
         for table in tables:
-            visited = [table]
+            visited = {table}
             nodes_to_check = [] + graph[table]
             while nodes_to_check:
                 node = nodes_to_check.pop()
-                if node == table:
+                if node in visited:
                     errors.append({
                         "type": "value_error",
                         "loc": ("relationships",),
                         "msg": (
-                            f"A loop/cycle exists in the relationships"
+                            f"The graph contains a cycle at table: {node}"
                         ),
                         "input": self.relationships,
-                        "ctx": {"error": "Loop/Cycle in relationships"},
+                        "ctx": {"error": "Cyclic graph"},
                     })
                     break
-                if node in visited:
-                    continue
-
-                visited.append(node)
+                visited |= {node}
                 nodes_to_check += [n for n in graph[node] if n not in visited]
 
-        root = tables[0]
-        visited = [root]
-        nodes_to_check = graph[root]
+        
+        # Check for disconnected graph
+        visited = set()
+        nodes_to_check = [tables[0]]
         while nodes_to_check:
             node = nodes_to_check.pop()
-            visited.append(node)
-            nodes_to_check += [n for n in graph[node] if n not in visited]
-        
-        if len(visited) != len(tables):
+            if node in visited:
+                continue
+            visited |= {node}
+            nodes_to_check += [n for n in graph[node]]
+        if len(visited) < len(tables):
             errors.append({
                 "type": "value_error",
                 "loc": ("relationships",),
@@ -174,7 +173,7 @@ class SemanticModel(BaseModel):
                 "input": self.relationships,
                 "ctx": {"error": "Disconnected graph"},
             })
-
+        print('\n\n')
         print(errors)
         if errors:
             raise ValidationError.from_exception_data(
