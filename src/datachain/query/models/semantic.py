@@ -61,24 +61,25 @@ class SemanticMetric(BaseModel):
     aggregation: Aggregation
 
 
+#TODO: Add validation that left and right refer to valid KPI names
+class SemanticBinaryMetric(BaseModel):
+    left: str # Must refer to a KPI name
+    operator: str
+    right: str # Must refer to a KPI name
+
+
 class KPI(BaseModel):
     name: str
-    expression: SemanticMetric
+    expression: Union[SemanticMetric, SemanticBinaryMetric]
     description: str
     return_type: DataType
-
-
-class SemanticBinaryMetric(BaseModel):
-    left: KPI
-    operator: str
-    right: KPI
 
 
 class SemanticComparison(BaseModel):
     table: str
     column: str
     comparator: Comparator
-    value: Union[str, float, int, bool]
+    value: Union[str, float, int, bool, list[str]]
 
 
 class SemanticKPIComparison(BaseModel):

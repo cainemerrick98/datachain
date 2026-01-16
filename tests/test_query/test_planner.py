@@ -9,6 +9,10 @@ from src.datachain.query.models import (
     Filter,
     Relationship,
     RelationshipType,
+    SemanticMetric,
+    SemanticComparison,
+    SemanticBinaryMetric,
+    SemanticKPIComparison,
 
     Arithmetic,
     Aggregation,
@@ -149,7 +153,7 @@ semantic_model = SemanticModel(
     kpis=[
         KPI(
             name="total_revenue",
-            expression=SQLMeasure(
+            expression=SemanticMetric(
                 table="orders",
                 column="revenue",
                 aggregation=Aggregation.SUM,
@@ -159,7 +163,7 @@ semantic_model = SemanticModel(
         ),
         KPI(
             name="average_order_value",
-            expression=SQLMeasure(
+            expression=SemanticMetric(
                 table="orders",
                 column="revenue",
                 aggregation=Aggregation.AVG,
@@ -168,37 +172,31 @@ semantic_model = SemanticModel(
             return_type=DataType.NUMERIC,
         ),
         KPI(
+            name="total_cost",
+            expression=SemanticMetric(
+                table="orders",
+                column="production_cost",
+                aggregation=Aggregation.SUM,
+            ),
+            description="Total production cost from all orders",
+            return_type=DataType.NUMERIC,
+        ),
+        KPI(
             name="total_profit",
-            expression=BinaryMetric(
-                left=SQLMeasure(
-                    table="orders",
-                    column="revenue",
-                    aggregation=Aggregation.SUM,
-                ),
-                arithmetic=Arithmetic.SUB,
-                right=SQLMeasure(
-                    table="orders",
-                    column="production_cost",
-                    aggregation=Aggregation.SUM,
-                ),
+            expression=SemanticBinaryMetric(
+                left="total_revenue",
+                operator="-",
+                right="total_cost",
             ),
             description="Total profit from all orders",
             return_type=DataType.NUMERIC,
         ),
         KPI(
             name="profit_margin",
-            expression=BinaryMetric(
-                left=SQLMeasure(
-                    table="orders",
-                    column="revenue",
-                    aggregation=Aggregation.SUM,
-                ),
-                arithmetic=Arithmetic.DIV,
-                right=SQLMeasure(
-                    table="orders",
-                    column="revenue",
-                    aggregation=Aggregation.SUM,
-                ),
+            expression=SemanticBinaryMetric(
+                left="total_profit",
+                operator="/",
+                right="total_revenue",
             ),
             description="Profit margin as a percentage of total revenue",
             return_type=DataType.NUMERIC,
@@ -207,7 +205,7 @@ semantic_model = SemanticModel(
     filters=[
         Filter(
             name="high_value_customers",
-            predicate=Comparison(
+            predicate=SemanticComparison(
                 table="orders",
                 column="revenue",
                 comparator=Comparator.GREATER_THAN,
@@ -217,12 +215,13 @@ semantic_model = SemanticModel(
         ),
         Filter(
             name="target_regions",
-            predicate=Comparison(
+            predicate=SemanticComparison(
                 table="customers",
                 column="region",
                 comparator=Comparator.IN,
                 value=["North", "East", "West"],
-            )
+            ),
+            description="Customers located in target regions"
         ),
     ],
 
@@ -236,23 +235,17 @@ def test_transform_bi_query_to_sql_query():
                 column="customer_name",
             ),
         ],
-        measures=[
-            BIMeasure(
-                kpi_name="total_revenue",
-            ),
-            BIMeasure(
-                kpi_name="profit_margin",
-            ),
+        kpi_refs=[
+            "total_revenue",
+            "profit_margin",
         ],
-        dimension_filter=[
-            BIFilter(
-                filter_name="target_regions",
-            )
+        filter_refs=[
+            "high_value_customers",
+            "target_regions",
         ],
         order_by=[
             BIOrderBy(
-                table="customers",
-                column="customer_name",
+                field="customers.customer_name",
                 ascending=True,
             )
         ]
@@ -261,3 +254,12 @@ def test_transform_bi_query_to_sql_query():
     sql_query = transform_bi_query_to_sql_query(bi_query, semantic_model)
 
     assert sql_query is not None
+    assert len(sql_query.columns) == 3  # 1 dimension + 2 kpis
+    assert len(sql_query.joins) == 1  # Join between customers and orders
+    assert len(sql_query.filters) == 2  # 2 filters
+    assert len(sql_query.order_by) == 1  # 1 order by clause
+    assert sql_query.table_name == "orders"  # From table is orders
+    assert len(sql_query.group_by) == 1  # Group by customer_name
+    assert len(sql_query.having) == 0  # No having clauses yet
+    assert sql_query.limit is None  # No limit specified
+    assert sql_query.offset is None  # No offset specified

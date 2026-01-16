@@ -240,11 +240,11 @@ class SQLQuery(BaseModel):
         None,
         description="JOIN clauses to combine data from other tables. Specify the table to join, the join condition (how rows match), and the join type (INNER, LEFT, RIGHT, FULL, CROSS). Multiple joins are applied in the order specified."
     )
-    groupby: Optional[List[GroupBy]] = Field(
+    group_by: Optional[List[GroupBy]] = Field(
         None,
         description="GROUP BY clause - required when using aggregations like SUM, COUNT, AVG, MIN, MAX. Include all non-aggregated columns from the SELECT clause here. For example, if selecting region and SUM(revenue), include region in groupby."
     )
-    orderby: Optional[List[OrderBy]] = Field(
+    order_by: Optional[List[OrderBy]] = Field(
         None,
         description="ORDER BY clause to sort results. Specify one or more columns with sort direction (ASC/DESC). Can sort by raw columns, aggregated measures, or calculated metrics. Results are sorted by the first column, then by subsequent columns for ties."
     )
