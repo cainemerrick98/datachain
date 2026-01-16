@@ -18,6 +18,7 @@ Predicates = Union["And", "Comparison", "Or", "Not", "ColumnComparison"]
 
 class Comparison(BaseModel):
     """A single comparison condition for filtering data (e.g., price > 100, region = 'West')"""
+    table: str = Field(description="Name of the table containing the column to compare")
     column: str = Field(description="Column name to compare")
     comparator: Comparator = Field(description="Comparison operator (=, >, <, >=, <=, IN, LIKE, IS NULL, etc.)")
     value: Optional[ComparisonValue] = Field(
@@ -54,7 +55,6 @@ class Not(BaseModel):
     predicate: Predicates = Field(
         description="The condition to negate. Can be a Comparison, And, Or, or FilterRef object."
     )
-
 
 # Metrics
 
@@ -106,6 +106,20 @@ class SelectItem(BaseModel):
         description="The expression to select: use QueryColumn for raw columns, Measure for aggregations (SUM, COUNT, AVG, etc.), or BinaryMetric for calculated metrics (revenue / orders)."
     )
 
+
+# Having
+HavingPredicates = Union["And", "HavingComparison", "Or", "Not"]
+
+class HavingComparison(BaseModel):
+    metric: MetricExpr = Field(
+        description="The metric to compare in the HAVING clause. Can be a Measure or BinaryMetric."
+    )
+    comparator: Comparator = Field(
+        description="Comparison operator (=, >, <, >=, <=, IN, LIKE, IS NULL, etc.)"
+    )
+    value: ComparisonValue = Field(
+        description="Value to compare against in the HAVING clause."
+    )
 
 # Joining
 class Join(BaseModel):
@@ -217,6 +231,10 @@ class SQLQuery(BaseModel):
     filters: Optional[Predicates] = Field(
         None,
         description="WHERE clause conditions to filter rows before grouping. Use Comparison for simple conditions (column = value), And to require all conditions, Or for any condition, Not to negate, or FilterRef to reference predefined filters from the semantic model."
+    )
+    having: Optional[HavingPredicates] = Field(
+        None,
+        description="HAVING clause conditions to filter groups after aggregation. Use HavingComparison for metric comparisons, And to require all conditions, Or for any condition, or Not to negate."
     )
     joins: Optional[List[Join]] = Field(
         None,

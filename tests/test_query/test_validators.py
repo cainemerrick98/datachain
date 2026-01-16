@@ -17,6 +17,9 @@ from src.datachain.query.models import (
     Table,
     SemanticColumn,
     KPI,
+    SemanticMetric,
+    SemanticBinaryMetric,
+    SemanticComparison,
     Filter,
 
     SQLMeasure,
@@ -80,13 +83,13 @@ semantic_model = SemanticModel(
     kpis=[
         KPI(
             name="kpi_total_revenue",
-            expression=SQLMeasure(column="sales.revenue", aggregation=Aggregation.SUM),
+            expression=SemanticMetric(table="sales", column="revenue", aggregation=Aggregation.SUM),
             description="The sum of revenue across a set of orders",
             return_type=DataType.NUMERIC
         ),
         KPI(
             name="kpi_order_count",
-            expression=SQLMeasure(column="sales.order_id", aggregation=Aggregation.COUNT),
+            expression=SemanticMetric(table="sales", column="order_id", aggregation=Aggregation.COUNT),
             description="The count of orders",
             return_type=DataType.NUMERIC
         )
@@ -95,7 +98,7 @@ semantic_model = SemanticModel(
         Filter(
             name="filter_high_ticket_items",
             description="Predefined threshold for what the company defines as very valuable order",
-            predicate=Comparison(column="sales.price", comparator=Comparator.GREATER_THAN, value=10_000) 
+            predicate=SemanticComparison(table="sales", column="price", comparator=Comparator.GREATER_THAN, value=10_000) 
         )
     ]
 )
@@ -130,7 +133,7 @@ def test_valid_with_inline_filter():
     query = BIQuery(
         dimensions=[BIDimension(table="sales", column="customer")],
         kpi_refs=["kpi_total_revenue"],
-        inline_filters=[BIFilter(field="sales.quantity", comparator=Comparator.GREATER_THAN, value=1000)]
+        dimension_filters=[BIFilter(field="sales.quantity", comparator=Comparator.GREATER_THAN, value=1000)]
     )
 
     is_valid, errors = validate_biquery_agaisnt_semantic_model(query, semantic_model)
@@ -181,7 +184,7 @@ def test_invalid_with_inline_filter_field_doesnt_exist():
     query = BIQuery(
         dimensions=[BIDimension(table="sales", column="customer")],
         kpi_refs=["kpi_total_revenue"],
-        inline_filters=[BIFilter(field="sales.tax_rate", comparator=Comparator.GREATER_THAN, value=0.5)]
+        dimension_filters=[BIFilter(field="sales.tax_rate", comparator=Comparator.GREATER_THAN, value=0.5)]
     )
 
     is_valid, errors = validate_biquery_agaisnt_semantic_model(query, semantic_model)

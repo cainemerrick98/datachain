@@ -82,7 +82,6 @@ plant_group = Table(
 )
 
 
-
 def test_order_customer_valid():
     model = SemanticModel(
         tables=[order, customer],

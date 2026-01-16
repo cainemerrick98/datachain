@@ -33,7 +33,7 @@ def test_valid_query_simple():
                 aggregation=Aggregation.SUM
             )
         ],
-        inline_filters=[
+        dimension_filters=[
             BIFilter(
                 field="sales.customer",
                 comparator=Comparator.IN,
@@ -58,7 +58,7 @@ def test_valid_query_filter_references_measure():
                 aggregation=Aggregation.SUM
             )
         ],
-        inline_filters=[
+        measure_filters=[
             BIFilter(
                 field="total_sales",
                 comparator=Comparator.GREATER_THAN,
@@ -88,7 +88,7 @@ def test_invalid_query_filter_has_no_value():
                     aggregation=Aggregation.SUM
                 )
             ],
-            inline_filters=[
+            dimension_filters=[
                 BIFilter(
                     field="sales.customer",
                     comparator=Comparator.IN,

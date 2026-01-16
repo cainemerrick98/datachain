@@ -33,3 +33,17 @@ def transform_bi_query_to_sql_query(bi: BIQuery, semantic_model: SemanticModel) 
     :rtype: SQLQuery
     """
     # Define the from and join statements
+
+    # 1. Extract the set of tables from the query
+    tables = {d.table for d in bi.dimensions} | {m.table for m in bi.measures} | {f.table for f in bi.dimension_filters}
+    # 2. Determine the table on the n most side of join - this is our from table
+    # 3. Add in the joins based on the relationships in the semantic model
+
+    # Define the select items
+    # I think here we also define the group by clauses
+
+    # Define the filters
+
+    # Define the order by clauses
+
+    # Define the final SQLQuery object

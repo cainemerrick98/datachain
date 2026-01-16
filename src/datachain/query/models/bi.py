@@ -127,7 +127,14 @@ class BIFilter(BaseModel):
         )
     )
 
+    @property
+    def table(self) -> Optional[str]:
+        """Extracts the table name if the field is a dimension in table.column format"""
+        if '.' in self.field:
+            return self.field.split('.')[0]
+        return None
 
+ 
 class BIOrderBy(BaseModel):
     """Specifies sorting for query results"""
     field: str = Field(
@@ -176,7 +183,7 @@ class BIQuery(BaseModel):
             "List of the filters that take a kpi name as the field"
         )
     )
-    dimension_filter: list[BIFilter] = Field(
+    dimension_filters: list[BIFilter] = Field(
         default_factory=list,
         description=(
             "List of the filters that take a dimension as the field",

@@ -2,7 +2,7 @@ from pydantic import BaseModel, model_validator, ValidationError
 from enum import Enum
 from typing import Optional, Union, Literal
 from collections import defaultdict
-from .sql import MetricExpr, Predicates
+from .enums import Aggregation, Comparator
 
 # Errors
 class DuplicateSemanticModelEntityError(Exception):
@@ -55,16 +55,42 @@ class Relationship(BaseModel):
     keys_outgoing: list[str]
 
 
+class SemanticMetric(BaseModel):
+    table: str
+    column: str
+    aggregation: Aggregation
+
+
 class KPI(BaseModel):
     name: str
-    expression: MetricExpr
+    expression: SemanticMetric
     description: str
     return_type: DataType
 
 
+class SemanticBinaryMetric(BaseModel):
+    left: KPI
+    operator: str
+    right: KPI
+
+
+class SemanticComparison(BaseModel):
+    table: str
+    column: str
+    comparator: Comparator
+    value: Union[str, float, int, bool]
+
+
+class SemanticKPIComparison(BaseModel):
+    name: str
+    kpi: KPI
+    comparator: Comparator
+    value: Union[str, float, int, bool]
+
+
 class Filter(BaseModel):
     name: str
-    predicate: Predicates
+    predicate: Union[SemanticComparison, SemanticKPIComparison]
     description: str
 
 
@@ -205,7 +231,10 @@ class SemanticModel(BaseModel):
     def get_filter(self, name) -> Filter:
         return self._get_entity("filters", name)
 
-    def get_relationship_graph(self) -> dict[str, list[str]]:
+    def get_relationship_graph(self) -> dict[str, list[str]] | None:
+        if self.relationships is None:
+            return None
+        
         graph = defaultdict(list)
 
         for relationship in self.relationships:

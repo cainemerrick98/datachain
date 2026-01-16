@@ -30,3 +30,4 @@
 # Further Additions
 - Calculated Metrics e.g. revenue - costs
 - Column to column comparsions/filters
+- add KPI validation to semantic model
