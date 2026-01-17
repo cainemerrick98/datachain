@@ -90,7 +90,7 @@ class BIMeasure(BaseModel):
             "Example: SUM, AVG, COUNT"
         )
     )
-    window: Union[ChangeWindow, MovingAverageWindow] = Field(
+    window: Optional[Union[ChangeWindow, MovingAverageWindow]] = Field(
         None,
         description=(
             "Optional window function to apply to the measure. "

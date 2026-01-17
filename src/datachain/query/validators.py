@@ -1,6 +1,7 @@
 from .models import SemanticModel, BIQuery
 from .models import DataType
 
+# TODO: split this up into multiple smaller validators
 def validate_biquery_agaisnt_semantic_model(biquery: BIQuery, semantic_model: SemanticModel) -> tuple[bool, list[dict]]:
     """
     Responsible for checking if a biquery is valid given a semantic model 
@@ -73,13 +74,36 @@ def validate_biquery_agaisnt_semantic_model(biquery: BIQuery, semantic_model: Se
     **The path is 1 -> n -> 1**
     """
     graph = semantic_model.get_relationship_graph()
+    # This actually works ! but i need to validate rigorously ATM its more just intuition
     if graph is not None:
-        # TODO: we do need to implement this check - but later
-        """
-        For each table in the biquery we follow the relationships to find the n most side
-        If there is disagreement this means this query cannot be executed as we have two tables that do not share a common table.
-        """
+        tables_in_query = {d.table for d in biquery.dimensions} | {m.table for m in biquery.measures} | {f.table for f in biquery.dimension_filters}
+        table_possible_joins = []
+        for table in tables_in_query:
+            possible_joins = rec_find_possible_joins(table, graph, set((table, 0)), 0)
+            table_possible_joins.append(possible_joins)
         
+        common_tables = set.intersection(*[set(t[0] for t in joins) for joins in table_possible_joins])
+        if not common_tables:
+            is_valid = False
+            errors.append({
+                "type": "invalid_join_path",
+                "msg": f"no valid join path between tables: {tables_in_query}"
+            })
         
-
     return is_valid, errors
+
+
+def rec_find_possible_joins(table: str, graph: dict[str, list[str]], possible_joins: set[tuple[str, int]], depth: int) -> set[tuple[str, int]]:
+    """
+    Recursively find all possible join paths from a given table in the relationship graph.
+    Returns a list of tuples containing the table name and the depth of the join.
+
+    Args:
+        table (str): The starting table name.
+        graph (dict[str, list[str]]): The relationship graph.
+        possible_joins (set[tuple[str, int]]): The set to store possible joins. int represents the number of joins required to join the original table to the new table.
+    """
+    for neighbor in graph[table]:
+        possible_joins.add((neighbor, depth))
+        rec_find_possible_joins(neighbor, graph, possible_joins, depth + 1)
+    return possible_joins
