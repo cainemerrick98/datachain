@@ -2,7 +2,7 @@ from pydantic import BaseModel, model_validator, ValidationError
 from enum import Enum
 from typing import Optional, Union, Literal
 from collections import defaultdict
-from .enums import Aggregation, Comparator
+from .enums import Aggregation, Comparator, Arithmetic
 
 # Errors
 class DuplicateSemanticModelEntityError(Exception):
@@ -42,14 +42,14 @@ class Table(BaseModel):
 class Relationship(BaseModel):
     """
     Example:
-    incomming = "Customer"
+    incoming = "Customer"
     type = "ONE_TO_MANY"
     outgoing = "Order"
 
     Customer 1 -> n Order
     """
-    incomming: str
-    keys_incomming: list[str]
+    incoming: str
+    keys_incoming: list[str]
     type: RelationshipType
     outgoing: str
     keys_outgoing: list[str]
@@ -64,7 +64,7 @@ class SemanticMetric(BaseModel):
 #TODO: Add validation that left and right refer to valid KPI names
 class SemanticBinaryMetric(BaseModel):
     left: str # Must refer to a KPI name
-    operator: str
+    operator: Arithmetic
     right: str # Must refer to a KPI name
 
 
@@ -105,21 +105,20 @@ class SemanticModel(BaseModel):
     def validate_relationships(self):
 
         if self.relationships is None:
-            print('No relationships to validate')
             return self
 
         #Validate the relationships are all in the tables and columns list
         field_names = [(t.name, c.name) for t in self.tables for c in t.columns]
         errors = []
         for r_ind, relationship in enumerate(self.relationships):
-            if len([f for f in field_names if f[0] == relationship.incomming]) == 0:
+            if len([f for f in field_names if f[0] == relationship.incoming]) == 0:
                 errors.append({
                         "type": "value_error",
-                        "loc": ("relationships", r_ind, "incomming"),
+                        "loc": ("relationships", r_ind, "incoming"),
                         "msg": (
-                            f"Incomming must reference a table in tables"
+                            f"incoming must reference a table in tables"
                         ),
-                        "input": relationship.incomming,
+                        "input": relationship.incoming,
                         "ctx": {"error": "invalid_table_reference"},
                     })
             if len([f for f in field_names if f[0] == relationship.outgoing]) == 0:
@@ -127,21 +126,21 @@ class SemanticModel(BaseModel):
                         "type": "value_error",
                         "loc": ("relationships", r_ind, "outgoing"),
                         "msg": (
-                            f"Incomming must reference a table in tables"
+                            f"incoming must reference a table in tables"
                         ),
-                        "input": relationship.incomming,
+                        "input": relationship.incoming,
                         "ctx": {"error": "invalid_table_reference"},
                     })
             
-            for k_ind, key in enumerate(relationship.keys_incomming):
-                if (relationship.incomming, key) not in field_names:
+            for k_ind, key in enumerate(relationship.keys_incoming):
+                if (relationship.incoming, key) not in field_names:
                     errors.append({
                         "type": "value_error",
-                        "loc": ("relationships", r_ind, "keys_incomming", k_ind),
+                        "loc": ("relationships", r_ind, "keys_incoming", k_ind),
                         "msg": (
-                            f"Incomming keys must reference a valid table.column pair"
+                            f"incoming keys must reference a valid table.column pair"
                         ),
-                        "input": relationship.keys_incomming[k_ind],
+                        "input": relationship.keys_incoming[k_ind],
                         "ctx": {"error": "invalid_table_column_reference"},
                     })
             
@@ -158,39 +157,55 @@ class SemanticModel(BaseModel):
                     })
 
         # Validate the relationship graph have no seperation and there are no cycles
-        # Cycles are checked via BFS
+        # Cycles are checked via DFS and a recursion stack
+
         tables = [t.name for t in self.tables]
-        graph = self.get_relationship_graph()
+        visited = set()
+        rec_stack = set()
+        directed_graph = self.get_relationship_graph()
+
+        def is_cyclic(node: str, visited: set, rec_stack: set, graph: dict[str, list[str]]) -> bool:
+            visited.add(node)
+            rec_stack.add(node)
+
+            for neighbor in graph.get(node, []):
+                if neighbor not in visited:
+                    if is_cyclic(neighbor, visited, rec_stack, graph):
+                        return True
+                elif neighbor in rec_stack:
+                    return True
+
+            rec_stack.remove(node)
+            return False
+
         for table in tables:
-            visited = {table}
-            nodes_to_check = [] + graph[table]
-            while nodes_to_check:
-                node = nodes_to_check.pop()
-                if node in visited:
-                    errors.append({
-                        "type": "value_error",
-                        "loc": ("relationships",),
-                        "msg": (
-                            f"The graph contains a cycle at table: {node}"
-                        ),
-                        "input": self.relationships,
-                        "ctx": {"error": "Cyclic graph"},
-                    })
-                    break
-                visited |= {node}
-                nodes_to_check += [n for n in graph[node] if n not in visited]
+            if table in visited:
+                continue
+            if is_cyclic(table, visited, rec_stack, directed_graph):
+                errors.append({
+                    "type": "value_error",
+                    "loc": ("relationships",),
+                    "msg": (
+                        f"The graph contains a cycle at table: {table}"
+                    ),
+                    "input": self.relationships,
+                    "ctx": {"error": "Cyclic graph"},
+                })
+                break
 
         
-        # Check for disconnected graph
+        # Check for weak connectivity by ensuring all nodes are reachable from an arbitrary starting node
         visited = set()
+        undirected_graph = self.get_relationship_graph(directed=False)
         nodes_to_check = [tables[0]]
         while nodes_to_check:
             node = nodes_to_check.pop()
             if node in visited:
                 continue
             visited |= {node}
-            nodes_to_check += [n for n in graph[node]]
-        if len(visited) < len(tables):
+            nodes_to_check += [n for n in undirected_graph[node] if n not in visited]
+        
+        if len(visited) != len(tables):
             errors.append({
                 "type": "value_error",
                 "loc": ("relationships",),
@@ -200,8 +215,7 @@ class SemanticModel(BaseModel):
                 "input": self.relationships,
                 "ctx": {"error": "Disconnected graph"},
             })
-        print('\n\n')
-        print(errors)
+
         if errors:
             raise ValidationError.from_exception_data(
                 self.__class__.__name__,
@@ -210,7 +224,6 @@ class SemanticModel(BaseModel):
         
         return self
         
-
     def _get_entity(self, entity_type: Literal["kpis", "filters"], name: str) -> Union[KPI, Filter]:
         entities = getattr(self, entity_type)
 
@@ -232,15 +245,21 @@ class SemanticModel(BaseModel):
     def get_filter(self, name) -> Filter:
         return self._get_entity("filters", name)
 
-    def get_relationship_graph(self) -> dict[str, list[str]] | None:
+    def get_relationship_graph(self, directed: bool = True) -> dict[str, list[str]] | None:
         if self.relationships is None:
             return None
         
         graph = defaultdict(list)
 
+        # First initialize all tables in the graph
+        for table in self.tables:
+            graph[table.name] = []
+
+        # Then add edges
         for relationship in self.relationships:
-            graph[relationship.incomming].append(relationship.outgoing)
-            graph[relationship.outgoing].append(relationship.incomming)
+            graph[relationship.incoming].append(relationship.outgoing)
+            if not directed:
+                graph[relationship.outgoing].append(relationship.incoming)
         
         return graph
 

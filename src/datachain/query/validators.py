@@ -39,24 +39,26 @@ def validate_biquery_agaisnt_semantic_model(biquery: BIQuery, semantic_model: Se
                 })
 
     # Validate join path is valid
-    # A valid join path means that there are no 1 -> n -> 1 relationships in the path
     """
     Example of an invalid join path:
     Order(n) -> Customer(1)
     Customer(1) -> SalesRep(n)
 
-    invalid query:
-    SELECT AVG(SalesRep.Commission), Customer.Region
-    FROM Order
+    SELECT AVG(Order.Value), SalesRep.Name
+    FROM SalesRep
     JOIN Customer ON Order.CustomerID = Customer.ID
-    JOIN SalesRep ON Order.SalesRepID = SalesRep.ID
-
+    JOIN SalesRep ON SalesRep.CustomerID = Customer.ID
+    GROUP BY SalesRep.Name
+  
     reasoning:
-    We try to aggregate
-    """
+    Invalid because there is a 1 -> n -> 1 relationship in the path (Customer is on the 1 side of both relationships).
+    In this example we want the average order value per sales rep. However, because a sales rep can have many customers,
+    and a customer can have many orders, the average order value per sales rep is not well defined. We have to first aggregate
+    the order values per customer, then aggregate those per sales rep. 
 
+    Simply put we cannot assign individual sales orders to sales reps
     """
-
+    """
     Example of a valid join path:
     Order(n) -> SalesRep(1)
     SalesRep(n) -> Region(1)
@@ -73,7 +75,11 @@ def validate_biquery_agaisnt_semantic_model(biquery: BIQuery, semantic_model: Se
     graph = semantic_model.get_relationship_graph()
     if graph is not None:
         # TODO: we do need to implement this check - but later
-        pass
+        """
+        For each table in the biquery we follow the relationships to find the n most side
+        If there is disagreement this means this query cannot be executed as we have two tables that do not share a common table.
+        """
+        
         
 
     return is_valid, errors

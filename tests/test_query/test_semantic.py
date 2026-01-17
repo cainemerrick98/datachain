@@ -87,8 +87,8 @@ def test_order_customer_valid():
         tables=[order, customer],
         relationships=[
             Relationship(
-                incomming="Order",
-                keys_incomming=["customer_id"],
+                incoming="Order",
+                keys_incoming=["customer_id"],
                 outgoing="Customer",
                 keys_outgoing=["ID"],
                 type=RelationshipType.ONE_TO_MANY
@@ -102,15 +102,15 @@ def test_valid_full_model():
         tables=[order, customer, plant],
         relationships=[
             Relationship(
-                incomming="Order",
-                keys_incomming=["customer_id"],
+                incoming="Order",
+                keys_incoming=["customer_id"],
                 outgoing="Customer",
                 keys_outgoing=["ID"],
                 type=RelationshipType.ONE_TO_MANY
             ),
             Relationship(
-                incomming="Order",
-                keys_incomming=["plant_id"],
+                incoming="Order",
+                keys_incoming=["plant_id"],
                 outgoing="Plant",
                 keys_outgoing=["ID"],
                 type=RelationshipType.ONE_TO_MANY
@@ -124,8 +124,8 @@ def test_invalid_table_reference():
             tables=[order, customer],
             relationships=[
                 Relationship(
-                    incomming="Orders", # Order incorrectly spelt
-                    keys_incomming=["customer_id"],
+                    incoming="Orders", # Order incorrectly spelt
+                    keys_incoming=["customer_id"],
                     outgoing="Customer",
                     keys_outgoing=["ID"],
                     type=RelationshipType.ONE_TO_MANY
@@ -139,8 +139,8 @@ def test_invalid_column_reference():
             tables=[order, customer],
             relationships=[
                 Relationship(
-                    incomming="Order", 
-                    keys_incomming=["customers_id"], # customer_id incorrectly spelt
+                    incoming="Order", 
+                    keys_incoming=["customers_id"], # customer_id incorrectly spelt
                     outgoing="Customer",
                     keys_outgoing=["ID"],
                     type=RelationshipType.ONE_TO_MANY
@@ -154,8 +154,8 @@ def test_invalid_graph_disconnected():
             tables=[order, customer, plant],
             relationships=[
                 Relationship(
-                    incomming="Order",
-                    keys_incomming=["customer_id"],
+                    incoming="Order",
+                    keys_incoming=["customer_id"],
                     outgoing="Customer",
                     keys_outgoing=["ID"],
                     type=RelationshipType.ONE_TO_MANY
@@ -170,8 +170,8 @@ def test_invalid_graph_disconnected_multiple():
             tables=[order, customer, plant, plant_group],
             relationships=[
                 Relationship(
-                    incomming="Order",
-                    keys_incomming=["customer_id"],
+                    incoming="Order",
+                    keys_incoming=["customer_id"],
                     outgoing="Customer",
                     keys_outgoing=["ID"],
                     type=RelationshipType.ONE_TO_MANY
@@ -179,8 +179,8 @@ def test_invalid_graph_disconnected_multiple():
 
                 #Plant and PlantGroup tables are disconnected from Order and Customer
                 Relationship(
-                    incomming="PlantGroup",
-                    keys_incomming=["ID"],
+                    incoming="PlantGroup",
+                    keys_incoming=["ID"],
                     outgoing="Plant",
                     keys_outgoing=["plant_group_id"],
                     type=RelationshipType.ONE_TO_MANY
@@ -194,15 +194,15 @@ def test_invalid_contains_loop():
             tables=[order, customer],
             relationships=[
                 Relationship(
-                    incomming="Order",
-                    keys_incomming=["ID"],
+                    incoming="Order",
+                    keys_incoming=["ID"],
                     outgoing="Order",
                     keys_outgoing=["ID"],
                     type=RelationshipType.ONE_TO_MANY
                 ),
                 Relationship(
-                    incomming="Order", 
-                    keys_incomming=["customer_id"],
+                    incoming="Order", 
+                    keys_incoming=["customer_id"],
                     outgoing="Customer",
                     keys_outgoing=["ID"],
                     type=RelationshipType.ONE_TO_MANY
@@ -216,15 +216,15 @@ def test_invalid_contains_cycle():
             tables=[order, customer],
             relationships=[
                 Relationship(
-                    incomming="Order",
-                    keys_incomming=["customer_id"],
+                    incoming="Order",
+                    keys_incoming=["customer_id"],
                     outgoing="Customer",
                     keys_outgoing=["ID"],
                     type=RelationshipType.ONE_TO_MANY
                 ),
                 Relationship(
-                    incomming="Customer",
-                    keys_incomming=["ID"],
+                    incoming="Customer",
+                    keys_incoming=["ID"],
                     outgoing="Order",
                     keys_outgoing=["ID"],
                     type=RelationshipType.ONE_TO_MANY
@@ -238,29 +238,29 @@ def test_invalid_contains_cycle_complex():
             tables=[order, customer, plant, plant_group],
             relationships=[
                 Relationship(
-                    incomming="Customer",
-                    keys_incomming=["ID"],
+                    incoming="Customer",
+                    keys_incoming=["ID"],
                     outgoing="Order",
                     keys_outgoing=["customer_id"],
                     type=RelationshipType.ONE_TO_MANY
                 ),
                 Relationship(
-                    incomming="Plant",
-                    keys_incomming=["ID"],
-                    outgoing="Order",
-                    keys_outgoing=["plant_id"],
+                    incoming="Order",
+                    keys_incoming=["plant_id"],
+                    outgoing="Plant",
+                    keys_outgoing=["ID"],
                     type=RelationshipType.ONE_TO_MANY
                 ),
                 Relationship(
-                    incomming="Plant",
-                    keys_incomming=["ID"],
+                    incoming="Plant",
+                    keys_incoming=["ID"],
                     outgoing="Customer",
                     keys_outgoing=["some_column"],
                     type=RelationshipType.ONE_TO_MANY
                 ),
                 Relationship(
-                    incomming="PlantGroup",
-                    keys_incomming=["ID"],
+                    incoming="PlantGroup",
+                    keys_incoming=["ID"],
                     outgoing="Plant",
                     keys_outgoing=["plant_group_id"],
                     type=RelationshipType.ONE_TO_MANY

@@ -33,3 +33,12 @@ class Aggregation(str, Enum):
     MIN = "MIN"
     MAX = "MAX"
     MEDIAN = "MEDIAN"
+
+
+class Arithmetic(Enum):
+    """Arithmetic operators for calculated metrics"""
+    ADD = "+"
+    SUB = "-"
+    MUL = "*"
+    DIV = "/"
+    MOD = "%"

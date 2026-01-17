@@ -136,15 +136,15 @@ semantic_model = SemanticModel(
     tables=[orders, customers, products],
     relationships=[
         Relationship(
-            incomming="customers",
-            keys_incomming=["id"],
+            incoming="customers",
+            keys_incoming=["id"],
             type=RelationshipType.ONE_TO_MANY,
             outgoing="orders",
             keys_outgoing=["customer_id"],
         ),
         Relationship(
-            incomming="products",
-            keys_incomming=["product_code"],
+            incoming="products",
+            keys_incoming=["product_code"],
             type=RelationshipType.ONE_TO_MANY,
             outgoing="orders",
             keys_outgoing=["product_code"],

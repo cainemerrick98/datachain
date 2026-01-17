@@ -1,15 +1,8 @@
 from pydantic import BaseModel, Field
 from enum import Enum
 from typing import Optional, Union, List, Literal
-from .enums import Aggregation, Comparator, Sorting
+from .enums import Aggregation, Comparator, Sorting, Arithmetic
 
-class Arithmetic(Enum):
-    """Arithmetic operators for calculated metrics"""
-    ADD = "+"
-    SUB = "-"
-    MUL = "*"
-    DIV = "/"
-    MOD = "%"
 
 # Filtering
 
