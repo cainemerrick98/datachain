@@ -12,6 +12,7 @@ from src.datachain.query.models import (
     Aggregation,
     Comparator,
     DataType,
+    RelationshipType,
 
     SemanticModel,
     Table,
@@ -24,7 +25,7 @@ from src.datachain.query.models import (
     Relationship,
 )
 
-from src.datachain.query.validators import validate_biquery_agaisnt_semantic_model
+from src.datachain.query.validators import validate_biquery_agaisnt_semantic_model, find_common_table
 
 semantic_model = SemanticModel(
     tables=[
@@ -130,7 +131,17 @@ semantic_model = SemanticModel(
     relationships=[
         Relationship(
             incoming="products",
-            keys_incoming=[]
+            keys_incoming=["product_code"],
+            outgoing="sales",
+            keys_outgoing=["product"],
+            type=RelationshipType.ONE_TO_MANY
+        ),
+        Relationship(
+            incoming="customers",
+            keys_incoming=["customer_id"],
+            outgoing="sales",
+            keys_outgoing=["customer_id"],
+            type=RelationshipType.ONE_TO_MANY
         )
     ],
     kpis=[
@@ -270,17 +281,17 @@ def test_invalid_dimension_doesnt_not_exist():
     assert not is_valid
 
 def test_invalid_no_common_table():
-    """
+    query = BIQuery(
+        dimensions=[
+            BIDimension(table="products", column="category"),
+            BIDimension(table="customers", column="region")
+        ],
+        kpi_refs=["kpi_total_revenue"]
+    )
 
-    """
-    ...
-    query = None
+    common_table = find_common_table(query, semantic_model)
 
-    is_valid, errors = validate_biquery_agaisnt_semantic_model(query, semantic_model)
-
-    print(errors)
-
-    assert not is_valid
+    assert common_table == "sales"
 
 if __name__ == "__main__":
     print(BIQuery.model_json_schema())
