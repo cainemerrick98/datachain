@@ -66,6 +66,8 @@ def find_common_table(biquery: BIQuery, semantic_model: SemanticModel) -> str | 
         m.table for m in biquery.measures
     } | {
         f.table for f in biquery.dimension_filters
+    } | {
+        semantic_model.get_kpi(k).expression.table for k in biquery.kpi_refs
     }
 
     # For each table, compute shortest distance to all others
@@ -73,6 +75,8 @@ def find_common_table(biquery: BIQuery, semantic_model: SemanticModel) -> str | 
         table: bfs_distances(table, graph)
         for table in query_tables
     }
+
+    print("Reachability:", reachability)
 
     # Tables reachable from *every* query table
     common = set.intersection(

@@ -103,6 +103,32 @@ semantic_model = SemanticModel(
                     name="import_duty",
                     type=DataType.NUMERIC,  
                     description="The import duty for the product as a percentage"
+                ),
+                SemanticColumn(
+                    name="product_group_id",
+                    type=DataType.STRING,
+                    description="The product group the product belongs to"
+                )
+            ],
+        ),
+        Table(
+            name="product_group",
+            description="Each row represents a grouping of products",
+            columns=[
+                SemanticColumn(
+                    name="id",
+                    type=DataType.STRING,
+                    description="The unique identifier for the product group"
+                ),
+                SemanticColumn(
+                    name="category",
+                    type=DataType.STRING,
+                    description="The category the product belongs to"
+                ),
+                SemanticColumn(
+                    name="department",
+                    type=DataType.STRING,
+                    description="The department the product category belongs to"
                 )
             ],
         ),
@@ -141,6 +167,13 @@ semantic_model = SemanticModel(
             keys_incoming=["customer_id"],
             outgoing="sales",
             keys_outgoing=["customer_id"],
+            type=RelationshipType.ONE_TO_MANY
+        ),
+        Relationship(
+            incoming="product_group",
+            keys_incoming=["id"],
+            outgoing="products",
+            keys_outgoing=["product_group_id"],
             type=RelationshipType.ONE_TO_MANY
         )
     ],
@@ -257,6 +290,8 @@ def test_invalid_with_inline_filter_field_doesnt_exist():
     assert not is_valid
 
 def test_invalid_kpi_doesnt_not_exist():
+    # This test fails because find common table tries to find the table for the kpi reference and 
+    # then throws a MissingEntityError - we need to handle that case in find_common_table
     customer_sales_invalid = BIQuery(
         dimensions=[BIDimension(table="sales", column="customer_id")],
         kpi_refs=["kpi_total_sales"]
@@ -271,7 +306,7 @@ def test_invalid_kpi_doesnt_not_exist():
 def test_invalid_dimension_doesnt_not_exist():
     customer_sales_invalid = BIQuery(
         dimensions=[BIDimension(table="sales", column="plant")],
-        kpi_refs=["kpi_total_sales"]
+        kpi_refs=["kpi_total_revenue"]
     )
 
     is_valid, errors = validate_biquery_agaisnt_semantic_model(customer_sales_invalid, semantic_model)
@@ -280,7 +315,7 @@ def test_invalid_dimension_doesnt_not_exist():
     
     assert not is_valid
 
-def test_invalid_no_common_table():
+def test_find_common_table_valid():
     query = BIQuery(
         dimensions=[
             BIDimension(table="products", column="category"),
@@ -292,6 +327,41 @@ def test_invalid_no_common_table():
     common_table = find_common_table(query, semantic_model)
 
     assert common_table == "sales"
+
+def test_find_common_table_valid_different_depths():
+    query = BIQuery(
+        dimensions=[
+            BIDimension(table="product_group", column="department"),
+            BIDimension(table="customers", column="region")
+        ],
+        kpi_refs=["kpi_total_revenue"]
+    )
+
+    common_table = find_common_table(query, semantic_model)
+
+    assert common_table == "sales"
+
+
+def test_find_common_table_not_lowest_grain():
+    """
+    Here I want to make sure that if I have a query with product and product_group 
+    then the algorithm doesn't select sales as common table
+    """
+    query = BIQuery(
+        dimensions=[
+            BIDimension(table="products", column="category"),
+            BIDimension(table="product_group", column="department")
+        ],
+        measures=[BIMeasure(name="import_duty_avg", table="products", column="import_duty", aggregation=Aggregation.AVG)]
+    )
+
+    common_table = find_common_table(query, semantic_model)
+
+    assert common_table == "products"
+
+
+def test_find_common_table_invalid():
+    raise NotImplementedError("TODO: implement test for no common table")
 
 if __name__ == "__main__":
     print(BIQuery.model_json_schema())
