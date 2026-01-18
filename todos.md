@@ -1,4 +1,7 @@
 # Finish
+1. review some sql
+2. We need to add a window measure to the SQLQuery model for BIQueries with a window - rule is if window then create a CTE (windows to be captured in SQL measure)
+    - I need to review some SQL to work this out properly
 3. Planning (BIQuery -> SQLQuery)
 
 ** STOP **

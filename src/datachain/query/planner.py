@@ -35,9 +35,11 @@ def transform_bi_query_to_sql_query(biquery: BIQuery, semantic_model: SemanticMo
     # Define the from and join statements
     common_table = find_common_table(biquery, semantic_model) # this is my from statement
 
-    # 3. Add in the joins based on the relationships in the semantic model
+    # Add in the joins based on the relationships in the semantic model
+    joins = create_join_clauses(biquery, semantic_model, common_table)
 
     # Define the select items
+    
     # I think here we also define the group by clauses
 
     # Define the filters
