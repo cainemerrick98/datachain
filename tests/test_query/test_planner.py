@@ -32,9 +32,15 @@ from src.datachain.query.models import (
     ColumnComparison,
     And,
     Or,
-    Not
+    Not,
+    Join
 )
-from src.datachain.query.planner import transform_bi_query_to_sql_query
+from src.datachain.query.planner import (
+    transform_bi_query_to_sql_query, 
+    
+    find_join_path_to_common_table, 
+    create_join_clauses,
+)
 
 orders = Table(
     name="orders",
@@ -120,6 +126,11 @@ products = Table(
             description="The product code representing the product purchases"
         ),
         SemanticColumn(
+            name="product_group",
+            type=DataType.STRING,
+            description="The product group code"
+        ),
+        SemanticColumn(
             name="product_name",
             type=DataType.STRING,
             description="The name of the product"
@@ -132,8 +143,26 @@ products = Table(
     ]
 )
 
+product_groups = Table(
+    name="product_groups",
+    description="Each row represents a product group",
+    columns=[
+        SemanticColumn(
+            name="product_group",
+            type=DataType.STRING,
+            description="The product group code"
+        ),
+        SemanticColumn(
+            name="category",
+            type=DataType.STRING,
+            description="The product_group category"
+        ),
+    ]
+)
+
+
 semantic_model = SemanticModel(
-    tables=[orders, customers, products],
+    tables=[orders, customers, products, product_groups],
     relationships=[
         Relationship(
             incoming="customers",
@@ -148,6 +177,13 @@ semantic_model = SemanticModel(
             type=RelationshipType.ONE_TO_MANY,
             outgoing="orders",
             keys_outgoing=["product_code"],
+        ),
+        Relationship(
+            incoming="product_groups",
+            keys_incoming=["product_group"],
+            type=RelationshipType.ONE_TO_MANY,
+            outgoing="products",
+            keys_outgoing=["product_group"],
         ),
     ],
     kpis=[
@@ -227,8 +263,54 @@ semantic_model = SemanticModel(
 
 )
 
+def test_find_join_path_to_common_table_product_order():
+    graph = semantic_model.get_relationship_graph()
+
+    join_path = find_join_path_to_common_table("products", graph, "orders")
+
+    assert join_path == [("products", "orders")]
+
+def test_find_join_path_to_common_table_product_group_order():
+    graph = semantic_model.get_relationship_graph()
+
+    join_path = find_join_path_to_common_table("product_groups", graph, "orders")
+
+    assert join_path == [("product_groups", "products"),("products", "orders")]
+
+def test_create_join_clauses():
+    biquery = BIQuery(
+        dimensions=[
+            BIDimension(
+                table="customers",
+                column="customer_name",
+            ),
+            BIDimension(
+                table="products",
+                column="product_code"
+            )
+        ]
+    )
+    expected_joins = [
+        Join(
+            left_table="customers",
+            left_keys=["id"],
+            right_table="orders",
+            right_keys=["customer_id"]
+        ),
+        Join(
+            left_table="products",
+            left_keys=["product_code"],
+            right_table="orders",
+            right_keys=["product_code"]
+        )
+    ]
+    sql_joins = create_join_clauses(biquery, semantic_model, "orders")
+    print(sql_joins)
+    assert all([isinstance(j, Join) for j in sql_joins])
+    assert all([j in expected_joins for j in sql_joins])
+
 def test_transform_bi_query_to_sql_query():
-    bi_query = BIQuery(
+    biquery = BIQuery(
         dimensions=[
             BIDimension(
                 table="customers",
@@ -251,7 +333,7 @@ def test_transform_bi_query_to_sql_query():
         ]
     )
 
-    sql_query = transform_bi_query_to_sql_query(bi_query, semantic_model)
+    sql_query = transform_bi_query_to_sql_query(biquery, semantic_model)
 
     assert sql_query is not None
     assert len(sql_query.columns) == 3  # 1 dimension + 2 kpis

@@ -1,6 +1,6 @@
 from .models import SemanticModel, BIQuery
 from .models import DataType
-from collections import defaultdict
+from collections import deque
 
 # TODO: split this up into multiple smaller validators
 def validate_biquery_agaisnt_semantic_model(biquery: BIQuery, semantic_model: SemanticModel) -> tuple[bool, list[dict]]:
@@ -50,8 +50,6 @@ def validate_biquery_agaisnt_semantic_model(biquery: BIQuery, semantic_model: Se
         
     return is_valid, errors
 
-from collections import defaultdict, deque
-
 
 def find_common_table(biquery: BIQuery, semantic_model: SemanticModel) -> str | None:
     graph = semantic_model.get_relationship_graph()
@@ -74,8 +72,6 @@ def find_common_table(biquery: BIQuery, semantic_model: SemanticModel) -> str | 
         table: bfs_distances(table, graph)
         for table in query_tables
     }
-
-    print("Reachability:", reachability)
 
     # Tables reachable from *every* query table
     common = set.intersection(

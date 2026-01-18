@@ -117,19 +117,29 @@ class HavingComparison(BaseModel):
 # Joining
 class Join(BaseModel):
     """
-    A join operation to combine the primary table with another table.
-    
-    Joins allow you to combine data from multiple tables based on a relationship between them.
-    For example, joining an orders table with a customers table to get customer details for each order.
+    Represents a SQL JOIN clause.
     """
-    table: str = Field(
-        description="Name of the table to join with the primary table (e.g., 'customers', 'products'). This table will be combined with the main query table."
+
+    left_table: str = Field(
+        description="Table already present in the query"
     )
-    key_this_table: List[str]
-    key_from_table: List[str]
-    type: Literal['LEFT'] = Field(
+
+    right_table: str = Field(
+        description="Table being joined in"
+    )
+
+    left_keys: List[str] = Field(
+        description="Join columns from the left table"
+    )
+
+    right_keys: List[str] = Field(
+        description="Join columns from the right table"
+    )
+
+    join_type: Literal['LEFT'] = Field(
         default="LEFT",
-        description="Type of join: only left joins supported")
+        description="Type of join"
+    )
 
 # Query
 
