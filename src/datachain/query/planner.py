@@ -17,13 +17,12 @@ from .models import (
 
     BIQuery,
 
-
     SemanticModel,
-
 )
+from .validators import find_common_table
 
 
-def transform_bi_query_to_sql_query(bi: BIQuery, semantic_model: SemanticModel) -> SQLQuery:
+def transform_bi_query_to_sql_query(biquery: BIQuery, semantic_model: SemanticModel) -> SQLQuery:
     """
     Sets up the SQLQuery object based on the BIQuery and SemanticModel provided.
     The BIQuery is already a validated query.
@@ -34,16 +33,7 @@ def transform_bi_query_to_sql_query(bi: BIQuery, semantic_model: SemanticModel) 
     :rtype: SQLQuery
     """
     # Define the from and join statements
-
-    # 1. Extract the set of tables from the query
-    tables = {d.table for d in bi.dimensions} | {m.table for m in bi.measures} | {f.table for f in bi.dimension_filters}
-    # 2. Determine the table on the n most side of join - this is our from table
-    """
-    For each table in the query we follow the relationships to find the table on the n most side. If they all agree on the same table, that is our from table. 
-    If there is disagreement this means this query cannot be executed as we have two tables that do not share a common table.
-    """
-    from_table = None
-    ...
+    common_table = find_common_table(biquery, semantic_model) # this is my from statement
 
     # 3. Add in the joins based on the relationships in the semantic model
 
@@ -55,3 +45,36 @@ def transform_bi_query_to_sql_query(bi: BIQuery, semantic_model: SemanticModel) 
     # Define the order by clauses
 
     # Define the final SQLQuery object
+
+def create_join_clauses(biquery: BIQuery, semantic_model: SemanticModel, common_table: str) -> list[Join]:
+    # TODO: refactor this into a method on the bi as this code is also used in validators
+    query_tables = {
+        d.table for d in biquery.dimensions
+    } | {
+        m.table for m in biquery.measures
+    } | {
+        f.table for f in biquery.dimension_filters
+    } | {
+        semantic_model.get_kpi(k).expression.table for k in biquery.kpi_refs
+    }
+
+    joins = []
+    # We already know from validation that all tables can join in to the common
+    for table in query_tables:
+        if table == common_table:
+            continue
+
+        else:
+            #TODO: relationships in semantic model are not ordered in anyway
+            # We do not want to search the relationship graph again for the join path
+            # We need to think about this
+            for relationship in semantic_model.relationships:
+                ...
+                joins.append(
+                    Join(
+                        table=
+                    )
+                )
+
+
+

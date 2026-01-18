@@ -59,7 +59,6 @@ def find_common_table(biquery: BIQuery, semantic_model: SemanticModel) -> str | 
         return None
 
     # All tables used in query
-    # TODO: we need to include the tables referenced in KPIs in the BIQuery
     query_tables = {
         d.table for d in biquery.dimensions
     } | {

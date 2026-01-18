@@ -1,13 +1,13 @@
 # Finish
-2. validate bi query agaisnt semantic to ensure the join path is valid
-    - we need to join everything to the n most side of the join and then aggregate and grou according to measures and KPIs
-3. Then when planning SQL we have to define the from and joins
+3. Planning (BIQuery -> SQLQuery)
+
+** STOP **
+Evaluate your code so far. Refactor to simplify, break out large functions into smaller ones, make it understandable 
+!!!!!!!!!
 
 # SQL Compiling
-1. Review the sql.py module do we have the finished model?
-2. Write the function to convert BIQuery -> SQLQuery
-3. write the compiler base class (each sql language needs its own compiler) this is SQLQuery -> str
-4. write the first concrete compiler class for duckdb
+1. write the compiler base class (each sql language needs its own compiler) this is SQLQuery -> str
+2. write the first concrete compiler class for duckdb
 
 # Data Connection
 - to execute queries
@@ -22,12 +22,9 @@
 
 # Tools
 - then we start defining tools starting with get_data
+- DisplayChart (given what is returned by get_data (1 date, 1 numeric etc...) we have a list of available chart options. If there is one we use this if there is more we let the LLM select (or perhaps we just select based on a ranking the LLM just decides when to display a chart))  
+
 
 # Write evals 
 - create golden dataset
 - set up each eval structure
-
-# Further Additions
-- Calculated Metrics e.g. revenue - costs
-- Column to column comparsions/filters
-- add KPI validation to semantic model

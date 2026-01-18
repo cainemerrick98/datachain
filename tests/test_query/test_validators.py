@@ -341,7 +341,6 @@ def test_find_common_table_valid_different_depths():
 
     assert common_table == "sales"
 
-
 def test_find_common_table_not_lowest_grain():
     """
     Here I want to make sure that if I have a query with product and product_group 
@@ -358,7 +357,6 @@ def test_find_common_table_not_lowest_grain():
     common_table = find_common_table(query, semantic_model)
 
     assert common_table == "products"
-
 
 def test_find_common_table_invalid():
     raise NotImplementedError("TODO: implement test for no common table")
