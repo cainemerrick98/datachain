@@ -4,14 +4,6 @@ from typing import Optional, Union, Literal
 from collections import defaultdict
 from .enums import Aggregation, Comparator, Arithmetic
 
-# Errors
-class DuplicateSemanticModelEntityError(Exception):
-    pass
-
-class MissingSemanticModelEntityError(Exception):
-    pass
-
-
 # Enums
 
 class DataType(Enum):
@@ -223,21 +215,25 @@ class SemanticModel(BaseModel):
             )
         
         return self
-        
-    def _get_entity(self, entity_type: Literal["kpis", "filters"], name: str) -> Union[KPI, Filter]:
-        entities = getattr(self, entity_type)
 
-        if not(entities):
-            raise MissingSemanticModelEntityError(f"No {entity_type} defined in semantic model")
+    @property
+    def fields(self):
+        return {t.name: {c.name: c.type for c in t.columns} for t in self.tables}
+    
+    def field_exists(self, table: str, column: str) -> bool:
+        return table in self.fields and column in self.fields[table]
+    
+    def is_correct_type(self, table: str, column: str, type_: DataType) -> bool:
+        return isinstance(self.fields[table][column], type_)
+        
+    def _get_entity(self, entity_type: Literal["kpis", "filters"], name: str) -> Union[KPI, Filter, None]:
+        entities = getattr(self, entity_type)
 
         matches = [ent for ent in entities if name==ent.name]
         if len(matches) == 1:
             return matches[0]
         
-        if len(matches) > 1:
-            raise DuplicateSemanticModelEntityError(f"More than 1 mantching {entity_type} for {entity_type}: {name}")
-        else:
-            raise MissingSemanticModelEntityError(f"No matching {entity_type} for {entity_type}: {name}")
+        return None
 
     def get_kpi(self, name) -> KPI:
         return self._get_entity("kpis", name)

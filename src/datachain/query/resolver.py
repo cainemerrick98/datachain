@@ -1,82 +1,106 @@
-from .models import BIQuery, ResolvedBIQuery, BIMeasure, BIFilter, ResolvedBIMeasureFilter, ResolvedBIFilter
-from .models import SemanticModel, KPI, Filter, SemanticComparison, SemanticKPIComparison
-from typing import Literal
+from .models import (
+    BIQuery, ResolvedBIQuery, BIMeasure, BIFilter, 
+    ResolvedBIMeasureFilter, ResolvedBIFilter,
+    SemanticModel, KPI, Filter, SemanticComparison, SemanticKPIComparison
+)
 from .orchestrator import QueryContext
 
-class QueryResolver():
+class QueryResolver:
+    def resolve(self, bi_query: BIQuery, semantic_model: SemanticModel, ctx: QueryContext) -> ResolvedBIQuery:
+        """
+        Fully resolves a BIQuery into a ResolvedBIQuery.
+        Updates the context with all tables referenced and tracks diagnostics.
+        """
+        ctx.trace.append("Resolving BIQuery into ResolvedBIQuery")
+        
+        # 1️⃣ Resolve KPIs into measures
+        resolved_measures = list(bi_query.measures)
+        for kpi_name in bi_query.kpi_refs:
+            kpi_measure = self._resolve_kpi(kpi_name, semantic_model, ctx)
+            resolved_measures.append(kpi_measure)
 
-    def lower(self, bi_query: BIQuery, ctx: QueryContext) -> ResolvedBIQuery:
-        """Fully resolves the bi query and update the context with tables"""
-        ...
+        # 2️⃣ Resolve semantic filters
+        resolved_filters = self._resolve_semantic_filters(bi_query.filter_refs, semantic_model, ctx)
 
-def resolve_bi_query(biquery: BIQuery, semantic_model: SemanticModel) -> ResolvedBIQuery:
-    resolved_filters = resolve_semantic_filters(biquery.filter_refs, semantic_model)
+        # 3️⃣ Resolve measure filters
+        resolved_measure_filters = [self._resolve_measure_filter(mf, resolved_measures, ctx) for mf in bi_query.measure_filters]
+        resolved_measure_filters.extend(resolved_filters["measure_filters"])
 
-    return ResolvedBIQuery(
-        dimensions=biquery.dimensions,
-        measures=biquery.measures + [resolve_kpi(name, semantic_model) for name in biquery.kpi_refs],
-        measure_filters=[resolve_measure_filter(mes_filt) for mes_filt in biquery.measure_filters] + resolved_filters["measure_filters"],
-        dimension_filters=[resolve_dimension_filter(dim_filter) for dim_filter in biquery.dimension_filters] + resolved_filters["dimension_filters"],
-        order_by=biquery.order_by,
-        limit=biquery.limit
-    )
+        # 4️⃣ Resolve dimension filters
+        resolved_dimension_filters = [self._resolve_dimension_filter(df, ctx) for df in bi_query.dimension_filters]
+        resolved_dimension_filters.extend(resolved_filters["dimension_filters"])
 
+        # 5️⃣ Update context with tables from dimensions
+        for dim in bi_query.dimensions:
+            ctx.tables.add(dim.table)
+        for m in resolved_measures:
+            ctx.tables.add(m.table)
+        for f in resolved_dimension_filters:
+            ctx.tables.add(f.table)
+        for mf in resolved_measure_filters:
+            ctx.tables.add(mf.measure.table)
 
-def resolve_semantic_filters(names: list[str], semantic_model: SemanticModel) -> dict:
-    resolved_filters = {
-        "dimension_filters":[],
-        "measure_filters":[]
-    }
-    for name in names:
-        semantic_filter = semantic_model.get_filter(name)
+        return ResolvedBIQuery(
+            dimensions=bi_query.dimensions,
+            measures=resolved_measures,
+            measure_filters=resolved_measure_filters,
+            dimension_filters=resolved_dimension_filters,
+            order_by=bi_query.order_by,
+            limit=bi_query.limit
+        )
 
-        if isinstance(semantic_filter.predicate, SemanticComparison):
-            resolved_filters["dimension_filters"].append(
-                ResolvedBIFilter(
-                    table=semantic_filter.predicate.table,
-                    column=semantic_filter.predicate.column,
-                    comparator=semantic_filter.comparator,
-                    value=semantic_filter.predicate.value
+    def _resolve_kpi(self, name: str, semantic_model: SemanticModel, ctx: QueryContext) -> BIMeasure:
+        kpi = semantic_model.get_kpi(name)
+        ctx.trace.append(f"Resolved KPI '{name}' to measure: {kpi.expression.table}.{kpi.expression.column}")
+        return BIMeasure(
+            name=kpi.name,
+            table=kpi.expression.table,
+            column=kpi.expression.column,
+            aggregation=kpi.expression.aggregation
+        )
+
+    def _resolve_semantic_filters(self, names: list[str], semantic_model: SemanticModel, ctx: QueryContext) -> dict:
+        resolved = {"dimension_filters": [], "measure_filters": []}
+        for name in names:
+            semantic_filter = semantic_model.get_filter(name)
+            ctx.trace.append(f"Resolving semantic filter '{name}'")
+            pred = semantic_filter.predicate
+
+            if isinstance(pred, SemanticComparison):
+                resolved["dimension_filters"].append(
+                    ResolvedBIFilter(
+                        table=pred.table,
+                        column=pred.column,
+                        comparator=pred.comparator,
+                        value=pred.value
+                    )
                 )
-            )
-        else:
-            resolved_filters["measure_filters"].append(
-                ResolvedBIMeasureFilter(
-                    measure=resolve_kpi(
-                        semantic_filter.predicate.kpi,
-                        semantic_model
-                    ),
-                    comparator=semantic_filter.predicate.comparator,
-                    value=semantic_filter.predicate.value
+            elif isinstance(pred, SemanticKPIComparison):
+                measure = self._resolve_kpi(pred.kpi.name, semantic_model, ctx)
+                resolved["measure_filters"].append(
+                    ResolvedBIMeasureFilter(
+                        measure=measure,
+                        comparator=pred.comparator,
+                        value=pred.value
+                    )
                 )
-            )
-    return resolved_filters
+        return resolved
 
+    def _resolve_measure_filter(self, mes_filter: BIFilter, resolved_measures: list[BIMeasure], ctx: QueryContext) -> ResolvedBIMeasureFilter:
+        # Assumes validation has already confirmed existence
+        measure = next((m for m in resolved_measures if m.name == mes_filter.field), None)
+        ctx.trace.append(f"Resolved measure filter on '{mes_filter.field}'")
+        return ResolvedBIMeasureFilter(
+            measure=measure,
+            comparator=mes_filter.comparator,
+            value=mes_filter.value
+        )
 
-def resolve_kpi(name: str, semantic_model: SemanticModel) -> BIMeasure:
-    kpi = semantic_model.get_kpi(name)
-    return BIMeasure(
-        name=kpi.name,
-        table=kpi.expression.table,
-        column=kpi.expression.column,
-        aggregation=kpi.expression.aggregation
-    )
-
-def resolve_measure_filter(mes_filter: BIFilter, resolved_query: ResolvedBIQuery) -> ResolvedBIMeasureFilter:
-    #TODO has it been validated that these exist?
-    measure = next(m for m in resolved_query.measures if m.name == mes_filter.field)
-    return ResolvedBIMeasureFilter(
-        measure=measure,
-        comparator=mes_filter.comparator,
-        value=mes_filter.value
-    )
-
-
-def resolve_dimension_filter(dim_filter: BIFilter) -> ResolvedBIFilter:
-    return ResolvedBIFilter(
-        table=dim_filter.table,
-        column=dim_filter.column,
-        comparator=dim_filter.comparator,
-        value=dim_filter.value
-    )
-
+    def _resolve_dimension_filter(self, dim_filter: BIFilter, ctx: QueryContext) -> ResolvedBIFilter:
+        ctx.trace.append(f"Resolved dimension filter on '{dim_filter.table}.{dim_filter.column}'")
+        return ResolvedBIFilter(
+            table=dim_filter.table,
+            column=dim_filter.column,
+            comparator=dim_filter.comparator,
+            value=dim_filter.value
+        )

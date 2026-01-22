@@ -290,6 +290,9 @@ class ResolvedBIMeasureFilter(BaseModel):
     value: int | float
 
 
+class ResolvedOrderBy(BaseModel):
+    """Ensures the order by has a concrete reference"""
+
 class ResolvedBIQuery(BaseModel):
     """
     No longer holds any semantic references
@@ -309,6 +312,6 @@ class ResolvedBIQuery(BaseModel):
     order_by: list[BIOrderBy] = Field(
         default_factory=list,
     )
-    limit: Optional[int] = Field(
+    limit: Optional[ResolvedOrderBy] = Field(
         None,
     )

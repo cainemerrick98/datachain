@@ -13,7 +13,6 @@ class QueryContext:
 
     # Discovered during planning
     joins: list = field(default_factory=list)
-    requires_subquery: bool = False
     requires_cte: bool = False
 
     # Diagnostics
@@ -26,6 +25,7 @@ class QueryError():
     stage: str
     msg: str
     details: Optional[Any] = None 
+
 
 @dataclass
 class QueryResult:
@@ -56,7 +56,8 @@ class QueryOrchestrator():
                 None, ref_errors, ctx
             )
         
-        resolved_query = self.resolver.lower(bi_query, ctx)
+        # ctx is updated with all tables in the query
+        resolved_query = self.resolver.resolve(bi_query, ctx)
 
         join_path_errors = self.validator.validate_join_path(resolved_query, self.semantic_model, ctx)
         if join_path_errors:
