@@ -1,9 +1,10 @@
 # Finish
-**Windows will create two SQL Queries** (Hahaha this is right)
-1. review some sql
-2. We need to add a window measure to the SQLQuery model for BIQueries with a window - rule is if window then create a CTE (windows to be captured in SQL measure)
-    - I need to review some SQL to work this out properly
-3. Planning (BIQuery -> SQLQuery)
+**Windows will create two SQL Queries** (this is right)
+1. From a resolved biquery we need to plan this sqlquery this means
+    - Do we have a subquery to create? (yes if there is a window)
+    - What is the common table and what are the joins (for this we need this list of tables in the resolved query)
+    - What do we need to groupby - if subquery all groupbys go in the subquery and the window logic then we create an outer query that selects from this 
+
 
 ** STOP **
 Evaluate your code so far. Refactor to simplify, break out large functions into smaller ones, make it understandable 
@@ -16,9 +17,6 @@ Evaluate your code so far. Refactor to simplify, break out large functions into 
 # Data Connection
 - to execute queries
 - doesn't this mean that a connection and a compiler should be combined
-
-## Other considerations
-- There will be shared logic between compilers (do this later)
 
 # Agent
 - then we move on to defining the agent class structure this will have stuff like register tools, it will need to be initialised with a semantic model etc...
