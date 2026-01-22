@@ -63,6 +63,46 @@ class QueryColumn(BaseModel):
     )
 
 
+class SQLChangeWindow(BaseModel):
+    """Represents a change calculation window (period + mode)."""
+    period: int = Field(
+        ...,
+        description="Number of units for the change window. Example: 7"
+    )
+    mode: Literal["ABSOLUTE", "PERCENTAGE"] = Field(
+        ..., description="Mode of change calculation: ABSOLUTE or PERCENTAGE"
+    )
+
+
+class SQLMovingAverageWindow(BaseModel):
+    """Represents a moving average window (period + mode)."""
+    period: int = Field(
+        ...,
+        description="Number of units for the moving average window. Example: 7"
+    )
+    mode: Literal["AHEAD", "BEHIND", "CENTERED"] = Field(
+        ...,
+        description=(
+            "Mode of moving average calculation: AHEAD, BEHIND, or CENTERED"
+        )
+    )
+
+
+class WindowSpec(BaseModel):
+    """Specification for SQL windowing: partitioning, ordering and window body."""
+    partition_by: Optional[List[QueryColumn]] = Field(
+        None,
+        description="List of columns to partition the window by (e.g. time grain or dimension columns)."
+    )
+    order_by: Optional[List["OrderBy"]] = Field(
+        None,
+        description="Ordering for the window (e.g. order by date asc)."
+    )
+    window: Union[SQLChangeWindow, SQLMovingAverageWindow] = Field(
+        ..., description="The concrete window function and parameters to apply."
+    )
+
+
 class SQLMeasure(BaseModel):
     """An aggregated metric using functions like SUM, COUNT, AVG, etc."""
     table: str = Field(
@@ -73,6 +113,10 @@ class SQLMeasure(BaseModel):
     )
     aggregation: Aggregation = Field(
         description="Aggregation function to apply: SUM for totals, AVG for averages, COUNT for counting rows, COUNT_DISTINCT for unique values, MIN/MAX for extremes, STDDEV/VARIANCE for statistical measures, MEDIAN for middle values"
+    )
+    window: Optional[WindowSpec] = Field(
+        None,
+        description="Optional window specification for applying window functions (moving averages, change windows, etc.)."
     )
 
 
@@ -145,6 +189,9 @@ class Join(BaseModel):
 
 class GroupBy(BaseModel):
     """Specifies a column to group by when using aggregations"""
+    table: str = Field(
+        description="Name of the table in the db that contains this column"
+    )
     column: QueryColumn = Field(
         description="Column to group by. When using aggregations like SUM or COUNT, all non-aggregated columns in the SELECT must be included in GROUP BY."
     )
@@ -225,7 +272,7 @@ class SQLQuery(BaseModel):
             ]
         )
     """
-    table_name: str = Field(
+    from_: str | "SQLQuery" = Field(
         description="Name of the primary database table to query (e.g., 'sales', 'customers', 'orders'). This is the main table that other tables may be joined to."
     )
     columns: List[SelectItem] = Field(

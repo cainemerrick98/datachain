@@ -67,7 +67,7 @@ class SemanticBinaryMetric(BaseModel):
     operator: Arithmetic
     right: str # Must refer to a KPI name
 
-
+#TODO: add display name to KPI (maybe formatting aswell)
 class KPI(BaseModel):
     name: str
     expression: Union[SemanticMetric, SemanticBinaryMetric]

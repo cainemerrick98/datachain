@@ -16,8 +16,12 @@ from .models import (
     ColumnComparison,
 
     BIQuery,
+    BIMeasure,
+    BIDimension,
 
     SemanticModel,
+    KPI,
+    Filter
 )
 from .validators import find_common_table
 
@@ -39,10 +43,31 @@ def transform_bi_query_to_sql_query(biquery: BIQuery, semantic_model: SemanticMo
     joins = create_join_clauses(biquery, semantic_model, common_table)
 
     # Define the select items
-    
+    select_items = []
+    for item in biquery.dimensions + biquery.kpi_refs + biquery.measures:
+        if isinstance(item, str):
+            item = semantic_model.get_kpi(item)
+        select_items.append(create_select_item(item))
+
     # I think here we also define the group by clauses
+    groupby = []
+    if len(biquery.kpi_refs + biquery.measures) > 0:
+        for dim in biquery.dimensions:
+            groupby.append(
+                GroupBy(
+                    table=dim.table,
+                    column=dim.column
+                )
+            )
 
     # Define the filters
+    filters = []
+    having = []
+    for fil in biquery.dimension_filters:
+        filters.append(
+            
+        )
+
 
     # Define the order by clauses
 
@@ -148,4 +173,35 @@ def find_join_path_to_common_table(
 
     return None
 
+
+def create_select_item(item: BIDimension | KPI | BIMeasure) -> SelectItem:
+    if isinstance(item, BIDimension):
+        return SelectItem(
+            alias=item.column,
+            expression=QueryColumn(
+                table=item.table,
+                name=item.column
+            )
+        )
+    #TODO here we are not supporting binary metrics!
+    if isinstance(item, KPI):
+        return SelectItem(
+            alias=item.name,
+            expression=SQLMeasure(
+                table=item.expression.table,
+                column=item.expression.column,
+                aggregation=item.expression.aggregation,
+            )
+        )
+
+    if isinstance(item, BIMeasure):
+        return SelectItem(
+            alias=item.name,
+            expression=SQLMeasure(
+                table=item.table,
+                column=item.column,
+                aggregation=item.aggregation,
+                window=item.window
+            )
+        )
     

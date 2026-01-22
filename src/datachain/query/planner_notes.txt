@@ -1,0 +1,13 @@
+I am trying to go straight from BIQuery to SQLQuery this is incorrect!
+
+I first need to resolve the BIQuery to a ResolvedQuery this step should map KPIRefs and FilterRef to classes that are common to what BIMeasures and BIFilters get mapped to
+
+I also need a step that works out if subqueries are needed
+
+If we think about the whole flow we have
+
+Generation of BIQuery --> ResolvedBIQuery --> [SQLQueries] (there ay be more one if subquery is needed an inner and an outer)
+
+We should validate -> resolve semantic references -> plan queries -> create sql query models
+
+Notice that the validation actually uses metadata about the BIQuery (tables in query, fields in query)

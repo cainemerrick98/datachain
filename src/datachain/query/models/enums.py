@@ -1,6 +1,16 @@
 from enum import Enum
 
 
+class TimeGrain(str, Enum):
+    MINUTE = "MINUTE"
+    HOUR = "HOUR"
+    DAY = "DAY"
+    WEEK = "WEEK"
+    MONTH = "MONTH"
+    QUARTER = "QUARTER"
+    YEAR = "YEAR"
+    
+
 class Sorting(Enum):
     """Sort direction for ORDER BY clauses"""
     ASC = "ASC"

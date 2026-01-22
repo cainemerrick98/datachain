@@ -4,20 +4,8 @@ Defines the structure of a BIQuery - this is the format the LLM must match to an
 
 from pydantic import BaseModel, Field, model_validator, ValidationError
 from pydantic_core import ErrorDetails
-from .enums import Comparator, Aggregation, Sorting
-from enum import Enum
+from .enums import Comparator, Aggregation, Sorting, TimeGrain
 from typing import Optional, Union, Literal
-
-
-class TimeGrain(str, Enum):
-    MINUTE = "MINUTE"
-    HOUR = "HOUR"
-    DAY = "DAY"
-    WEEK = "WEEK"
-    MONTH = "MONTH"
-    QUARTER = "QUARTER"
-    YEAR = "YEAR"
-
 
 class BIDimension(BaseModel):
     table: str = Field(
@@ -133,6 +121,13 @@ class BIFilter(BaseModel):
         if '.' in self.field:
             return self.field.split('.')[0]
         return None
+    
+    @property
+    def column(self) -> Optional[str]:
+        """Extracts the column name if the field is a dimension in table.column format"""
+        if '.' in self.field:
+            return self.field.split('.')[1]
+        return None
 
  
 class BIOrderBy(BaseModel):
@@ -148,7 +143,7 @@ class BIOrderBy(BaseModel):
         description="Sort direction: ASC for ascending (lowest to highest), DESC for descending (highest to lowest). Defaults to ASC."
     )
 
-
+#TODO Handle distinct
 class BIQuery(BaseModel):
     dimensions: list[BIDimension] = Field(
         default_factory=list,
@@ -274,3 +269,46 @@ class BIQuery(BaseModel):
             )
 
         return self
+
+
+class ResolvedBIFilter(BaseModel):
+    """
+    Includes the table and column name
+    """
+    table: str
+    column: str
+    comparator: Comparator
+    value: str | int | float | list[str] 
+
+
+class ResolvedBIMeasureFilter(BaseModel):
+    """
+    Directly includes the measure in the filter
+    """
+    measure: BIMeasure
+    comparator: Comparator
+    value: int | float
+
+
+class ResolvedBIQuery(BaseModel):
+    """
+    No longer holds any semantic references
+    """
+    dimensions: list[BIDimension] = Field(
+        default_factory=list,
+    )
+    measures: list[BIMeasure] = Field(
+        default_factory=list,
+    )
+    measure_filters: list[ResolvedBIMeasureFilter] = Field(
+        default_factory=list,
+    )
+    dimension_filters: list[ResolvedBIFilter] = Field(
+        default_factory=list,
+    )
+    order_by: list[BIOrderBy] = Field(
+        default_factory=list,
+    )
+    limit: Optional[int] = Field(
+        None,
+    )
