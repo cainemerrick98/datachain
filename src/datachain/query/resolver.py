@@ -1,6 +1,13 @@
 from .models import BIQuery, ResolvedBIQuery, BIMeasure, BIFilter, ResolvedBIMeasureFilter, ResolvedBIFilter
 from .models import SemanticModel, KPI, Filter, SemanticComparison, SemanticKPIComparison
 from typing import Literal
+from .orchestrator import QueryContext
+
+class QueryResolver():
+
+    def lower(self, bi_query: BIQuery, ctx: QueryContext) -> ResolvedBIQuery:
+        """Fully resolves the bi query and update the context with tables"""
+        ...
 
 def resolve_bi_query(biquery: BIQuery, semantic_model: SemanticModel) -> ResolvedBIQuery:
     resolved_filters = resolve_semantic_filters(biquery.filter_refs, semantic_model)

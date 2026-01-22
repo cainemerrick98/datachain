@@ -25,7 +25,7 @@ from src.datachain.query.models import (
     Relationship,
 )
 
-from src.datachain.query.validators import validate_biquery_agaisnt_semantic_model, find_common_table
+from datachain.query.validator import validate_biquery_agaisnt_semantic_model, find_common_table
 
 semantic_model = SemanticModel(
     tables=[

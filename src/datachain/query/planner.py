@@ -23,8 +23,17 @@ from .models import (
     KPI,
     Filter
 )
-from .validators import find_common_table
+from .validator import find_common_table
+from .orchestrator import QueryContext
+from .models import ResolvedBIQuery
 
+class QueryPlanner():
+    def analyse_context(ctx: QueryContext, semantic_model: SemanticModel):
+        """Responsible for checking if a subquery is needed and working out joins"""
+        ...
+    def plan(resolved_query: ResolvedBIQuery, ctx: QueryContext) -> SQLQuery:
+        """Responsible for building the sql query object"""
+        ...
 
 def transform_bi_query_to_sql_query(biquery: BIQuery, semantic_model: SemanticModel) -> SQLQuery:
     """

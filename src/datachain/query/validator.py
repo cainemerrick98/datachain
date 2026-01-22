@@ -1,6 +1,21 @@
-from .models import SemanticModel, BIQuery
+from .models import SemanticModel, BIQuery, ResolvedBIQuery
 from .models import DataType
 from collections import deque
+from .orchestrator import QueryError, QueryContext
+
+class QueryValidator():
+    
+    def validate_structure(self, bi_query: BIQuery, ctx: QueryContext) -> list[QueryError]:
+        """Validates the basic structure of the biquery and updates the ctx trace"""
+        ...
+
+    def validate_references(self, bi_query: BIQuery, semantic_model: SemanticModel, ctx: QueryContext) -> list[QueryError]:
+        """Validates the biquery semantic references agaisnt the semantic model and updates the ctx trace"""
+        ...
+
+    def validate_join_path(self, resolved_query: ResolvedBIQuery, semantic_model: SemanticModel, ctx: QueryContext) -> list[QueryError]:
+        """Validates the resolved query join path and updates the context with joins and common table"""
+        ...
 
 # TODO: split this up into multiple smaller validators
 def validate_biquery_agaisnt_semantic_model(biquery: BIQuery, semantic_model: SemanticModel) -> tuple[bool, list[dict]]:
