@@ -6,6 +6,12 @@
     - What do we need to groupby - if subquery all groupbys go in the subquery and the window logic then we create an outer query that selects from this 
 
 
+Fix resolver bugs (tests will unblock): resolver.py.
+Make SemanticModel provide safe lookup helpers and change find_common_table to use them: semantic.py, validators.py.
+Normalize SQL model <-> planner API (choose table_name or from_ and make all code/tests consistent): sql.py, planner.py, test_planner.py.
+Complete planner (filters/having/order_by) by using resolved query objects: planner.py and resolver.py.
+Add unit tests for missing KPI/filter and for resolver edge cases (match failing entries in .pytest_cache).
+
 ** STOP **
 Evaluate your code so far. Refactor to simplify, break out large functions into smaller ones, make it understandable 
 !!!!!!!!!
