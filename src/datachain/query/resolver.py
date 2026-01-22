@@ -23,7 +23,7 @@ def resolve_semantic_filters(names: list[str], semantic_model: SemanticModel) ->
     for name in names:
         semantic_filter = semantic_model.get_filter(name)
 
-        if isinstance(semantic_filter, SemanticComparison):
+        if isinstance(semantic_filter.predicate, SemanticComparison):
             resolved_filters["dimension_filters"].append(
                 ResolvedBIFilter(
                     table=semantic_filter.predicate.table,
