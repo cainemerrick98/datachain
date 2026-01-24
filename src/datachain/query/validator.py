@@ -1,4 +1,4 @@
-from .models import SemanticModel, BIQuery, ResolvedBIQuery
+from .models import SemanticModel, BIQuery
 from .models import DataType
 from collections import deque
 from .orchestrator import QueryError, QueryContext
