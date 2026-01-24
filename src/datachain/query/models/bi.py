@@ -290,8 +290,18 @@ class ResolvedBIMeasureFilter(BaseModel):
     value: int | float
 
 
-class ResolvedOrderBy(BaseModel):
+class ResolvedOrderByDimension(BaseModel):
     """Ensures the order by has a concrete reference"""
+    table: str
+    column: str
+    sorting: Sorting
+
+
+class ResolvedOrderByMeasure(BaseModel):
+    """Ensures sorting by measure has a conrete reference"""
+    measure: BIMeasure
+    sorting: Sorting
+
 
 class ResolvedBIQuery(BaseModel):
     """
@@ -312,6 +322,6 @@ class ResolvedBIQuery(BaseModel):
     order_by: list[BIOrderBy] = Field(
         default_factory=list,
     )
-    limit: Optional[ResolvedOrderBy] = Field(
+    limit: Optional[list[Union[ResolvedOrderByDimension, ResolvedOrderByMeasure]]] = Field(
         None,
     )

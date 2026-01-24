@@ -1,7 +1,8 @@
 from .models import (
     BIQuery, ResolvedBIQuery, BIMeasure, BIFilter, 
     ResolvedBIMeasureFilter, ResolvedBIFilter,
-    SemanticModel, SemanticComparison, SemanticKPIComparison
+    SemanticModel, SemanticComparison, SemanticKPIComparison,
+    BIOrderBy, ResolvedOrderByDimension, ResolvedOrderByMeasure
 )
 from .orchestrator import QueryContext
 
@@ -13,24 +14,27 @@ class QueryResolver:
         """
         ctx.trace.append("Resolving BIQuery into ResolvedBIQuery")
         
-        # 1️⃣ Resolve KPIs into measures
+        # Resolve KPIs into measures
         resolved_measures = list(bi_query.measures)
         for kpi_name in bi_query.kpi_refs:
             kpi_measure = self._resolve_kpi(kpi_name, semantic_model, ctx)
             resolved_measures.append(kpi_measure)
 
-        # 2️⃣ Resolve semantic filters
+        # Resolve semantic filters
         resolved_filters = self._resolve_semantic_filters(bi_query.filter_refs, semantic_model, ctx)
 
-        # 3️⃣ Resolve measure filters
+        # Resolve measure filters
         resolved_measure_filters = [self._resolve_measure_filter(mf, resolved_measures, ctx) for mf in bi_query.measure_filters]
         resolved_measure_filters.extend(resolved_filters["measure_filters"])
 
-        # 4️⃣ Resolve dimension filters
+        # Resolve dimension filters
         resolved_dimension_filters = [self._resolve_dimension_filter(df, ctx) for df in bi_query.dimension_filters]
         resolved_dimension_filters.extend(resolved_filters["dimension_filters"])
 
-        # 5️⃣ Update context with tables from dimensions
+        # Resolve order by
+        resolved_order_bys = [self._resolve_order_by(order_by, bi_query) for order_by in bi_query.order_by]
+
+        # Update context with tables from dimensions
         for dim in bi_query.dimensions:
             ctx.tables.add(dim.table)
         for m in resolved_measures:
@@ -45,7 +49,7 @@ class QueryResolver:
             measures=resolved_measures,
             measure_filters=resolved_measure_filters,
             dimension_filters=resolved_dimension_filters,
-            order_by=bi_query.order_by,
+            order_by=resolved_order_bys,
             limit=bi_query.limit
         )
 
@@ -104,3 +108,24 @@ class QueryResolver:
             comparator=dim_filter.comparator,
             value=dim_filter.value
         )
+    
+    def _resolve_order_by(self, order_by: BIOrderBy, bi_query: BIQuery) -> ResolvedOrderByMeasure | ResolvedOrderByDimension:
+        if "." in order_by.field:
+            table, column = order_by.field.split(".")
+            return ResolvedOrderByDimension(
+                table=table,
+                column=column,
+                sorting=order_by.sorting
+            )
+        
+        elif order_by.field.startswith("kpi"):
+            measure = self._resolve_kpi(order_by.field)
+        
+        else:
+            measure = next(m for m in bi_query.measures if m.name == order_by.field)
+        
+        return ResolvedOrderByMeasure(
+            measure=measure,
+            sorting=order_by.sorting
+        )
+
