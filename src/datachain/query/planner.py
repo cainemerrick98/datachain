@@ -20,6 +20,8 @@ from .models import (
     ResolvedBIQuery,
     ResolvedBIFilter,
     ResolvedBIMeasureFilter,
+    ResolvedOrderByDimension,
+    ResolvedOrderByMeasure,
     
     SemanticModel,
 )
@@ -139,6 +141,23 @@ class QueryPlanner():
             for d in resolved_query.dimensions
         ] or None
 
+        order_by = [
+            OrderBy(
+                column=QueryColumn(table=ob.table, name=ob.column),
+                sorting=ob.sorting
+            ) for ob in resolved_query.order_by if isinstance(ob, ResolvedOrderByDimension)
+
+        ] + [
+            OrderBy(
+                column=SQLMeasure(
+                    table=ob.measure.table,
+                    column=ob.measure.column,
+                    aggregation=ob.measure.aggregation
+                ),
+                sorting=ob.sorting
+            ) for ob in resolved_query.order_by if isinstance(ob, ResolvedOrderByMeasure)
+        ]
+
         # ============================
         # CASE 1: CTE REQUIRED
         # ============================
@@ -181,7 +200,7 @@ class QueryPlanner():
                 having=None,
                 joins=None,
                 group_by=None,
-                order_by=resolved_query.order_by,
+                order_by=order_by,
                 limit=resolved_query.limit,
                 offset=None,
             )
@@ -198,7 +217,7 @@ class QueryPlanner():
             having=having_filters,
             joins=joins or None,
             group_by=group_by,
-            order_by=resolved_query.order_by,
+            order_by=order_by,
             limit=resolved_query.limit,
             offset=None,
         )
