@@ -1,7 +1,7 @@
 from .models import (
     BIQuery, ResolvedBIQuery, BIMeasure, BIFilter, 
     ResolvedBIMeasureFilter, ResolvedBIFilter,
-    SemanticModel, KPI, Filter, SemanticComparison, SemanticKPIComparison
+    SemanticModel, SemanticComparison, SemanticKPIComparison
 )
 from .orchestrator import QueryContext
 
