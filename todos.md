@@ -1,20 +1,8 @@
-# Finish
-**Windows will create two SQL Queries** (this is right)
-1. From a resolved biquery we need to plan this sqlquery this means
-    - Do we have a subquery to create? (yes if there is a window)
-    - What is the common table and what are the joins (for this we need this list of tables in the resolved query)
-    - What do we need to groupby - if subquery all groupbys go in the subquery and the window logic then we create an outer query that selects from this 
-
-
-Fix resolver bugs (tests will unblock): resolver.py.
-Make SemanticModel provide safe lookup helpers and change find_common_table to use them: semantic.py, validators.py.
-Normalize SQL model <-> planner API (choose table_name or from_ and make all code/tests consistent): sql.py, planner.py, test_planner.py.
-Complete planner (filters/having/order_by) by using resolved query objects: planner.py and resolver.py.
-Add unit tests for missing KPI/filter and for resolver edge cases (match failing entries in .pytest_cache).
-
-** STOP **
-Evaluate your code so far. Refactor to simplify, break out large functions into smaller ones, make it understandable 
-!!!!!!!!!
+# Next
+- Read code make todos on bits you dont like / want to change
+- Plan out what needs to be tested
+- Write the fixtures for the tests (most data can be reused across the tests)
+- Write the tests
 
 # SQL Compiling
 1. write the compiler base class (each sql language needs its own compiler) this is SQLQuery -> str
@@ -22,6 +10,7 @@ Evaluate your code so far. Refactor to simplify, break out large functions into 
 
 # Data Connection
 - to execute queries
+- Start with a duckdb connection
 - doesn't this mean that a connection and a compiler should be combined
 
 # Agent
