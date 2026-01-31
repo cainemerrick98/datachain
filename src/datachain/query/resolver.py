@@ -1,5 +1,5 @@
 from .models import (
-    BIQuery, ResolvedBIQuery, BIMeasure, BIFilter, 
+    BIQuery, BIDimension, ResolvedBIQuery, BIMeasure, BIFilter, 
     ResolvedBIMeasureFilter, ResolvedBIFilter,
     SemanticModel, SemanticComparison, SemanticKPIComparison,
     BIOrderBy, ResolvedOrderByDimension, ResolvedOrderByMeasure
@@ -31,6 +31,8 @@ class QueryResolver:
         resolved_dimension_filters = [self._resolve_dimension_filter(df, ctx) for df in bi_query.dimension_filters]
         resolved_dimension_filters.extend(resolved_filters["dimension_filters"])
 
+        # Resolve dimensions in time grained and raw
+        time_grained_dimensions, dimensions = self._resolve_dimension_by_time_grain(bi_query.dimensions)
         # Resolve order by
         resolved_order_bys = [self._resolve_order_by(order_by, bi_query) for order_by in bi_query.order_by]
 
@@ -45,7 +47,8 @@ class QueryResolver:
             ctx.tables.add(mf.measure.table)
 
         return ResolvedBIQuery(
-            dimensions=bi_query.dimensions,
+            dimensions=dimensions,
+            time_grained_dimensions=time_grained_dimensions,
             measures=resolved_measures,
             measure_filters=resolved_measure_filters,
             dimension_filters=resolved_dimension_filters,
@@ -129,3 +132,15 @@ class QueryResolver:
             sorting=order_by.sorting
         )
 
+    def _resolve_dimension_by_time_grain(self, dimensions:list[BIDimension]) -> tuple:
+        """Splits the dimensions by those with a time grain and those without"""
+        time_grained = []
+        raw = []
+
+        for d in dimensions:
+            if d.time_grain is None:
+                raw.append(d)
+            else:
+                time_grained.append(d)
+
+        return time_grained, raw

@@ -55,39 +55,25 @@ class MovingAverageWindow(BaseModel):
 
 
 class BIMeasure(BaseModel):
-    name: str = Field(
-        ...,
-        description=(
-            "Unique identifier for this measure. "
-            "Used for filters and ordering. "
-            "Example: 'total_revenue'"
-        )
-    )
-    table: str = Field(
-        ...,
-        description="Name of the table the measure comes from. Example: 'orders'"
-    )
-    column: str = Field(
-        ...,
-        description="Column to aggregate. Example: 'revenue'"
-    )
-    aggregation: Aggregation = Field(
-        ...,
-        description=(
-            "Aggregation function to apply to the column. "
-            "Example: SUM, AVG, COUNT"
-        )
-    )
-    window: Optional[Union[ChangeWindow, MovingAverageWindow]] = Field(
-        None,
-        description=(
-            "Optional window function to apply to the measure. "
-        )
-    )
+    model_config = {"frozen": True}
 
-    @property
-    def ref(self):
-        return f"{self.table}.{self.column}"
+    name: str
+    table: str
+    column: str
+    aggregation: Aggregation
+    window: Optional[Union[ChangeWindow, MovingAverageWindow]] = None
+
+    def _identity_key(self) -> tuple:
+        # Identity = base aggregation only
+        return (self.table, self.column, self.aggregation)
+
+    def __eq__(self, other):
+        if not isinstance(other, BIMeasure):
+            return NotImplemented
+        return self._identity_key() == other._identity_key()
+
+    def __hash__(self):
+        return hash(self._identity_key())
 
 
 class BIFilter(BaseModel):
@@ -203,6 +189,18 @@ class BIQuery(BaseModel):
         description="The number of rows to restrict the query result to"
     )
 
+# Resolved BI
+
+class ResolvedBIDimension(BaseModel):
+    table: str
+    column: str
+
+
+class ResolvedBIDimensionTimeGrain(BaseModel):
+    time_grain: TimeGrain
+    table: str
+    column: str
+
 
 class ResolvedBIFilter(BaseModel):
     """
@@ -240,8 +238,11 @@ class ResolvedBIQuery(BaseModel):
     """
     No longer holds any semantic references
     """
-    dimensions: list[BIDimension] = Field(
+    dimensions: list[ResolvedBIDimension] = Field(
         default_factory=list,
+    )
+    time_grained_dimensions: list[ResolvedBIDimensionTimeGrain] = Field(
+        default_factory=list
     )
     measures: list[BIMeasure] = Field(
         default_factory=list,

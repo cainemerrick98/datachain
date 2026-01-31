@@ -14,6 +14,9 @@ class QueryContext:
     # Discovered during planning
     joins: list = field(default_factory=list)
     requires_cte: bool = False
+    unique_measures = field(default_factory=list)
+    window_measures = field(default_factory=list)
+    window_measure_map = field(default_factory=dict)
 
     # Diagnostics
     warnings: list[str] = field(default_factory=list)

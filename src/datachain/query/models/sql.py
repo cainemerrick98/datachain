@@ -51,7 +51,7 @@ class Not(BaseModel):
 
 # Metrics
 
-MetricExpr = Union["QueryColumn", "SQLMeasure", "BinaryMetric"]
+MetricExpr = Union["TimeGrainedQueryColumn", "QueryColumn", "SQLMeasure", "BinaryMetric", "WindowSpec"]
 
 class QueryColumn(BaseModel):
     """A reference to a raw column from the table without any aggregation"""
@@ -63,6 +63,44 @@ class QueryColumn(BaseModel):
     )
 
 
+class TimeGrainedQueryColumn(BaseModel):
+    """A reference to a raw column from the table with a time grain"""
+    time_grain: str = Field(
+        description="A time grain to transform the date column into"
+    )
+    table: str = Field(
+        description="Name of the table in the db that contains this column"
+    )
+    name: str = Field(
+        description="Name of the column from the table (e.g., 'product_name', 'region', 'date')"
+    )
+
+class SQLMeasure(BaseModel):
+    """An aggregated metric using functions like SUM, COUNT, AVG, etc."""
+    table: str = Field(
+        description="Name of the table in the db that contains this column"
+    )
+    column: str = Field(
+        description="Name of the column to aggregate (e.g., 'revenue', 'order_id', 'quantity')"
+    )
+    aggregation: Aggregation = Field(
+        description="Aggregation function to apply: SUM for totals, AVG for averages, COUNT for counting rows, COUNT_DISTINCT for unique values, MIN/MAX for extremes, STDDEV/VARIANCE for statistical measures, MEDIAN for middle values"
+    )
+
+
+class BinaryMetric(BaseModel):
+    """A calculated metric combining two metrics with arithmetic operations (e.g., revenue / orders = avg_order_value)"""
+    left: MetricExpr = Field(
+        description="Left side of the calculation. Can be a QueryColumn, Measure, or another BinaryMetric."
+    )
+    arithmetic: Arithmetic = Field(
+        description="Arithmetic operation to perform: ADD (+), SUB (-), MUL (*), DIV (/), or MOD (%)"
+    )
+    right: MetricExpr = Field(
+        description="Right side of the calculation. Can be a QueryColumn, Measure, or another BinaryMetric."
+    )
+
+# Windows
 class SQLChangeWindow(BaseModel):
     """Represents a change calculation window (period + mode)."""
     period: int = Field(
@@ -90,6 +128,9 @@ class SQLMovingAverageWindow(BaseModel):
 
 class WindowSpec(BaseModel):
     """Specification for SQL windowing: partitioning, ordering and window body."""
+    field: str = Field(
+        description="The aggregated field in the base query to apply the window function over"
+    )
     partition_by: Optional[List[QueryColumn]] = Field(
         None,
         description="List of columns to partition the window by (e.g. time grain or dimension columns)."
@@ -100,36 +141,6 @@ class WindowSpec(BaseModel):
     )
     window: Union[SQLChangeWindow, SQLMovingAverageWindow] = Field(
         ..., description="The concrete window function and parameters to apply."
-    )
-
-
-class SQLMeasure(BaseModel):
-    """An aggregated metric using functions like SUM, COUNT, AVG, etc."""
-    table: str = Field(
-        description="Name of the table in the db that contains this column"
-    )
-    column: str = Field(
-        description="Name of the column to aggregate (e.g., 'revenue', 'order_id', 'quantity')"
-    )
-    aggregation: Aggregation = Field(
-        description="Aggregation function to apply: SUM for totals, AVG for averages, COUNT for counting rows, COUNT_DISTINCT for unique values, MIN/MAX for extremes, STDDEV/VARIANCE for statistical measures, MEDIAN for middle values"
-    )
-    window: Optional[WindowSpec] = Field(
-        None,
-        description="Optional window specification for applying window functions (moving averages, change windows, etc.)."
-    )
-
-
-class BinaryMetric(BaseModel):
-    """A calculated metric combining two metrics with arithmetic operations (e.g., revenue / orders = avg_order_value)"""
-    left: MetricExpr = Field(
-        description="Left side of the calculation. Can be a QueryColumn, Measure, or another BinaryMetric."
-    )
-    arithmetic: Arithmetic = Field(
-        description="Arithmetic operation to perform: ADD (+), SUB (-), MUL (*), DIV (/), or MOD (%)"
-    )
-    right: MetricExpr = Field(
-        description="Right side of the calculation. Can be a QueryColumn, Measure, or another BinaryMetric."
     )
 
 
@@ -192,7 +203,7 @@ class GroupBy(BaseModel):
     table: str = Field(
         description="Name of the table in the db that contains this column"
     )
-    column: QueryColumn = Field(
+    column: Union[QueryColumn, TimeGrainedQueryColumn] = Field(
         description="Column to group by. When using aggregations like SUM or COUNT, all non-aggregated columns in the SELECT must be included in GROUP BY."
     )
 

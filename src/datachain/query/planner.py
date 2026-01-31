@@ -6,8 +6,13 @@ from .models import (
 
     SelectItem,
     QueryColumn,
+    TimeGrainedQueryColumn,
     SQLMeasure,
     BinaryMetric,
+
+    SQLChangeWindow,
+    SQLMovingAverageWindow,
+    WindowSpec,
 
     And,
     Or,
@@ -18,6 +23,8 @@ from .models import (
     HavingPredicates,
 
     ResolvedBIQuery,
+    ResolvedBIDimension,
+    ResolvedBIDimensionTimeGrain,
     ResolvedBIFilter,
     ResolvedBIMeasureFilter,
     ResolvedOrderByDimension,
@@ -33,10 +40,19 @@ class QueryPlanner():
     def analyse_context(self, resolved_bi_query: ResolvedBIQuery, ctx: QueryContext, semantic_model: SemanticModel):
         """Check if CTE is required and compute joins"""
         
+        # We need this for instances where we want a measure and a window of that measure in the final query
+        ctx.unique_measures = set(resolved_bi_query.measures)
+
         ctx.trace.append("Checking if CTE is required due to window functions")
-        if any([m.window for m in resolved_bi_query.measures]):
-            ctx.requires_cte = True
-            ctx.trace.append("CTE required because at least one measure has a window function")
+        for m in resolved_bi_query.measures:
+            if m.window:
+                ctx.requires_cte = True
+                ctx.trace.append("CTE required because at least one measure has a window function")
+                ctx.window_measures.append(m)
+                # Now for the window we also need to link it to a unique measure
+                # Now we can select from this measure for the window
+                ctx.window_measure_map[m.name] = [u_m for u_m in ctx.unique_measures if m == u_m][0].name
+             
 
         ctx.trace.append("Resolving join paths for tables")
         if len(ctx.tables) <= 1:
@@ -101,32 +117,30 @@ class QueryPlanner():
         """
         Build the final SQLQuery.
         If ctx.requires_cte is True:
-          - CTE does ALL aggregation, windows, grouping, filters, having
-          - Final query selects from CTE and applies ordering + limit
+          - CTE does ALL aggregation, grouping, filters, having
+          - Final query selects from CTE and applies windows, ordering + limit
         """
 
         ctx.trace.append("planning SQL query")
-
-        # ----------------------------
-        # Common SELECT items
-        # ----------------------------
+            
+        # Base Query
         dimension_columns = [
             SelectItem(
-                alias=None,
+                alias=f"{d.table} {d.column}",
                 expression=QueryColumn(table=d.table, name=d.column),
             )
             for d in resolved_query.dimensions
         ]
 
-        measure_columns = [
+        time_grained_dimensions = [
             SelectItem(
-                alias=m.name,
-                expression=m,
+                alias=f"{d.time_grain}({d.table} {d.column})",
+                expression=TimeGrainedQueryColumn(time_grain=d.time_grain, table=d.table, name=d.column),
             )
-            for m in resolved_query.measures
+            for d in resolved_query.time_grained_dimensions
         ]
 
-        select_items = dimension_columns + measure_columns
+        select_items = dimension_columns + time_grained_dimensions + ctx.unique_measures
 
         joins = map_joins(ctx, semantic_model)
 
@@ -139,6 +153,12 @@ class QueryPlanner():
                 column=QueryColumn(table=d.table, name=d.column),
             )
             for d in resolved_query.dimensions
+        ] + [
+            GroupBy(
+                table=d.table,
+                column=TimeGrainedQueryColumn(time_grain=d.time_grain, table=d.table, name=d.column),
+            )
+            for d in resolved_query.time_grained_dimensions
         ] or None
 
         order_by = [
@@ -158,11 +178,11 @@ class QueryPlanner():
             ) for ob in resolved_query.order_by if isinstance(ob, ResolvedOrderByMeasure)
         ]
 
-        # ============================
         # CASE 1: CTE REQUIRED
-        # ============================
         if ctx.requires_cte:
             ctx.trace.append("building CTE for aggregations and window functions")
+
+            window_measures = map_window_measures(ctx)
 
             cte_query = SQLQuery(
                 from_=ctx.common_table,
@@ -221,6 +241,24 @@ class QueryPlanner():
             limit=resolved_query.limit,
             offset=None,
         )
+
+def map_window_measures(ctx: QueryContext, dimensions: list[ResolvedBIDimension], time_grain_dimension: ResolvedBIDimensionTimeGrain) -> list[WindowSpec]:
+    """Maps any bi measures with a window to a list of window specifications"""
+    if not ctx.window_measures:
+        return []
+    
+    window_specs = []
+    for m in ctx.window_measures:
+        window_specs.append(
+            WindowSpec(
+                field=ctx.window_measure_map[m.name],
+                partition_by=[QueryColumn(table=d.table, column=d.column) for d in dimensions],
+                # TODO: Theres is more to think about here 
+                # We also need to plan this out so we can simply select the date field in the original query not pass another time grained column class
+                order_by=[TimeGrainedQueryColumn()]
+            )
+        )
+
 
 
 def map_dimension_filters(filters: list[ResolvedBIFilter]) -> Predicates | None:
