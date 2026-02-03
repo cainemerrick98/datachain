@@ -29,6 +29,8 @@ from .models import (
     ResolvedBIMeasureFilter,
     ResolvedOrderByDimension,
     ResolvedOrderByMeasure,
+    ChangeWindow,
+    MovingAverageWindow,
     
     SemanticModel,
 )
@@ -249,15 +251,29 @@ def map_window_measures(ctx: QueryContext, dimensions: list[ResolvedBIDimension]
     
     window_specs = []
     for m in ctx.window_measures:
+        window = None
+        if isinstance(m.window, ChangeWindow):
+            window =  SQLChangeWindow(
+                period=m.period,
+                mode=m.mode
+            )
+        elif isinstance(m.window, MovingAverageWindow):
+            window =  MovingAverageWindow(
+                period=m.period,
+                mode=m.mode
+            )
         window_specs.append(
             WindowSpec(
                 field=ctx.window_measure_map[m.name],
-                partition_by=[QueryColumn(table=d.table, column=d.column) for d in dimensions],
+                partition_by=[QueryColumn(table="cte", column=f"{d.table} {d.column}") for d in dimensions],
                 # TODO: Theres is more to think about here 
                 # We also need to plan this out so we can simply select the date field in the original query not pass another time grained column class
-                order_by=[TimeGrainedQueryColumn()]
+                order_by=[QueryColumn(table="cte", column=f"{td.time_grain}({td.table} {td.column})") for td in time_grain_dimension],
+                window=window
             )
         )
+    
+    return window_specs
 
 
 
