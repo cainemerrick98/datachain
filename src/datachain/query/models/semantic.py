@@ -224,7 +224,7 @@ class SemanticModel(BaseModel):
         return table in self.fields and column in self.fields[table]
     
     def is_correct_type(self, table: str, column: str, type_: DataType) -> bool:
-        return isinstance(self.fields[table][column], type_)
+        return self.fields[table][column] == type_
         
     def _get_entity(self, entity_type: Literal["kpis", "filters"], name: str) -> Union[KPI, Filter, None]:
         entities = getattr(self, entity_type)
