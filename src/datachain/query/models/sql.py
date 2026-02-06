@@ -283,7 +283,7 @@ class SQLQuery(BaseModel):
             ]
         )
     """
-    from_: str | "SQLQuery" = Field(
+    from_: Union[str, "SQLQuery"] = Field(
         description="Name of the primary database table to query (e.g., 'sales', 'customers', 'orders'). This is the main table that other tables may be joined to."
     )
     columns: List[SelectItem] = Field(

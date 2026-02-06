@@ -2,10 +2,41 @@
 Its just a query executor with access to a semantic model it creates bi queries that are compiled to sql 
 
 # Next
-- Read code make todos on bits you dont like / want to change
 - Plan out what needs to be tested
 - Write the fixtures for the tests (most data can be reused across the tests)
 - Write the tests
+
+# Tests Plan
+- Structure validation
+    - has select
+    - only one time grain (this is a stupid rule actually) - what if we want a table with multiple date fields
+- Reference validation
+    - KPI, filters, dimensions, measures and dimension filters all exists
+- Resolver
+    - All entities resolve to the correct classes
+    - Essentially just test each method then test resolve as a whole
+        - KPIs -> Measures
+        - Filters -> ResolvedFilters
+        - Dimensions -> TimeGrain Dimensions
+        - OrderBy
+- Join Path Validation
+    - We pass a CTX with a set of tables and a semantic model and we need to ensure that there is a valid join path between all tables
+    - We also need a few invalid cases
+- Analyse context
+    - checking for correct creation of
+        - unique measures
+        - requires cte flag
+        - window measure map
+        - creation of join path
+- plan
+    - provide a valid query and see if the correct sql is created
+- Orchestrate
+    - pass queries and semantic models and ensure the correct query result is returned
+
+- Fixtures should be created
+    - Semantic model
+
+
 
 # SQL Compiling
 1. write the compiler base class (each sql language needs its own compiler) this is SQLQuery -> str

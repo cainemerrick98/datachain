@@ -19,15 +19,6 @@ class QueryValidator():
                     msg="you must select at least one dimensions, measure or kpi"
                 )
             )
-        
-        # Only one time grain allowed
-        if len([d for d in bi_query.dimensions if d.time_grain]) > 1:
-            errors.append(
-                QueryError(
-                    stage="structure_validation",
-                    msg="only one time grain dimension is allowed per query",
-                )
-            )
 
         return errors
         

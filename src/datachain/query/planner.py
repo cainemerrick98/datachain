@@ -64,7 +64,6 @@ class QueryPlanner():
         graph = semantic_model.get_relationship_graph()
         if not graph:
             ctx.trace.append("No relationship graph defined; cannot determine joins")
-            ctx.requires_cte = True
             return
 
         for table in ctx.tables:
