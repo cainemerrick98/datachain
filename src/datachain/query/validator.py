@@ -1,7 +1,7 @@
 from .models import SemanticModel, BIQuery
 from .models import DataType
 from collections import deque
-from .orchestrator import QueryError, QueryContext
+from .types import QueryContext, QueryError
 
 class QueryValidator():
     @staticmethod
