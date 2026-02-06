@@ -184,8 +184,6 @@ class QueryPlanner():
         if ctx.requires_cte:
             ctx.trace.append("building CTE for aggregations and window functions")
 
-            window_measures = map_window_measures(ctx)
-
             cte_query = SQLQuery(
                 from_=ctx.common_table,
                 columns=select_items,
@@ -214,6 +212,17 @@ class QueryPlanner():
                 )
                 for item in select_items
             ]
+
+            window_measures = map_window_measures(ctx)
+            outer_columns += [
+                SelectItem(
+                    alias=f"window {wm.field}",
+                    expression=wm
+                )
+                for wm in window_measures
+            ]
+
+
 
             return SQLQuery(
                 from_=cte_query,

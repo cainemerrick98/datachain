@@ -1,3 +1,6 @@
+# V1
+Its just a query executor with access to a semantic model it creates bi queries that are compiled to sql 
+
 # Next
 - Read code make todos on bits you dont like / want to change
 - Plan out what needs to be tested
