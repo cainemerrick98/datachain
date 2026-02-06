@@ -59,3 +59,8 @@ Its just a query executor with access to a semantic model it creates bi queries 
 # Write evals 
 - create golden dataset
 - set up each eval structure
+
+
+- How do we handle situations where we need to first filter a table and then calculate the results. 
+- We need to handle filters seperately to select items and add the SQL so that we filter then aggregate
+- We should capture this in the query context when we analyse the context
