@@ -15,7 +15,8 @@ from src.datachain.query.models import (
 
     Aggregation,
     Comparator,
-    TimeGrain
+    TimeGrain,
+    Sorting
 )
 
 kpi_and_resolved_measure = (
@@ -130,6 +131,110 @@ dimension_and_resolved_dimension_filter = (
                 comparator=Comparator.EQUAL,
                 value="A123"
             ),
+        ]
+    )
+)
+
+orderby_dimension_and_resolved = (
+    BIQuery(
+        order_by=[
+            BIOrderBy(
+                field="Sales.revenue",
+            )
+        ]
+    ),
+    ResolvedBIQuery(
+        order_by=[
+            ResolvedOrderByDimension(
+                table="Sales",
+                column="revenue",
+                sorting=Sorting.ASC
+            )
+        ]
+    )
+)
+
+orderby_kpi_and_resolved = (
+    BIQuery(
+        order_by=[
+            BIOrderBy(
+                field="kpi_total_revenue",
+            )
+        ]
+    ),
+    ResolvedBIQuery(
+        order_by=[
+            ResolvedOrderByMeasure(
+                measure=BIMeasure(
+                    name="kpi_total_revenue",
+                    table="Sales",
+                    column="revenue",
+                    aggregation=Aggregation.SUM
+                ),
+                sorting=Sorting.ASC
+            )
+        ]
+    )
+)
+
+orderby_measure_and_resolved = (
+    BIQuery(
+        measures=[
+            BIMeasure(
+                name="total_revenue",
+                table="Sales",
+                column="revenue",
+                aggregation=Aggregation.SUM
+            )
+        ],
+        order_by=[
+            BIOrderBy(
+                field="kpi_total_revenue",
+            )
+        ]
+    ),
+    ResolvedBIQuery(
+        order_by=[
+            ResolvedOrderByMeasure(
+                measure=BIMeasure(
+                    name="kpi_total_revenue",
+                    table="Sales",
+                    column="revenue",
+                    aggregation=Aggregation.SUM
+                ),
+                sorting=Sorting.ASC
+            )
+        ]
+    )
+)
+
+dimensions_and_resolved_dimensions = (
+    BIQuery(
+        dimensions=[
+            BIDimension(
+                table="Customer",
+                column="customer_id",
+            ),
+            BIDimension(
+                table="Sales",
+                column="date_id",
+                time_grain=TimeGrain.MONTH
+            )
+        ]
+    ),
+    ResolvedBIQuery(
+        dimensions=[
+            ResolvedBIDimension(
+                table="Customer",
+                column="customer_id"
+            )
+        ],
+        time_grained_dimensions=[
+            ResolvedBIDimensionTimeGrain(
+                time_grain=TimeGrain.MONTH,
+                table="Sales",
+                column="date_id"
+            )
         ]
     )
 )

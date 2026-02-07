@@ -41,16 +41,30 @@ def test_resolve_dimension_filter():
     
 
 def test_resolve_orderby_dimension():
-    ...
+    query, expected = resolver_queries_expected.orderby_dimension_and_resolved
+    result = resolver.resolve(query, semantic_model, ctx)
+
+    assert result == expected
 
 def test_resolve_orderby_kpi():
-    ...
+    query, expected = resolver_queries_expected.orderby_kpi_and_resolved
+    result = resolver.resolve(query, semantic_model, ctx)
+
+    assert result == expected
 
 def test_resolve_orderby_measure():
-    ...
+    query, expected = resolver_queries_expected.orderby_measure_and_resolved
+    result = resolver.resolve(query, semantic_model, ctx)
+
+    assert result == expected
+    
 
 def test_resolve_dimensions():
     """Tests the splitting of dimensions into time and none time grain"""
+    query, expected = resolver_queries_expected.dimensions_and_resolved_dimensions
+    result = resolver.resolve(query, semantic_model, ctx)
+
+    assert result == expected
 
 def test_resolve():
     """Full resolve method tested against a query, sm and ctx"""
