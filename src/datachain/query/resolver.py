@@ -4,7 +4,7 @@ from .models import (
     SemanticModel, SemanticComparison, SemanticKPIComparison,
     BIOrderBy, ResolvedOrderByDimension, ResolvedOrderByMeasure
 )
-from .orchestrator import QueryContext
+from .types import QueryContext
 
 class QueryResolver:
     def resolve(self, bi_query: BIQuery, semantic_model: SemanticModel, ctx: QueryContext) -> ResolvedBIQuery:

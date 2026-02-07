@@ -7,11 +7,6 @@ Its just a query executor with access to a semantic model it creates bi queries 
 - Write the tests
 
 # Tests Plan
-- Structure validation
-    - has select
-    - only one time grain (this is a stupid rule actually) - what if we want a table with multiple date fields
-- Reference validation
-    - KPI, filters, dimensions, measures and dimension filters all exists
 - Resolver
     - All entities resolve to the correct classes
     - Essentially just test each method then test resolve as a whole
