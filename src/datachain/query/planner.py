@@ -34,8 +34,9 @@ from .models import (
     
     SemanticModel,
 )
-from .orchestrator import QueryContext
+from .types import QueryContext
 from .models import ResolvedBIQuery
+from .models import HavingComparison
 
 class QueryPlanner():
 
@@ -101,7 +102,7 @@ class QueryPlanner():
                 continue
 
             path = self._find_join_path_to_common_table(
-                neighbor, graph, common_table, visited
+                neighbor, common_table, graph, visited
             )
 
             if path is not None:
@@ -141,7 +142,16 @@ class QueryPlanner():
             for d in resolved_query.time_grained_dimensions
         ]
 
-        select_items = dimension_columns + time_grained_dimensions + ctx.unique_measures
+        # Ensure measures are converted into SelectItems (SQLMeasure expressions)
+        measure_select_items = [
+            SelectItem(
+                alias=m.name,
+                expression=SQLMeasure(table=m.table, column=m.column, aggregation=m.aggregation),
+            )
+            for m in list(ctx.unique_measures)
+        ]
+
+        select_items = dimension_columns + time_grained_dimensions + measure_select_items
 
         joins = map_joins(ctx, semantic_model)
 
@@ -212,7 +222,7 @@ class QueryPlanner():
                 for item in select_items
             ]
 
-            window_measures = map_window_measures(ctx)
+            window_measures = map_window_measures(ctx, resolved_query.dimensions, resolved_query.time_grained_dimensions)
             outer_columns += [
                 SelectItem(
                     alias=f"window {wm.field}",
@@ -252,35 +262,28 @@ class QueryPlanner():
             offset=None,
         )
 
-def map_window_measures(ctx: QueryContext, dimensions: list[ResolvedBIDimension], time_grain_dimension: ResolvedBIDimensionTimeGrain) -> list[WindowSpec]:
+def map_window_measures(ctx: QueryContext, dimensions: list[ResolvedBIDimension], time_grain_dimensions: list[ResolvedBIDimensionTimeGrain]) -> list[WindowSpec]:
     """Maps any bi measures with a window to a list of window specifications"""
     if not ctx.window_measures:
         return []
-    
+
     window_specs = []
     for m in ctx.window_measures:
         window = None
         if isinstance(m.window, ChangeWindow):
-            window =  SQLChangeWindow(
-                period=m.period,
-                mode=m.mode
-            )
+            window = SQLChangeWindow(period=m.window.period, mode=m.window.mode)
         elif isinstance(m.window, MovingAverageWindow):
-            window =  MovingAverageWindow(
-                period=m.period,
-                mode=m.mode
-            )
+            window = SQLMovingAverageWindow(period=m.window.period, mode=m.window.mode)
+
         window_specs.append(
             WindowSpec(
                 field=ctx.window_measure_map[m.name],
-                partition_by=[QueryColumn(table="cte", column=f"{d.table} {d.column}") for d in dimensions],
-                # TODO: Theres is more to think about here 
-                # We also need to plan this out so we can simply select the date field in the original query not pass another time grained column class
-                order_by=[QueryColumn(table="cte", column=f"{td.time_grain}({td.table} {td.column})") for td in time_grain_dimension],
+                partition_by=[QueryColumn(table="cte", name=f"{d.table} {d.column}") for d in dimensions],
+                order_by=[OrderBy(column=QueryColumn(table="cte", name=f"{td.time_grain}({td.table} {td.column})")) for td in time_grain_dimensions],
                 window=window
             )
         )
-    
+
     return window_specs
 
 

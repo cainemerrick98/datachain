@@ -7,9 +7,6 @@ Its just a query executor with access to a semantic model it creates bi queries 
 - Write the tests
 
 # Tests Plan
-- Join Path Validation
-    - We pass a CTX with a set of tables and a semantic model and we need to ensure that there is a valid join path between all tables
-    - We also need a few invalid cases
 - Analyse context
     - checking for correct creation of
         - unique measures
