@@ -10,6 +10,10 @@ from src.datachain.query.models import (
     TimeGrain
 )
 
+from src.datachain.query.types import (
+    QueryContext
+)
+
 # Structural Tests
 
 no_selects_has_filters = BIQuery(
@@ -105,4 +109,26 @@ valid_query = BIQuery(
     ],
     kpi_refs=["kpi_total_revenue"],
     filter_refs=["filter_high_revenue"]
+)
+
+# Join Path Tests
+valid_ctx_sales_common = (
+    QueryContext(
+        tables={"Product", "Customer"}
+    ),
+    "Sales"
+)
+
+valid_ctx_component_common = (
+    QueryContext(
+        tables={"Product", "Component"}
+    ),
+    "Component"
+)
+
+invalid_ctx_no_common = (
+    QueryContext(
+        tables={"Customer", "Component"}
+    ),
+    None
 )

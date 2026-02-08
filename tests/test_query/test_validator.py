@@ -58,3 +58,26 @@ def test_query_misreferences_dimension_filter_invalid():
 def test_query_has_all_references_correct_valid():
     errors = validator.validate_references(vq.valid_query, semantic_model, ctx)
     assert len(errors) == 0
+
+# Join Path Validation
+def test_valid_join_path_product_customer():
+    ctx, common = vq.valid_ctx_sales_common
+    errors = validator.validate_join_path(semantic_model, ctx)
+
+    assert len(errors) == 0
+    assert ctx.common_table == common
+
+def test_valid_join_path_product_component():
+    ctx, common = vq.valid_ctx_component_common
+    errors = validator.validate_join_path(semantic_model, ctx)
+
+    assert len(errors) == 0
+    assert ctx.common_table == common
+
+def test_invalid_join_path_no_common():
+    ctx, common = vq.invalid_ctx_no_common
+    errors = validator.validate_join_path(semantic_model, ctx)
+
+    print(ctx.common_table)
+
+    assert len(errors) == 1

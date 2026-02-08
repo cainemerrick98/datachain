@@ -7,13 +7,6 @@ Its just a query executor with access to a semantic model it creates bi queries 
 - Write the tests
 
 # Tests Plan
-- Resolver
-    - All entities resolve to the correct classes
-    - Essentially just test each method then test resolve as a whole
-        - KPIs -> Measures
-        - Filters -> ResolvedFilters
-        - Dimensions -> TimeGrain Dimensions
-        - OrderBy
 - Join Path Validation
     - We pass a CTX with a set of tables and a semantic model and we need to ensure that there is a valid join path between all tables
     - We also need a few invalid cases

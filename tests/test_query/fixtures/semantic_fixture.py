@@ -62,6 +62,28 @@ product = Table(
     ],
 )
 
+component = Table(
+    name="Component",
+    description="Components table that make up products",
+    columns=[
+        SemanticColumn(
+            name="component_id",
+            type=DataType.STRING,
+            description="Component primary key"
+        ),
+        SemanticColumn(
+            name="material",
+            type=DataType.STRING,
+            description="Material name of the component"
+        ),
+        SemanticColumn(
+            name="product_id",
+            type=DataType.STRING,
+            description="FK to product",
+        ),
+    ]
+)
+
 date = Table(
     name="Date",
     description="Date dimension",
@@ -151,6 +173,14 @@ relationships = [
         outgoing="Sales",
         keys_outgoing=["date_id"],
     ),
+    Relationship(
+        incoming="Product",
+        keys_incoming=["product_id"],
+        type=RelationshipType.ONE_TO_MANY,
+        outgoing="Component",
+        keys_outgoing=["product_id"],
+    ),
+    
 ]
 
 # =====================
@@ -229,7 +259,7 @@ high_revenue = Filter(
 # =====================
 
 semantic_model = SemanticModel(
-    tables=[sales, customer, product, date],
+    tables=[sales, customer, product, date, component],
     relationships=relationships,
     kpis=[total_revenue, total_quantity, average_price],
     filters=[active_customers, high_revenue],
