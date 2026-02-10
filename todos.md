@@ -1,36 +1,10 @@
-# V1
-Its just a query executor with access to a semantic model it creates bi queries that are compiled to sql 
+# IBIS
 
-# Next
-- Plan out what needs to be tested
-- Write the fixtures for the tests (most data can be reused across the tests)
-- Write the tests
-
-# Tests Plan
-- Analyse context
-    - checking for correct creation of
-        - unique measures
-        - requires cte flag
-        - window measure map
-        - creation of join path
-- plan
-    - provide a valid query and see if the correct sql is created
-- Orchestrate
-    - pass queries and semantic models and ensure the correct query result is returned
-
-- Fixtures should be created
-    - Semantic model
-
-
-
-# SQL Compiling
-1. write the compiler base class (each sql language needs its own compiler) this is SQLQuery -> str
-2. write the first concrete compiler class for duckdb
-
-# Data Connection
-- to execute queries
-- Start with a duckdb connection
-- doesn't this mean that a connection and a compiler should be combined
+- I just found out about ibis - it does everything I need in a very elegant way - for sure this is the way to go
+- I will only need my semantic models and query 
+- There will still be a validator a resolver and a planner but the planner will look slightly different as it will map a biquery to an ibis expression
+- Also for now lets remove the agents ability to write its own measure and metrics - everything should be defined by the user
+- We will also need to define data connections and provide a wrapper around how ibis handles data connection
 
 # Agent
 - then we move on to defining the agent class structure this will have stuff like register tools, it will need to be initialised with a semantic model etc...
