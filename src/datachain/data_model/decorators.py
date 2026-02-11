@@ -1,30 +1,9 @@
-from dataclasses import dataclass
+from .table import TableModel, ColumnType
+from .relationship import Relationship
+from typing import Callable
+from .registry import TABLE_REGISTRY, RELATIONSHIP_REGISTRY
 import ibis.expr.types as ir
-import ibis
-from typing import Literal, Callable
 
-ColumnType = Literal["int64", "float64", "string", "boolean", "timestamp"]
-
-@dataclass(frozen=True)
-class TableModel:
-    name: str
-    schema: dict[str, ColumnType]
-
-    def ibis(self) -> ir.Table:
-        """Create an Ibis table expression for this table model."""
-        return ibis.table(self.name, self.schema)
-    
-
-@dataclass(frozen=True)
-class Relationship:
-    left: TableModel
-    right: TableModel
-    on: Callable[[ir.Table, ir.Table], ir.BooleanValue]
-    how: str = "left"
-
-
-TABLE_REGISTRY: dict[str, TableModel] = {}
-RELATIONSHIP_REGISTRY: list[Relationship] = []
 
 
 def table(name: str) -> TableModel:
