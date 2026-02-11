@@ -21,6 +21,7 @@ t = ibis.table(
     }
 )
 
+new_patient = "Patient" + t["patient"].cast("string")
 avg_bp_before = t["bp_before"].mean()
 avg_bp_after = t["bp_after"].mean()
 
@@ -32,6 +33,12 @@ if __name__ == "__main__":
     print(avg_bp_after)
     # build ibis expression and compile to sql
     print(be.compile(avg_bp_after, pretty=True))
+
+    print(
+        be.compile(
+            t.select(new_patient=new_patient, bp_before=t["bp_before"], bp_after=t["bp_after"]).group_by("new_patient").aggregate([avg_bp_before, avg_bp_after])
+        )
+    )
 
     print(
         be.compile(
