@@ -13,5 +13,18 @@ def validate_biquery(biquery: BIQuery) -> list[DataChainError]:
                 hint="Add at least one dimension or metric to the BIQuery.",
             )
         )
+
+    biquery.orderby = [(col, direction.lower()) for col, direction in biquery.orderby]
+    for col, direction in biquery.orderby:
+        if direction not in ("asc", "desc"):
+            errors.append(
+                DataChainError(
+                    stage="validate_structure",
+                    code="invalid_orderby_direction",
+                    message=f"Invalid sorting direction '{direction}' for column '{col}'. Must be 'asc' or 'desc'.",
+                    hint="Ensure that all sorting directions in the orderby clause are either 'asc' or 'desc'.",
+                )
+            )
+        
     
     return errors

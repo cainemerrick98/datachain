@@ -1,16 +1,14 @@
 from .models import TableModel, Relationship, ColumnType
 from typing import Callable
-from .registry import TABLE_REGISTRY, RELATIONSHIP_REGISTRY
+from .data_model import data_model
 import ibis.expr.types as ir
-
-
 
 def table(name: str) -> TableModel:
     """Decorator to create a table model from a function."""
     def decorator(func: Callable[[], dict[str, ColumnType]]) -> TableModel:
         schema = func()
         table_model = TableModel(name=name, schema=schema)
-        TABLE_REGISTRY[name] = table_model
+        data_model.register_table(table_model)
         return table_model
     return decorator
 
@@ -21,6 +19,6 @@ def relationship(left: TableModel, right: TableModel, how: str = "left"):
         func: Callable[[ir.Table, ir.Table], ir.BooleanValue]
     ) -> Relationship:
         rel = Relationship(left=left, right=right, on=func, how=how)
-        RELATIONSHIP_REGISTRY.append(rel)
+        data_model.register_relationship(rel)
         return rel
     return decorator
