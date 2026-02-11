@@ -8,6 +8,7 @@ ErrorCode = Literal[
 
 @dataclass(frozen=True)
 class DataChainError(Exception):
+    """This is the error that will be sent to the LLM if any stage fails"""
     stage: ErrorStage
     code: str
     message: str

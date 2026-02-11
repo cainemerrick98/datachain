@@ -1,5 +1,4 @@
-from .table import TableModel, ColumnType
-from .relationship import Relationship
+from .models import TableModel, Relationship, ColumnType
 from typing import Callable
 from .registry import TABLE_REGISTRY, RELATIONSHIP_REGISTRY
 import ibis.expr.types as ir

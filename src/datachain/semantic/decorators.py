@@ -1,44 +1,10 @@
 from dataclasses import dataclass
-from typing import TypeVar, Callable, Generic
+from typing import Callable
 from model_context import ModelContext
 import ibis.expr.types as ir
+from .models import Metric, Dimension, DerivedMetric, Filter, MetricContext
+from .registry import METRIC_REGISTRY, DIMENSION_REGISTRY, DERIVED_METRIC_REGISTRY, FILTER_REGISTRY
 
-ExprT = TypeVar("ExprT", bound=ir.Value)
-
-@dataclass(frozen=True)
-class Dimension(Generic[ExprT]):
-    name: str
-    expression: Callable[[ModelContext], ExprT]
-
-@dataclass(frozen=True)
-class Metric(Generic[ExprT]):
-    name: str
-    expression: Callable[[ModelContext], ExprT]
-
-class MetricContext:
-    def __init__(self, values: dict[str, ir.Value]):
-        self._values = values
-
-    def metric(self, metric: Metric) -> ir.Value:
-        return self._values[metric.name]
-
-@dataclass(frozen=True)
-class DerivedMetric(Generic[ExprT]):
-    name: str
-    dependencies: list[Metric]
-    expression: Callable[[MetricContext], ExprT]
-
-@dataclass(frozen=True)
-class Filter():
-    name: str
-    expression: Callable[[ModelContext], ir.BooleanValue]
-
-METRIC_REGISTRY: dict[str, Metric] = {}
-DIMENSION_REGISTRY: dict[str, Dimension] = {}
-DERIVED_METRIC_REGISTRY: dict[str, DerivedMetric] = {}
-FILTER_REGISTRY: dict[str, Filter] = {}
-
-    
 def metric(name: str):
     """Decorator to create a metric from a function."""
     def decorator(func: Callable[[ModelContext], ir.Value]) -> Metric:
