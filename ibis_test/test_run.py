@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     print(
         be.compile(
-            t.group_by("patient").agg(avg_bp_before, avg_bp_after)
+            t.group_by("patient").agg(avg_bp_before=avg_bp_before, avg_bp_after=avg_bp_after)
         )
     )
 
