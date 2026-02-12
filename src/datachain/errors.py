@@ -3,7 +3,12 @@ from typing_extensions import Literal
 
 ErrorStage = Literal["validate_structure", "resolve", "plan", "execute"]
 ErrorCode = Literal[
-    "no_dimensions_or_metrics"
+    "no_dimensions_or_metrics",
+    "no_common_table",
+    "dimension_not_found",
+    "metric_not_found",
+    "filter_not_found",
+    "metric_filter_not_found",
 ]
 
 @dataclass(frozen=True)

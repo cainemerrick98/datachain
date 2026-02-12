@@ -3,12 +3,13 @@ from typing import Callable
 from data_model.data_model import DataModel
 import ibis.expr.types as ir
 from .models import Metric, Dimension, Filter
-from .semantic_model import semantic_model
+from .semantic_model import semantic_model, SemanticModel
 
-def metric(name: str):
+def metric(name: str, grain: str, dependencies: list[Metric] | None = None):
     """Decorator to create a metric from a function."""
-    def decorator(func: Callable[[DataModel], ir.Value]) -> Metric:
-        metric = Metric(name=name, expression=func)
+    def decorator(func: Callable[[DataModel, SemanticModel], ir.Value]) -> Metric:
+        dependencies = dependencies or []
+        metric = Metric(name=name, grain=grain, dependencies=dependencies, expression=func)
         semantic_model.register_metric(metric)
         return metric
     return decorator

@@ -17,12 +17,12 @@ class DataModel():
     def register_relationship(self, relationship: Relationship):
         self._relationships.append(relationship)
 
-    def get_relationship_graph(self, directed: bool = False) -> dict[str, list[Relationship]]:
-        graph = {table_name: [] for table_name in self._tables.keys()}
+    def get_relationship_graph(self, directed: bool = False) -> dict[TableModel, list[Relationship]]:
+        graph = {table: [] for table in self._tables.values()}
         for rel in self._relationships:
-            graph[rel.left.name].append(rel)
+            graph[rel.left].append(rel)
             if not directed:
-                graph[rel.right.name].append(rel)
+                graph[rel.right].append(rel)
         return graph
     
 data_model = DataModel()
