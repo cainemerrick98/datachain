@@ -1,13 +1,11 @@
-from .models import TableModel, Relationship, ColumnType
 from typing import Callable
 import ibis.expr.types as ir
 from functools import partial
-from data_model import DataModel
+from data_model import DataModel, TableModel, Relationship, ColumnType
 from typing import Callable
 from data_model.data_model import DataModel
 import ibis.expr.types as ir
-from .models import Metric, Dimension, Filter
-from .semantic_model import SemanticModel
+from .semantic_model import SemanticModel, Metric, Dimension, Filter
 
 class ModelBuilder:
     def __init__(self):
