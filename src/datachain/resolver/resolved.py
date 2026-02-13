@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
-from ..biquery.biquery import SortingDir
-from ..semantic.models import Metric, Dimension, Filter
+from ..biquery import SortingDir
+from ..data_model import Metric, Dimension, Filter
 
 @dataclass(frozen=True)
 class ResolvedQuery:

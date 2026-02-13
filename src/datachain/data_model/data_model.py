@@ -34,11 +34,13 @@ class DataModel():
         self._tables: dict[str, TableModel] = {}
         self._relationships: list[Relationship] = []
 
+    def __getitem__(self, key: str) -> TableModel:
+        return self.get_table(key)
+
     def get_table(self, name: str) -> TableModel | None:
         return self._tables.get(name)
     
     def register_table(self, table: TableModel):
-        setattr(self, table.name, table.ibis())
         self._tables[table.name] = table
 
     def register_relationship(self, relationship: Relationship):

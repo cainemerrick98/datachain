@@ -1,13 +1,12 @@
-from biquery.biquery import BIQuery
+from ..biquery import BIQuery
 from .resolved import ResolvedQuery
-from semantic import SemanticModel
-from data_model import DataModel
+from ..data_model import DataModel, SemanticModel
 from ..errors import DataChainError
 from dataclasses import dataclass, field
 
 @dataclass()
 class ResolutionResult:
-    success: bool = field(init=False)
+    success: bool
     resolved_query: ResolvedQuery
     errors: list[DataChainError] = field(default_factory=list)
 
@@ -17,10 +16,10 @@ def resolve_query(
     data_model: DataModel
 ) -> ResolutionResult:
 
-    resolved_query = ResolvedQuery()
     errors: list[DataChainError] = []
 
     # Resolve dimensions
+    dimensions = []
     for dim_name in biquery.dimensions:
         dim = semantic_model.get_dimension(dim_name)
 
@@ -32,9 +31,10 @@ def resolve_query(
             ))
         else:
             dim.resolve(data_model)
-            resolved_query.dimensions.append(dim)
+            dimensions.append(dim)
 
     # Resolve metrics
+    metrics = []
     for metric_name in biquery.metrics:
         metric = semantic_model.get_metric(metric_name)
 
@@ -46,9 +46,10 @@ def resolve_query(
             ))
         else:
             metric.resolve(data_model, semantic_model)
-            resolved_query.metrics.append(metric)
+            metrics.append(metric)
 
     # Resolve filters
+    filters = []
     for filter_name in biquery.filters:
         filter_obj = semantic_model.get_filter(filter_name)
 
@@ -60,9 +61,10 @@ def resolve_query(
             ))
         else:
             filter_obj.resolve(data_model, semantic_model)
-            resolved_query.filters.append(filter_obj)
+            filters.append(filter_obj)
 
     # Resolve metric filters
+    metric_filters = []
     for metric_filter_name in biquery.metric_filters:
         metric_filter_obj = semantic_model.get_filter(metric_filter_name)
 
@@ -74,9 +76,10 @@ def resolve_query(
             ))
         else:
             metric_filter_obj.resolve(data_model, semantic_model)
-            resolved_query.metric_filters.append(metric_filter_obj)
+            metric_filters.append(metric_filter_obj)
 
     # Resolve orderby
+    orderby = []
     for col, direction in biquery.orderby:
         col_obj = semantic_model.get_dimension(col) or semantic_model.get_metric(col)
 
@@ -93,11 +96,19 @@ def resolve_query(
                 message=f"Invalid sorting direction '{direction}'."
             ))
         else:
-            resolved_query.orderby.append((col_obj, direction))
+            orderby.append((col_obj, direction))
 
-    resolved_query.limit = biquery.limit
-    resolved_query.offset = biquery.offset
-    resolved_query.distinct = biquery.distinct
+    resolved_query = ResolvedQuery(
+        dimensions=dimensions,
+        metrics=metrics,
+        filters=filters,
+        metric_filters=metric_filters,
+        orderby=orderby,
+        limit=biquery.limit,
+        offset=biquery.offset,
+        distinct=biquery.distinct
+
+    )
 
     return ResolutionResult(
         success=len(errors) == 0,

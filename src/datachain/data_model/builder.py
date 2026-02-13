@@ -52,7 +52,7 @@ class ModelBuilder:
 
     def filter(self, name: str):
         """Decorator to create a filter from a function."""
-        def decorator(func: Callable[[DataModel], ir.BooleanValue]) -> Filter:
+        def decorator(func: Callable[[DataModel, SemanticModel], ir.BooleanValue]) -> Filter:
             filter = Filter(name=name, expression=func)
             self._semantic_model.register_filter(filter)
             return filter
