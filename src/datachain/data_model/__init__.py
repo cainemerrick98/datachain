@@ -1,5 +1,6 @@
 from .data_model import data_model, DataModel
-from .decorators import table, relationship
+from .semantic_model import SemanticModel
+from .builder import ModelBuilder
 from .models import TableModel, Relationship, ColumnType
 
 __all__ = [

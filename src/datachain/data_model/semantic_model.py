@@ -24,4 +24,3 @@ class SemanticModel():
     def get_filter(self, name: str) -> Filter | None:
         return self.filters.get(name)
     
-semantic_model = SemanticModel()
