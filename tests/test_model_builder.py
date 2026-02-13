@@ -1,4 +1,5 @@
 from src.datachain.data_model import ModelBuilder, DataModel, SemanticModel, Relationship, TableModel, ColumnType
+import ibis.expr.types as ir
 
 
 def test_model_builder():
@@ -25,7 +26,7 @@ def test_model_builder():
     def user_orders_relationship(left: TableModel, right: TableModel):
         return left["id"] == right["user_id"]
 
-    @builder.metric(name="total_order_amount", grain="user")
+    @builder.metric(name="total_order_amount", grain="orders")
     def total_order_amount_metric(dm: DataModel, sm: SemanticModel):
         return dm["orders"]["amount"].sum()
 
@@ -47,9 +48,12 @@ def test_model_builder():
     # Relationship has correct types
     assert rel.left == data_model.get_table("users")
     assert rel.right == data_model.get_table("orders")
-    assert rel.on() 
+    print(rel.on(rel.left, rel.right))
+    assert isinstance(rel.on(rel.left, rel.right), ir.BooleanValue)
+    # The graph is correct
+    assert len(data_model.get_relationship_graph()["users"]) == 1
 
-    assert len(data_model.get_relationship_graph()[data_model.get_table("users")]) == 1
+    # Semantic definitions exits
     assert len(semantic_model._metrics) == 1
     assert len(semantic_model._dimensions) == 1
     assert len(semantic_model._filters) == 1

@@ -1,9 +1,6 @@
-from typing import Callable
 import ibis.expr.types as ir
-from functools import partial
-from data_model import DataModel, TableModel, Relationship, ColumnType
+from .data_model import DataModel, TableModel, Relationship, ColumnType
 from typing import Callable
-from data_model.data_model import DataModel
 import ibis.expr.types as ir
 from .semantic_model import SemanticModel, Metric, Dimension, Filter
 
@@ -30,7 +27,6 @@ class ModelBuilder:
         def decorator(
             func: Callable[[ir.Table, ir.Table], ir.BooleanValue]
         ) -> Relationship:
-            func = partial(func, left=left, right=right)
             rel = Relationship(left=left, right=right, on=func, how=how)
             self._data_model.register_relationship(rel)
             return rel

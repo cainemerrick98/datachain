@@ -44,10 +44,10 @@ class DataModel():
     def register_relationship(self, relationship: Relationship):
         self._relationships.append(relationship)
 
-    def get_relationship_graph(self, directed: bool = True) -> dict[TableModel, list[Relationship]]:
-        graph = {table: [] for table in self._tables.values()}
+    def get_relationship_graph(self, directed: bool = True) -> dict[str, list[Relationship]]:
+        graph = {table.name: [] for table in self._tables.values()}
         for rel in self._relationships:
-            graph[rel.left].append(rel)
+            graph[rel.left.name].append(rel)
             if not directed:
-                graph[rel.right].append(rel)
+                graph[rel.right.name].append(rel)
         return graph
